@@ -30,7 +30,28 @@ int main()
       }
     }
 
-    ImGui::SFML::Update(window, deltaClock.restart());
+  bool popup = false;
+  ImGui::SFML::Update(window, deltaClock.restart());
+  if (ImGui::BeginMainMenuBar()) {
+    if (ImGui::BeginMenu("Options")) {
+      if(ImGui::MenuItem("Load")) {
+        popup = true;
+      }
+      ImGui::MenuItem("Save");
+      ImGui::MenuItem("Save as");
+      ImGui::EndMenu();
+    }
+    ImGui::EndMainMenuBar();
+  }
+
+  if (popup) 
+    ImGui::OpenPopup("Popup");
+
+  if (ImGui::BeginPopup("Popup"))
+  {
+    ImGui::Text("Hello World");
+    ImGui::EndPopup();
+  }
 
     ImGui::Begin("Mockup");
     ImGui::BeginTabBar("TabBar");
