@@ -8,3 +8,12 @@ target_link_libraries(
   project_options
   Qt5::Widgets)
 target_compile_features(helloQt PUBLIC cxx_nullptr cxx_lambdas)
+
+add_executable(voodoo ./voodoo-UI/main.cpp)
+
+target_link_libraries(
+  voodoo
+  project_warnings
+  project_options
+  Qt5::Widgets)
+target_compile_features(voodoo PUBLIC cxx_nullptr cxx_lambdas)
