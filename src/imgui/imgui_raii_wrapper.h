@@ -1,13 +1,11 @@
 #ifndef MYPROJECT_IMGUI_RAII_WRAPPER_H
 #define MYPROJECT_IMGUI_RAII_WRAPPER_H
 
-#include <imgui.h>
-#include <imgui-SFML.h>
+#include <optional>
+#include <string>
+#include <vector>
 
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/System/Clock.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
+#include <imgui.h>
 
 namespace irw {
 

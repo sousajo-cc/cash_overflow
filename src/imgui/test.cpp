@@ -1,12 +1,11 @@
-#include <imgui.h>
+#include "colors.h"
+#include "imgui_raii_wrapper.h"
+
 #include <imgui-SFML.h>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
-
-#include "colors.h"
-#include "imgui_raii_wrapper.h"
 
 void draw_mockup_table() {
   using colors::Green;
