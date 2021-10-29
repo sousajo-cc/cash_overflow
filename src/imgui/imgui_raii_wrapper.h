@@ -1,6 +1,8 @@
 #ifndef MYPROJECT_IMGUI_RAII_WRAPPER_H
 #define MYPROJECT_IMGUI_RAII_WRAPPER_H
 
+#include "util.h"
+
 #include <optional>
 #include <string>
 #include <vector>
@@ -101,14 +103,14 @@ public:
     template<typename... Args>
     Builder& with_headers(Args... args) {
       headers.reserve(number_of_columns);
-      emplace_back_all(headers, args...);
+      util::emplace_back_all<Row, Args...>(headers, args...);
       return *this;
     }
     template<typename... Args>
     Builder& add_row(Args... args) {
       Row row{};
       row.reserve(number_of_columns);
-      emplace_back_all(row, args...);
+      util::emplace_back_all<Row, Args...>(row, args...);
       values.push_back(row);
       return *this;
     }
@@ -121,13 +123,6 @@ public:
       };
     }
   private:
-    template<typename Arg, typename... Args>
-    void emplace_back_all(Row& row, Arg arg, Args... args) {
-      row.emplace_back(arg);
-      emplace_back_all(row, args...);
-    }
-    void emplace_back_all([[maybe_unused]] Row& row) {}
-
     std::string id{};
     std::size_t number_of_columns{};
     Row headers{};
