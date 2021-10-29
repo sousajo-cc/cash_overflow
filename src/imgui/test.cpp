@@ -39,19 +39,19 @@ void draw_table() {
       .build();
   }
   if (irw::TabItem tab_item{"Expenses"}) {
-    irw::Text("Manga");
+    irw::Text{"Manga"}.write();
   }
   if (irw::TabItem tab_item{"Incomes"}) {
-    irw::Text("My income is €100k (daily)");
+    irw::Text{"My income is €100k (daily)"}.write();
   }
   if (irw::TabItem tab_item{"Transfers"}) {
-    irw::Text("I transfered everything to the manga store");
+    irw::Text{"I transfered everything to the manga store"}.write();
   }
   if (irw::TabItem tab_item{"Securities"}) {
-    irw::Text("NullPointerException");
+    irw::Text{"NullPointerException"}.write();
   }
   if (irw::TabItem tab_item{"Schedule"}) {
-    irw::Text("Minha criatividade já se acabou");
+    irw::Text{"Minha criatividade já se acabou"}.write();
   }
 }
 
