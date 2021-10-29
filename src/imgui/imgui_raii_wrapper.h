@@ -11,7 +11,7 @@ namespace irw {
 
 class Windowzita {
 public:
-  explicit Windowzita(std::string const& id) : selected{ImGui::Begin(id.c_str())} {}
+  [[nodiscard]] explicit Windowzita(std::string const& id) : selected{ImGui::Begin(id.c_str())} {}
   Windowzita(Windowzita const&) = delete;
   Windowzita& operator=(Windowzita const&) = delete;
   Windowzita(Windowzita&&) = delete;
@@ -19,7 +19,7 @@ public:
   ~Windowzita() {
     ImGui::End();
   }
-  explicit operator bool() const {
+  explicit operator bool() & {
     return selected;
   }
 private:
@@ -28,7 +28,7 @@ private:
 
 class TabBar {
 public:
-  explicit TabBar(std::string const& id) : selected{ImGui::BeginTabBar(id.c_str())} {}
+  [[nodiscard]] explicit TabBar(std::string const& id) : selected{ImGui::BeginTabBar(id.c_str())} {}
   TabBar(TabBar const&) = delete;
   TabBar& operator=(TabBar const&) = delete;
   TabBar(TabBar&&) = delete;
@@ -36,7 +36,7 @@ public:
   ~TabBar() {
     ImGui::EndTabBar();
   }
-  explicit operator bool() const {
+  explicit operator bool() & {
     return selected;
   }
 private:
@@ -45,7 +45,7 @@ private:
 
 class TabItem {
 public:
-  explicit TabItem(std::string const& id) : selected{ImGui::BeginTabItem(id.c_str())} {}
+  [[nodiscard]] explicit TabItem(std::string const& id) : selected{ImGui::BeginTabItem(id.c_str())} {}
   TabItem(TabItem const&) = delete;
   TabItem& operator=(TabItem const&) = delete;
   TabItem(TabItem&&) = delete;
@@ -55,7 +55,7 @@ public:
       ImGui::EndTabItem();
     }
   }
-  explicit operator bool() const {
+  explicit operator bool() & {
     return selected;
   }
 private:
@@ -147,7 +147,7 @@ public:
   ~Table() {
     ImGui::EndTable();
   }
-  explicit operator bool() const {
+  explicit operator bool() & {
     return selected;
   }
 private:
