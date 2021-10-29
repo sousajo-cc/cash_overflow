@@ -1,8 +1,6 @@
 #ifndef MYPROJECT_IMGUI_RAII_WRAPPER_H
 #define MYPROJECT_IMGUI_RAII_WRAPPER_H
 
-#include "util.h"
-
 #include <optional>
 #include <string>
 #include <vector>
@@ -66,7 +64,9 @@ private:
 
 class Text {
 public:
-  explicit Text(std::string text_) : text{std::move(text_)} {}
+  Text(char const* text_) : text{text_} {}
+  Text(std::string text_) : text{std::move(text_)} {}
+  Text(char const* text_, ImVec4 color_) : text{text_}, color{color_} {}
   Text(std::string text_, ImVec4 color_) : text{std::move(text_)}, color{color_} {}
   std::string get_text() const {
     return text;
@@ -87,9 +87,8 @@ private:
 };
 
 class Table {
-private:
-  using Row = std::vector<Text>;
 public:
+  using Row = std::vector<Text>;
   class Builder {
   public:
     Builder& with_id(std::string name) {
@@ -100,18 +99,12 @@ public:
       number_of_columns = n;
       return *this;
     }
-    template<typename... Args>
-    Builder& with_headers(Args... args) {
-      headers.reserve(number_of_columns);
-      util::emplace_back_all<Row, Args...>(headers, args...);
+    Builder& with_headers(Row row) {
+      headers = std::move(row);
       return *this;
     }
-    template<typename... Args>
-    Builder& add_row(Args... args) {
-      Row row{};
-      row.reserve(number_of_columns);
-      util::emplace_back_all<Row, Args...>(row, args...);
-      values.push_back(row);
+    Builder& add_row(Row row) {
+      values.push_back(std::move(row));
       return *this;
     }
     Table build() {
