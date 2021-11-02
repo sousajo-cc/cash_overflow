@@ -1,4 +1,4 @@
-#include <imgui.h>
+#include "raii_imgui.hpp"
 #include <imgui-SFML.h>
 
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -30,7 +30,27 @@ int main()
       }
     }
 
-    ImGui::SFML::Update(window, deltaClock.restart());
+  bool popup = false;
+  ImGui::SFML::Update(window, deltaClock.restart());
+  Main_Menu() {
+    if (ImGui::BeginMenu("Options")) {
+      if(ImGui::MenuItem("Load")) {
+        popup = true;
+      }
+      ImGui::MenuItem("Save");
+      ImGui::MenuItem("Save as");
+      ImGui::EndMenu();
+    }
+  }
+
+  if (popup) 
+    ImGui::OpenPopup("Popup");
+
+  if (ImGui::BeginPopup("Popup"))
+  {
+    ImGui::Text("Hello World");
+    ImGui::EndPopup();
+  }
 
     ImGui::Begin("Mockup");
     ImGui::BeginTabBar("TabBar");
