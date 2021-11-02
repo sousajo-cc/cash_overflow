@@ -34,7 +34,9 @@ public:
   TabBar(TabBar&&) = delete;
   TabBar& operator=(TabBar&&) = delete;
   ~TabBar() {
-    ImGui::EndTabBar();
+    if (selected) {
+      ImGui::EndTabBar();
+    }
   }
   explicit operator bool() & {
     return selected;
