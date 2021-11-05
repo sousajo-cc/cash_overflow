@@ -7,15 +7,24 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
+find_package(ImGui-SFML REQUIRED)
+
+find_package(tl-expected REQUIRED)
+include_directories(${tl_INCLUDE_DIRS})
+
 enable_testing()
 
 add_executable(
     hello_test
     hello_test.cpp
+    table_builder_tests.cpp
 )
 target_link_libraries(
     hello_test
     gtest_main
+    project_warnings
+    project_options
+    ImGui-SFML::ImGui-SFML
 )
 
 include(GoogleTest)

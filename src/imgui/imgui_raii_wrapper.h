@@ -111,6 +111,20 @@ public:
       return *this;
     }
     tl::expected<Table, std::string> build() {
+      if (headers.size() < number_of_columns) {
+        return tl::make_unexpected("Too few headers!");
+      }
+      if (headers.size() > number_of_columns) {
+        return tl::make_unexpected("Too many headers!");
+      }
+      for (auto const& row : values) {
+        if (row.size() < number_of_columns) {
+          return tl::make_unexpected("Too few values in row!");
+        }
+        if (row.size() > number_of_columns) {
+          return tl::make_unexpected("Too many values in row!");
+        }
+      }
       return tl::expected<Table, std::string>(
         tl::in_place,
         id,
