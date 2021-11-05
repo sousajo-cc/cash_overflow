@@ -12,6 +12,9 @@ find_package(ImGui-SFML REQUIRED)
 find_package(tl-expected REQUIRED)
 include_directories(${tl_INCLUDE_DIRS})
 
+find_package(fmt REQUIRED)
+include_directories(${fmt_INCLUDE_DIRS})
+
 enable_testing()
 
 add_executable(
@@ -25,6 +28,7 @@ target_link_libraries(
     project_warnings
     project_options
     ImGui-SFML::ImGui-SFML
+    fmt::fmt
 )
 
 include(GoogleTest)
