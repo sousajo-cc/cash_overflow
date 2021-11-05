@@ -8,6 +8,8 @@
 #include <tl\expected.hpp>
 #include <imgui.h>
 
+#include "error.hpp"
+
 namespace irw {
 
 class Windowzita {
@@ -93,6 +95,8 @@ class Table {
 public:
   using Row = std::vector<Text>;
   class Builder {
+  private:
+    using Error = cash_overflow::error::Error;
   public:
     Builder& with_id(std::string name) {
       id = std::move(name);
@@ -110,7 +114,7 @@ public:
       values.push_back(std::move(row));
       return *this;
     }
-    tl::expected<Table, std::string> build() {
+    tl::expected<Table, Error> build() {
       if (headers.size() < number_of_columns) {
         return tl::make_unexpected("Too few headers!");
       }
@@ -125,7 +129,7 @@ public:
           return tl::make_unexpected("Too many values in row!");
         }
       }
-      return tl::expected<Table, std::string>(
+      return tl::expected<Table, Error>(
         tl::in_place,
         id,
         static_cast<int>(number_of_columns),
