@@ -119,18 +119,24 @@ public:
       return *this;
     }
     tl::expected<Table, Error> build() {
-      if (headers.size() < number_of_columns) {
-        return tl::make_unexpected(fmt::format("Too few headers!\nTable has {} columns but has {} headers.\nHeaders: {}", number_of_columns, headers.size(), row_to_text(headers)));
-      }
-      if (headers.size() > number_of_columns) {
-        return tl::make_unexpected(fmt::format("Too many headers!\nTable has {} columns but has {} headers.\nHeaders: {}", number_of_columns, headers.size(), row_to_text(headers)));
+      if (headers.size() != number_of_columns) {
+        return tl::make_unexpected(fmt::format(
+          "Too {} headers!\nTable has {} columns but has {} headers.\nHeaders: {}",
+          headers.size() > number_of_columns ? "many" : "few",
+          number_of_columns,
+          headers.size(),
+          row_to_text(headers)
+        ));
       }
       for (auto const& row : values) {
-        if (row.size() < number_of_columns) {
-          return tl::make_unexpected(fmt::format("Too few values in row!\nTable has {} columns but row has {} values.\nRow: {}", number_of_columns, row.size(), row_to_text(row)));
-        }
-        if (row.size() > number_of_columns) {
-          return tl::make_unexpected(fmt::format("Too many values in row!\nTable has {} columns but row has {} values.\nRow: {}", number_of_columns, row.size(), row_to_text(row)));
+        if (row.size() != number_of_columns) {
+          return tl::make_unexpected(fmt::format(
+            "Too {} values in row!\nTable has {} columns but row has {} values.\nRow: {}",
+            row.size() > number_of_columns ? "many" : "few",
+            number_of_columns,
+            row.size(),
+            row_to_text(row)
+          ));
         }
       }
       return tl::expected<Table, Error>(
