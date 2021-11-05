@@ -136,9 +136,12 @@ public:
       );
     }
   private:
-    std::vector<std::string> row_to_text(Row const& row) {
+    static std::vector<std::string> row_to_text(Row const& row) {
       using cash_overflow::util::map;
-      return map<Text, std::string>(row, Text::get_text);
+      auto text_to_string = [](Text const& text) {
+        return text.get_text();
+      };
+      return map<Text, std::string>(row, text_to_string);
     }
     std::string number_of_columns_error(Row const& row, const char* msg) {
       //using vformat instead of format to skip compile-time checks
