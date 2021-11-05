@@ -1,0 +1,33 @@
+name: "Clang-Formater"
+description: "Check if format is applied to your code"
+
+inputs:
+  workplace:
+    description: "workspace path"
+    required: true
+    default: "/github/workspace"
+  fallback:
+    description: "Fallback style, case no .clang-format exist"
+    required: true
+    default: "Google"
+  clangsetup:
+    description: "Install clang. When we use docker: true"
+    required: true
+    default: "true"
+  apply:
+    description: "Apply format. On CI is false"
+    required: true
+    default: "false"
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - --workplace ${{ inputs.workplace }}
+    - --fallback ${{ inputs.fallback }}
+    - --clangsetup ${{ inputs.clangsetup }}
+    - --apply ${{ inputs.apply }}
+
+branding:
+  icon: "mic"
+  color: "purple"
