@@ -1,11 +1,14 @@
 #ifndef MYPROJECT_IMGUI_RAII_WRAPPER_H
 #define MYPROJECT_IMGUI_RAII_WRAPPER_H
 
+#include <algorithm>
 #include <optional>
 #include <string>
 #include <vector>
 
-#include <tl\expected.hpp>
+#include <fmt/format.h>
+#include <fmt/ranges.h>
+#include <tl/expected.hpp>
 #include <imgui.h>
 
 #include "error.hpp"
@@ -116,7 +119,10 @@ public:
     }
     tl::expected<Table, Error> build() {
       if (headers.size() < number_of_columns) {
-        return tl::make_unexpected("Too few headers!");
+        std::vector<std::string> headers_text;
+        headers_text.resize(headers.size());
+        std::transform(headers.begin(), headers.end(), headers_text.begin(), [](Text header) { return header.get_text(); });
+        return tl::make_unexpected(fmt::format("Too few headers!\nTable has {} columns but has {} headers.\nHeaders: {}", number_of_columns, headers.size(), headers_text));
       }
       if (headers.size() > number_of_columns) {
         return tl::make_unexpected("Too many headers!");
