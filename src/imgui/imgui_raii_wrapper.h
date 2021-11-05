@@ -12,6 +12,7 @@
 #include <imgui.h>
 
 #include "error.hpp"
+#include "util.h"
 
 namespace irw {
 
@@ -119,20 +120,17 @@ public:
     }
     tl::expected<Table, Error> build() {
       if (headers.size() < number_of_columns) {
-        std::vector<std::string> headers_text;
-        headers_text.resize(headers.size());
-        std::transform(headers.begin(), headers.end(), headers_text.begin(), [](Text header) { return header.get_text(); });
-        return tl::make_unexpected(fmt::format("Too few headers!\nTable has {} columns but has {} headers.\nHeaders: {}", number_of_columns, headers.size(), headers_text));
+        return tl::make_unexpected(fmt::format("Too few headers!\nTable has {} columns but has {} headers.\nHeaders: {}", number_of_columns, headers.size(), row_to_text(headers)));
       }
       if (headers.size() > number_of_columns) {
-        return tl::make_unexpected("Too many headers!");
+        return tl::make_unexpected(fmt::format("Too many headers!\nTable has {} columns but has {} headers.\nHeaders: {}", number_of_columns, headers.size(), row_to_text(headers)));
       }
       for (auto const& row : values) {
         if (row.size() < number_of_columns) {
-          return tl::make_unexpected("Too few values in row!");
+          return tl::make_unexpected(fmt::format("Too few values in row!\nTable has {} columns but row has {} values.\nRow: {}", number_of_columns, row.size(), row_to_text(row)));
         }
         if (row.size() > number_of_columns) {
-          return tl::make_unexpected("Too many values in row!");
+          return tl::make_unexpected(fmt::format("Too many values in row!\nTable has {} columns but row has {} values.\nRow: {}", number_of_columns, row.size(), row_to_text(row)));
         }
       }
       return tl::expected<Table, Error>(
@@ -144,6 +142,10 @@ public:
       );
     }
   private:
+    std::vector<std::string> row_to_text(Row const& row) {
+      using cash_overflow::util::map;
+      return map<Text, std::string>(row, Text::get_text);
+    }
     std::string id{};
     std::size_t number_of_columns{};
     Row headers{};
