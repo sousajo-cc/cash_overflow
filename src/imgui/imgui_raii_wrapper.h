@@ -120,23 +120,11 @@ public:
     }
     tl::expected<Table, Error> build() {
       if (headers.size() != number_of_columns) {
-        return tl::make_unexpected(fmt::format(
-          "Too {} headers!\nTable has {} columns but has {} headers.\nHeaders: {}",
-          headers.size() > number_of_columns ? "many" : "few",
-          number_of_columns,
-          headers.size(),
-          row_to_text(headers)
-        ));
+        return tl::make_unexpected(number_of_headers_error());
       }
       for (auto const& row : values) {
         if (row.size() != number_of_columns) {
-          return tl::make_unexpected(fmt::format(
-            "Too {} values in row!\nTable has {} columns but row has {} values.\nRow: {}",
-            row.size() > number_of_columns ? "many" : "few",
-            number_of_columns,
-            row.size(),
-            row_to_text(row)
-          ));
+          return tl::make_unexpected(number_of_row_values_error(row));
         }
       }
       return tl::expected<Table, Error>(
@@ -152,6 +140,23 @@ public:
       using cash_overflow::util::map;
       return map<Text, std::string>(row, Text::get_text);
     }
+    std::string number_of_headers_error() {
+      return fmt::format(
+        "Too {} headers!\nTable has {} columns but has {} headers.\nHeaders: {}",
+        headers.size() > number_of_columns ? "many" : "few",
+        number_of_columns,
+        headers.size(),
+        row_to_text(headers));
+    }
+    std::string number_of_row_values_error(Row const& row) {
+      return fmt::format(
+        "Too {} values in row!\nTable has {} columns but row has {} values.\nRow: {}",
+        row.size() > number_of_columns ? "many" : "few",
+        number_of_columns,
+        row.size(),
+        row_to_text(row));
+    }
+
     std::string id{};
     std::size_t number_of_columns{};
     Row headers{};
