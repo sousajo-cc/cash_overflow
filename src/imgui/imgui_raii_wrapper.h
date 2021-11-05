@@ -136,14 +136,11 @@ public:
       );
     }
   private:
-    static std::vector<std::string> row_to_text(Row const& row) {
+    std::string number_of_columns_error(Row const& row, const char* msg) const {
       using cash_overflow::util::map;
       auto text_to_string = [](Text const& text) {
-        return text.get_text();
+             return text.get_text();
       };
-      return map<Text, std::string>(row, text_to_string);
-    }
-    std::string number_of_columns_error(Row const& row, const char* msg) {
       //using vformat instead of format to skip compile-time checks
       return fmt::vformat(
         msg,
@@ -151,14 +148,14 @@ public:
           row.size() > number_of_columns ? "many" : "few",
           number_of_columns,
           row.size(),
-          row_to_text(row)
+          map<Text, std::string>(row, text_to_string)
           )
         );
     }
-    std::string number_of_headers_error() {
+    std::string number_of_headers_error() const {
       return number_of_columns_error(headers, "Too {} headers!\nTable has {} columns but has {} headers.\nHeaders: {}");
     }
-    std::string number_of_row_values_error(Row const& row) {
+    std::string number_of_row_values_error(Row const& row) const {
       return number_of_columns_error(row, "Too {} values in row!\nTable has {} columns but row has {} values.\nRow: {}");
     }
 
