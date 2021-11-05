@@ -110,13 +110,14 @@ public:
       values.push_back(std::move(row));
       return *this;
     }
-    Table build() {
-      return Table{
+    tl::expected<Table, std::string> build() {
+      return tl::expected<Table, std::string>(
+        tl::in_place,
         id,
         static_cast<int>(number_of_columns),
         headers,
         values
-      };
+      );
     }
   private:
     std::string id{};
