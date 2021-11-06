@@ -2,12 +2,11 @@
 #define CASH_OVERFLOW_UTIL_H
 
 #include <algorithm>
-#include <functional>
 
 namespace cash_overflow::util {
 
-template<typename In, typename Out>
-std::vector<Out> map(std::vector<In> const& input, std::function<Out(In)> const& f) {
+template<typename In, typename Out, typename F>
+std::vector<Out> map(std::vector<In> const& input, F f) {
   std::vector<Out> output;
   output.resize(input.size());
   std::transform(input.begin(), input.end(), output.begin(), f);
