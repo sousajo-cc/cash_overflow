@@ -136,7 +136,7 @@ public:
       );
     }
   private:
-    std::string number_of_columns_error(Row const& row, const char* msg) const {
+    [[nodiscard]] std::string number_of_columns_error(Row const& row, const char* msg) const {
       using cash_overflow::util::map;
       auto text_to_string = [](Text const& text) {
              return text.get_text();
@@ -152,10 +152,10 @@ public:
           )
         );
     }
-    std::string number_of_headers_error() const {
+    [[nodiscard]] std::string number_of_headers_error() const {
       return number_of_columns_error(headers, "Too {} headers!\nTable has {} columns but has {} headers.\nHeaders: {}");
     }
-    std::string number_of_row_values_error(Row const& row) const {
+    [[nodiscard]] std::string number_of_row_values_error(Row const& row) const {
       return number_of_columns_error(row, "Too {} values in row!\nTable has {} columns but row has {} values.\nRow: {}");
     }
 
