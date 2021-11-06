@@ -5,9 +5,9 @@
 
 namespace cash_overflow::util {
 
-template<typename In, typename Out, typename F>
-std::vector<Out> map(std::vector<In> const& input, F f) {
-  std::vector<Out> output;
+template<typename In, typename Out, typename F, template<typename> typename Container>
+Container<Out> map(Container<In> const& input, F f) {
+  Container<Out> output;
   output.resize(input.size());
   std::transform(input.begin(), input.end(), output.begin(), f);
   return output;
