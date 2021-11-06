@@ -17,12 +17,6 @@ Now you can clone the project locally and get to work!
 
     git clone https://github.com/<user>/<your_new_repo>.git
 
-### Remove frameworks you're not going to use
-If you know you're not going to use one or more of the optional gui/graphics
-frameworks (fltk, gtkmm, imgui, etc.), you can remove them with `git rm`:
-
-    git rm -r src/<unnecessary_framework>
-
 ## Dependencies
 
 Note about install commands:
@@ -220,23 +214,10 @@ The following compilers should work:
 	</details>
 
 #### GUI libraries
-This project can be made to work with several optional GUI frameworks.
-
-If desired, you should install the following optional dependencies as
-directed by their documentation, linked here:
-
-- [FLTK](https://www.fltk.org/doc-1.4/index.html)
-- [GTKMM](https://www.gtkmm.org/en/documentation.html)
-- [QT](https://doc.qt.io/)
-
-The following dependencies can be downloaded automatically by CMake and Conan.
-All you need to do to install them is to turn on a CMake flag during
-configuration.
+The following dependencies are downloaded automatically by CMake and Conan.
 If you run into difficulty using them, please refer to their documentation,
 linked here:
 
-- [NANA](http://nanapro.org/en-us/documentation/)
-- [SDL](http://wiki.libsdl.org/FrontPage)
 - [IMGUI](https://github.com/ocornut/imgui/tree/master/docs):
   This framework depends on SFML, and if you are using Linux, you may need
   to install several of SFML's dependencies using your package manager. See
