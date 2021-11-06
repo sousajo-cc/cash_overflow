@@ -7,8 +7,9 @@ namespace cash_overflow::util {
 
 //WARNING: ignore this if you're starting to learn C++ now
 //applies a function to every element on a vector
-template<typename In, typename Out, typename F, template<typename> typename Container>
-  requires requires (In input_element, Out output_element, F function) {
+//refer to the tests for usage examples
+template<typename Out, typename In, typename F, template<typename> typename Container>
+  requires requires (Out output_element, In input_element, F function) {
     output_element = function(input_element);
   }
 Container<Out> map(Container<In> const& input, F f) {

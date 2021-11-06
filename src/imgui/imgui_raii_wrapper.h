@@ -148,7 +148,7 @@ public:
           row.size() > number_of_columns ? "many" : "few",
           number_of_columns,
           row.size(),
-          map<Text, std::string>(row, text_to_string)
+          map<std::string, Text>(row, text_to_string)
           )
         );
     }
