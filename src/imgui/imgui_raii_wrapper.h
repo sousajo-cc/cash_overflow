@@ -1,11 +1,17 @@
 #ifndef MYPROJECT_IMGUI_RAII_WRAPPER_H
 #define MYPROJECT_IMGUI_RAII_WRAPPER_H
 
+#include <algorithm>
 #include <optional>
 #include <string>
 #include <vector>
 
+#include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <imgui.h>
+
+#include "custom_exception.h"
+#include "util.h"
 
 namespace irw {
 
@@ -110,6 +116,14 @@ public:
       return *this;
     }
     Table build() {
+      if (headers.size() != number_of_columns) {
+        throw cash_overflow::exception::BadTable(number_of_headers_error());
+      }
+      for (auto const& row : values) {
+        if (row.size() != number_of_columns) {
+          throw cash_overflow::exception::BadTable(number_of_row_values_error(row));
+        }
+      }
       return Table{
         id,
         static_cast<int>(number_of_columns),
@@ -118,6 +132,29 @@ public:
       };
     }
   private:
+    [[nodiscard]] std::string number_of_columns_error(Row const& row, const char* msg) const {
+      using cash_overflow::util::map;
+      auto text_to_string = [](Text const& text) {
+             return text.get_text();
+      };
+      //using vformat instead of format to skip compile-time checks
+      return fmt::vformat(
+        msg,
+        fmt::make_format_args(
+          row.size() > number_of_columns ? "many" : "few",
+          number_of_columns,
+          row.size(),
+          map(row, text_to_string)
+          )
+        );
+    }
+    [[nodiscard]] std::string number_of_headers_error() const {
+      return number_of_columns_error(headers, "Too {} headers!\nTable has {} columns but has {} headers.\nHeaders: {}");
+    }
+    [[nodiscard]] std::string number_of_row_values_error(Row const& row) const {
+      return number_of_columns_error(row, "Too {} values in row!\nTable has {} columns but row has {} values.\nRow: {}");
+    }
+
     std::string id{};
     std::size_t number_of_columns{};
     Row headers{};
