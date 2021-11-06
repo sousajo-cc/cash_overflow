@@ -5,6 +5,8 @@
 
 namespace cash_overflow::util {
 
+//WARNING: ignore this if you're starting to learn C++ now
+//applies a function to every element on a vector
 template<typename In, typename Out, typename F, template<typename> typename Container>
   requires requires (In input_element, Out output_element, F function) {
     output_element = function(input_element);
