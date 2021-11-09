@@ -9,9 +9,9 @@
 
 namespace irw {
 
-class [[nodiscard]] Windowzita {
+class Windowzita {
 public:
-  explicit Windowzita(std::string const& id) : selected{ImGui::Begin(id.c_str())} {}
+  [[nodiscard]] explicit Windowzita(std::string const& id) : selected{ImGui::Begin(id.c_str())} {}
   Windowzita(Windowzita const&) = delete;
   Windowzita& operator=(Windowzita const&) = delete;
   Windowzita(Windowzita&&) = delete;
@@ -26,9 +26,9 @@ private:
   bool selected{};
 };
 
-class [[nodiscard]] TabBar {
+class TabBar {
 public:
-  explicit TabBar(std::string const& id) : selected{ImGui::BeginTabBar(id.c_str())} {}
+  [[nodiscard]] explicit TabBar(std::string const& id) : selected{ImGui::BeginTabBar(id.c_str())} {}
   TabBar(TabBar const&) = delete;
   TabBar& operator=(TabBar const&) = delete;
   TabBar(TabBar&&) = delete;
@@ -45,9 +45,9 @@ private:
   bool selected{};
 };
 
-class [[nodiscard]] TabItem {
+class TabItem {
 public:
-  explicit TabItem(std::string const& id) : selected{ImGui::BeginTabItem(id.c_str())} {}
+  [[nodiscard]] explicit TabItem(std::string const& id) : selected{ImGui::BeginTabItem(id.c_str())} {}
   TabItem(TabItem const&) = delete;
   TabItem& operator=(TabItem const&) = delete;
   TabItem(TabItem&&) = delete;
