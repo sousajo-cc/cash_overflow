@@ -2,6 +2,54 @@
 #include "../src/imgui/date.hpp"
 #include "../src/imgui/util.hpp"
 
+TEST(YearTest, ArithmeticTest)
+{
+  Year y{3};
+  Year const z{68};
+  EXPECT_EQ(y + z,Year{71});
+  EXPECT_EQ(y - z,Year{-65});
+  EXPECT_EQ(3 * y,Year{9});
+  EXPECT_EQ(y * 3,Year{9});
+  EXPECT_EQ(y / 2,Year{1});
+  EXPECT_EQ(y % 2,Year{1});
+  ++y;
+  EXPECT_EQ(++y,Year{5});
+  y++;
+  EXPECT_EQ(y++,Year{6});
+}
+
+TEST(MonthTest, ArithmeticTest)
+{
+  Month m{3};
+  Month const n{68};
+  EXPECT_EQ(m + n,Month{71});
+  EXPECT_EQ(m - n,Month{-65});
+  EXPECT_EQ(3* m,Month{9});
+  EXPECT_EQ(m *3,Month{9});
+  EXPECT_EQ(m / 2,Month{1});
+  EXPECT_EQ(m % 2,Month{1});
+  ++m;
+  EXPECT_EQ(++m,Month{5});
+  m++;
+  EXPECT_EQ(m++,Month{6});
+}
+
+TEST(DayTest, ArithmeticTest)
+{
+  Day d{3};
+  Day const e{68};
+  EXPECT_EQ(d+e,Day{71});
+  EXPECT_EQ(d-e,Day{-65});
+  EXPECT_EQ(3*d,Day{9});
+  EXPECT_EQ(d*3,Day{9});
+  EXPECT_EQ(d / 2,Day{1});
+  EXPECT_EQ(d % 2,Day{1});
+  ++d;
+  EXPECT_EQ(++d,Day{5});
+  d++;
+  EXPECT_EQ(d++,Day{6});
+}
+
 TEST(DateTest, YearOutOfRange)
 {
   auto unexpected = Date::create(-1, 1, 1);

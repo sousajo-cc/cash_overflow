@@ -16,6 +16,33 @@ public:
   [[nodiscard]] constexpr int getValue() const {
     return value;
   }
+  constexpr Day operator+(Day const& other) const {
+    return Day{ value + other.value };
+  }
+  constexpr Day operator-(Day const& other) const {
+    return Day{ value - other.value };
+  }
+  constexpr Day operator*(int factor) const {
+    return Day{ factor*value };
+  }
+  friend constexpr Day operator*(int factor, Day const& day) {
+    return day*factor;
+  }
+  constexpr Day operator/(int factor) const {
+    return Day{ value / factor };
+  }
+  constexpr Day operator%(int factor) const {
+    return Day{ value % factor};
+  }
+  constexpr Day& operator++() {
+    ++value;
+    return *this;
+  }
+  constexpr Day const operator++(int) {
+    Day const d = *this;
+    value++;
+    return d;
+  }
 private:
   int value{};
 };
@@ -32,9 +59,36 @@ public:
   {
     return value % 4 == 0 && !(value % 100 == 0 && (value % 400 != 0));
   }
-  [[nodiscard]] constexpr Day getNumberOfDays() const
+  [[nodiscard]] constexpr Year getNumberOfDays() const
   {
-    return Day{ isLeapYear() ? 366 : 365 };
+    return Year{ isLeapYear() ? 366 : 365 };
+  }
+  constexpr Year operator+(Year const& other) const {
+    return Year{ value + other.value };
+  }
+  constexpr Year operator-(Year const& other) const {
+    return Year{ value - other.value };
+  }
+  constexpr Year operator*(int factor) const {
+    return Year{ factor*value };
+  }
+  friend constexpr Year operator*(int factor, Year const& Year) {
+    return Year*factor;
+  }
+  constexpr Year operator/(int factor) const {
+    return Year{ value / factor };
+  }
+  constexpr Year operator%(int factor) const {
+    return Year{ value % factor};
+  }
+  constexpr Year& operator++() {
+    ++value;
+    return *this;
+  }
+  constexpr Year const operator++(int) {
+    Year const d = *this;
+    value++;
+    return d;
   }
 private:
   int value{};
@@ -71,6 +125,39 @@ public:
       return Day{ 0 };
     }
   }
+  constexpr Month operator+(Month const& other) const {
+    return Month{ value + other.value };
+  }
+  constexpr Month operator-(Month const& other) const {
+    return Month{ value - other.value };
+  }
+  constexpr Month operator*(int factor) const {
+    return Month{ factor*value };
+  }
+  friend constexpr Month operator*(int factor, Month const& Month) {
+    return Month*factor;
+  }
+  constexpr Month operator/(int factor) const {
+    return Month{ value / factor };
+  }
+  constexpr Month operator%(int factor) const {
+    return Month{ value % factor};
+  }
+  constexpr Month& operator++() {
+    ++value;
+    return *this;
+  }
+  constexpr Month const operator++(int) {
+    Month const d = *this;
+    value++;
+    return d;
+  }
+  [[nodiscard]] constexpr Year toYears() const {
+    return Year{ value / 12 };
+  }
+  constexpr bool isOverAYear() const {
+    return value > 12;
+  }
 private:
   int value{};
 };
@@ -81,7 +168,7 @@ class Date
 public:
   using Error = cash_overflow::error::Error;
   static tl::expected<Date, Error> create(int y, int m, int d) {
-    return create(Year{y}, Month{m}, Day{d}); //TODO: remove
+    return create(Year{y}, Month{m}, Day{d});
   }
   static tl::expected<Date, Error> create(Year y, Month m, Day d)
   {
@@ -96,20 +183,10 @@ public:
       return tl::make_unexpected("Day is out of range for selected Month");
     }
 
-    if ((m == Month{ 11 } || m == Month{ 4 } || m == Month{ 6 } || m == Month{ 9 }) && d > Day{ 30 }) {
+    if (d > m.getNumberOfDays(y)) {
       return tl::make_unexpected("Day is out of range for selected Month");
     }
 
-    if (d > Day{ 31 }) {
-      return tl::make_unexpected("Day is out of range for selected Month");
-    }
-
-    if (m == Month{ 2 }) {
-      Day lastDay = Day{ y.isLeapYear() ? 29 : 28 };
-      if (d > lastDay) {
-        return tl::make_unexpected("Day is out of range for selected Month");
-      }
-    }
     return Date(y, m, d);
   }
   [[nodiscard]] std::string toString() const
@@ -124,7 +201,7 @@ public:
   auto operator<=>(Date const &) const = default;
   tl::expected<Date, Error> operator+(Year const& y) const
   {
-    return Date::create(Year{ year.getValue() + y.getValue() }, month, day);
+    return Date::create(year + y, month, day);
   }
   tl::expected<Date, Error> operator+(Month const& m) const
   {
@@ -132,23 +209,24 @@ public:
 
     auto &LOGGER = cashoverflow::logging::Logger::log(LoggingLevel::ERR);
     
-    if (month.getValue() + m.getValue() < 12) {
-      return Date::create(year, Month{ month.getValue() + m.getValue() }, day);
+    if (month + m < Month{ 12 }) {
+      return Date::create(year, month + m, day);
     }
-    int yearsToAdd = m.getValue() / 12;
-    LOGGER.write(yearsToAdd, LoggingLevel::DBG);
+    Year yearsToAdd = m.toYears();
+    LOGGER.write(yearsToAdd.getValue(), LoggingLevel::DBG);
 
-    int remainingMonths = m.getValue() % 12;
-    LOGGER.write(remainingMonths, LoggingLevel::DBG);
+    Month remainingMonths = m % 12;
+    LOGGER.write(remainingMonths.getValue(), LoggingLevel::DBG);
 
-    auto monthsToAdd = month.getValue() + remainingMonths;
-    LOGGER.write(monthsToAdd, LoggingLevel::DBG);
+    Month monthsToAdd = month + remainingMonths;
+    LOGGER.write(monthsToAdd.getValue(), LoggingLevel::DBG);
 
-    if (monthsToAdd > 12) {
-      return Date::create(Year{ year.getValue() + yearsToAdd + 1 }, Month{ monthsToAdd - 12 }, day);
-    } else {
-      return Date::create(Year{ year.getValue() + yearsToAdd }, Month{ monthsToAdd }, day);
+    if (monthsToAdd.isOverAYear()) {
+      ++yearsToAdd;
+      monthsToAdd = monthsToAdd - Month{12};
     }
+
+    return Date::create(year + yearsToAdd, monthsToAdd, day);
   }
 
   tl::expected<Date, Error> operator+(Day d) const
