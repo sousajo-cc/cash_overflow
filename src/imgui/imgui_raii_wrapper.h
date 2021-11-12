@@ -26,9 +26,11 @@ public:
   ~Windowzita() {
     ImGui::End();
   }
-  explicit operator bool() & {
+  explicit operator bool() &
+  {
     return selected;
   }
+
 private:
   bool selected{};
 };
@@ -45,9 +47,11 @@ public:
       ImGui::EndTabBar();
     }
   }
-  explicit operator bool() & {
+  explicit operator bool() &
+  {
     return selected;
   }
+
 private:
   bool selected{};
 };
@@ -64,57 +68,69 @@ public:
       ImGui::EndTabItem();
     }
   }
-  explicit operator bool() & {
+  explicit operator bool() &
+  {
     return selected;
   }
+
 private:
   bool selected{};
 };
 
-class Text {
+class Text
+{
 public:
-  Text(char const* text_) : text{text_} {}
-  Text(std::string text_) : text{std::move(text_)} {}
-  Text(char const* text_, ImVec4 color_) : text{text_}, color{color_} {}
-  Text(std::string text_, ImVec4 color_) : text{std::move(text_)}, color{color_} {}
-  std::string get_text() const {
+  Text(char const *text_) : text{ text_ } {}
+  Text(std::string text_) : text{ std::move(text_) } {}
+  Text(char const *text_, ImVec4 color_) : text{ text_ }, color{ color_ } {}
+  Text(std::string text_, ImVec4 color_) : text{ std::move(text_) }, color{ color_ } {}
+  std::string get_text() const
+  {
     return text;
   }
-  std::optional<ImVec4> get_color() const {
+  std::optional<ImVec4> get_color() const
+  {
     return color;
   }
-  void write() const {
+  void write() const
+  {
     if (color) {
       ImGui::TextColored(color.value(), "%s", text.c_str());
     } else {
       ImGui::Text("%s", text.c_str());
     }
   }
+
 private:
   std::string text{};
   std::optional<ImVec4> color{};
 };
 
-class Table {
+class Table
+{
 public:
   using Row = std::vector<Text>;
   class Builder {
   private:
     using Error = cash_overflow::error::Error;
   public:
-    Builder& with_id(std::string name) {
+    Builder &with_id(std::string name)
+    {
       id = std::move(name);
       return *this;
     }
-    Builder& with_number_of_columns(std::size_t n) {
+    Builder &with_number_of_columns(std::size_t n)
+    {
       number_of_columns = n;
       return *this;
     }
-    Builder& with_headers(Row row) {
+    Builder &with_headers(Row row)
+    {
       headers = std::move(row);
       return *this;
     }
-    Builder& add_row(Row row) {
+    Builder &add_row(Row row)
+    {
       values.push_back(std::move(row));
       return *this;
     }
@@ -135,6 +151,7 @@ public:
         values
       );
     }
+
   private:
     [[nodiscard]] std::string number_of_columns_error(Row const& row, const char* msg) const {
       using cash_overflow::util::map;
@@ -165,31 +182,37 @@ public:
     std::vector<Row> values{};
   };
 
-  explicit Table(std::string const& id, int number_of_columns, Row const& headers, std::vector<Row> const& values) : selected{ImGui::BeginTable(id.c_str(), number_of_columns)} {
+  explicit Table(std::string const &id, int number_of_columns, Row const &headers, std::vector<Row> const &values) : selected{ ImGui::BeginTable(id.c_str(), number_of_columns) }
+  {
     create_headers(headers);
-    for (auto const& row : values) {
+    for (auto const &row : values) {
       create_row(row);
     }
   }
-  Table(Table const&) = delete;
-  Table& operator=(Table const&) = delete;
-  Table(Table&&) = delete;
-  Table& operator=(Table&&) = delete;
-  ~Table() {
+  Table(Table const &) = delete;
+  Table &operator=(Table const &) = delete;
+  Table(Table &&) = delete;
+  Table &operator=(Table &&) = delete;
+  ~Table()
+  {
     ImGui::EndTable();
   }
-  explicit operator bool() & {
+  explicit operator bool() &
+  {
     return selected;
   }
+
 private:
-  static void create_headers(Row const& labels) {
-    for (auto const& label : labels) {
+  static void create_headers(Row const &labels)
+  {
+    for (auto const &label : labels) {
       ImGui::TableSetupColumn(label.get_text().c_str());
     }
     ImGui::TableHeadersRow();
   }
-  static void create_row(Row const& row) {
-    for (auto const& value : row) {
+  static void create_row(Row const &row)
+  {
+    for (auto const &value : row) {
       ImGui::TableNextColumn();
       value.write();
     }
@@ -198,6 +221,6 @@ private:
   bool selected{};
 };
 
-}
+}// namespace irw
 
-#endif//MYPROJECT_IMGUI_RAII_WRAPPER_H
+#endif// MYPROJECT_IMGUI_RAII_WRAPPER_H

@@ -1,0 +1,10 @@
+name: Clang Workflow
+on: pull_request
+
+jobs:
+  clang-check:
+    name: Clang-Formater action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ./ci/clang-formater          
