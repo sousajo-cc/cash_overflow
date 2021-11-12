@@ -36,10 +36,8 @@ public:
     }
 
     if (m == 2) {
-      if (isLeapYear(y) && d > 29) {
-        return tl::make_unexpected("Day is out of range for selected Month");
-      }
-      if (d > 28) {
+      Day lastDay = isLeapYear(y) ? 29 : 28;
+      if (d > lastDay) {
         return tl::make_unexpected("Day is out of range for selected Month");
       }
     }
