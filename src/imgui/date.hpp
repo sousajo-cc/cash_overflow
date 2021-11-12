@@ -61,6 +61,8 @@ struct Month
     case 2: {
       return year.isLeapYear() ? 29 : 28;
     }
+    default:
+      return 0;
     }
   }
 };
@@ -138,17 +140,22 @@ public:
   {
     auto m_ = month;
     auto y_ = year;
-    auto d_ = d;
-    while (d.value > m_.getNumberOfDays()){
-      d.value = d.value - m_.getNumberOfDays();
-      if (m_ == 12) {
-        m_ = 1;
-        y_ = y_ + 1;
+    auto d_ = day;
+    while (d.value > m_.getNumberOfDays(y_)){
+      d.value -= m_.getNumberOfDays(y_).value;
+      if (m_.value == 12) {
+        m_.value = 1;
+        ++y_.value;
       } else {
-        m_ = m_ + Month{1};
+        ++m_.value;
       }
     }
-    return Date::create(year, month, day.value + d.value);
+    d_.value += d.value;
+    if (d_.value > m_.getNumberOfDays(y_)) {
+      d_.value -= m_.getNumberOfDays(y_).value;
+      m_.value++;
+    }
+    return Date::create(y_, m_, d_);
   }
 
 private:
