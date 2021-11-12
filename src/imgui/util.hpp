@@ -21,6 +21,8 @@ auto map(Container<In> const &input, F f) -> Container<decltype(f(input[0]))>
   return output;
 }
 
+}// namespace cash_overflow::utils
+
 // WARNING: ignore this if you're starting to learn C++ now
 // makes tl::expected printable if the value type and error type are printable
 // great for making sense of GTest result
@@ -37,7 +39,5 @@ std::ostream& operator<<(std::ostream& os, tl::expected<V, E> const& expected) {
   }
   return os;
 }
-
-}// namespace cash_overflow::utils
 
 #endif
