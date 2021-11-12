@@ -8,10 +8,6 @@
 #include "error.hpp"
 #include "logger.hpp"
 
-using LoggingLevel = cashoverflow::logging::LogLevel;
-
-auto &LOGGER = cashoverflow::logging::Logger::log(LoggingLevel::ERR);
-
 struct Day
 {
   Day(int v) : value{ v } {}
@@ -117,6 +113,10 @@ public:
   }
   tl::expected<Date, Error> operator+(Month m)
   {
+    using LoggingLevel = cashoverflow::logging::LogLevel;
+
+    auto &LOGGER = cashoverflow::logging::Logger::log(LoggingLevel::ERR);
+    
     if (month.value + m.value < 12) {
       return Date::create(year, month.value + m.value, day);
     }
