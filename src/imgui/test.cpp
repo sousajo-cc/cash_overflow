@@ -1,5 +1,6 @@
 #include "colors.h"
 #include "imgui_raii_wrapper.h"
+#include "logger.hpp"
 
 #include <imgui-SFML.h>
 
@@ -33,6 +34,7 @@ void draw_mockup_table() {
     .add_row({"|- Leisure", {"$193.00 of $200.00", Green}, {"$7.00", Red}, "$21.00"})
     .add_row({"|- Other", "-", {"$314.99", Red}, "$314.99"})
     .build();
+
 }
 
 void draw_mockup() {
@@ -88,6 +90,11 @@ int main()
     ImGui::SFML::Render(window);
     window.display();
   }
+  using LoggingLevel = cashoverflow::logging::LogLevel;
+  auto& LOGGER = cashoverflow::logging::Logger::log(LoggingLevel::WARN);
+  LOGGER.write("debug i dont print",LoggingLevel::DBG);
+  LOGGER.write("warn i print",LoggingLevel::WARN);
+  LOGGER.write("ERR i print",LoggingLevel::ERR);
 
   ImGui::SFML::Shutdown();
 
