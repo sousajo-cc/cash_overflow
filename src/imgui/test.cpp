@@ -11,8 +11,9 @@
 void draw_mockup_table() {
   using colors::Green;
   using colors::Red;
+  using cash_overflow::error::Error;
 
-  irw::Table::Builder{}
+  tl::expected<irw::Table, Error> table = irw::Table::Builder{}
     .with_id("Table")
     .with_number_of_columns(4)
     .with_headers({"Account/Category", "Remaining Budget", "Change", "Total"})
@@ -35,6 +36,9 @@ void draw_mockup_table() {
     .add_row({"|- Other", "-", {"$314.99", Red}, "$314.99"})
     .build();
 
+  if (!table) {
+    irw::Text{table.error().message, Red}.write();
+  }
 }
 
 void draw_mockup() {

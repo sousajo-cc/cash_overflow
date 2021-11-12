@@ -1,17 +1,24 @@
 #ifndef MYPROJECT_IMGUI_RAII_WRAPPER_H
 #define MYPROJECT_IMGUI_RAII_WRAPPER_H
 
+#include <algorithm>
 #include <optional>
 #include <string>
 #include <vector>
 
+#include <fmt/format.h>
+#include <fmt/ranges.h>
+#include <tl/expected.hpp>
 #include <imgui.h>
+
+#include "error.hpp"
+#include "util.h"
 
 namespace irw {
 
-class Windowzita {
+class [[nodiscard]] Windowzita {
 public:
-  [[nodiscard]] explicit Windowzita(std::string const& id) : selected{ImGui::Begin(id.c_str())} {}
+  explicit Windowzita(std::string const& id) : selected{ImGui::Begin(id.c_str())} {}
   Windowzita(Windowzita const&) = delete;
   Windowzita& operator=(Windowzita const&) = delete;
   Windowzita(Windowzita&&) = delete;
@@ -26,9 +33,9 @@ private:
   bool selected{};
 };
 
-class TabBar {
+class [[nodiscard]] TabBar {
 public:
-  [[nodiscard]] explicit TabBar(std::string const& id) : selected{ImGui::BeginTabBar(id.c_str())} {}
+  explicit TabBar(std::string const& id) : selected{ImGui::BeginTabBar(id.c_str())} {}
   TabBar(TabBar const&) = delete;
   TabBar& operator=(TabBar const&) = delete;
   TabBar(TabBar&&) = delete;
@@ -45,9 +52,9 @@ private:
   bool selected{};
 };
 
-class TabItem {
+class [[nodiscard]] TabItem {
 public:
-  [[nodiscard]] explicit TabItem(std::string const& id) : selected{ImGui::BeginTabItem(id.c_str())} {}
+  explicit TabItem(std::string const& id) : selected{ImGui::BeginTabItem(id.c_str())} {}
   TabItem(TabItem const&) = delete;
   TabItem& operator=(TabItem const&) = delete;
   TabItem(TabItem&&) = delete;
@@ -92,6 +99,8 @@ class Table {
 public:
   using Row = std::vector<Text>;
   class Builder {
+  private:
+    using Error = cash_overflow::error::Error;
   public:
     Builder& with_id(std::string name) {
       id = std::move(name);
@@ -109,15 +118,47 @@ public:
       values.push_back(std::move(row));
       return *this;
     }
-    Table build() {
-      return Table{
+    tl::expected<Table, Error> build() {
+      if (headers.size() != number_of_columns) {
+        return tl::make_unexpected(number_of_headers_error());
+      }
+      for (auto const& row : values) {
+        if (row.size() != number_of_columns) {
+          return tl::make_unexpected(number_of_row_values_error(row));
+        }
+      }
+      return tl::expected<Table, Error>(
+        tl::in_place,
         id,
         static_cast<int>(number_of_columns),
         headers,
         values
-      };
+      );
     }
   private:
+    [[nodiscard]] std::string number_of_columns_error(Row const& row, const char* msg) const {
+      using cash_overflow::util::map;
+      auto text_to_string = [](Text const& text) {
+             return text.get_text();
+      };
+      //using vformat instead of format to skip compile-time checks
+      return fmt::vformat(
+        msg,
+        fmt::make_format_args(
+          row.size() > number_of_columns ? "many" : "few",
+          number_of_columns,
+          row.size(),
+          map(row, text_to_string)
+          )
+        );
+    }
+    [[nodiscard]] std::string number_of_headers_error() const {
+      return number_of_columns_error(headers, "Too {} headers!\nTable has {} columns but has {} headers.\nHeaders: {}");
+    }
+    [[nodiscard]] std::string number_of_row_values_error(Row const& row) const {
+      return number_of_columns_error(row, "Too {} values in row!\nTable has {} columns but row has {} values.\nRow: {}");
+    }
+
     std::string id{};
     std::size_t number_of_columns{};
     Row headers{};
