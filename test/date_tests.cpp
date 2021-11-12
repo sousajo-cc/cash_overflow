@@ -71,6 +71,13 @@ TEST(DateTest, AddMonthTest)
   EXPECT_FALSE(Date::create(1988, 2, 29).value() + Month{12});
 }
 
+TEST(DateTest, AddDayTest)
+{
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{3}, Date::create(1988, 5, 6).value());
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{30}, Date::create(1988, 3, 5).value());
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{365}, Date::create(1988, 2, 2).value());
+}
+
 /*
 TEST(DateTest, AddDayTest)
 {
