@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../src/imgui/date.hpp"
+#include "../src/imgui/util.hpp"
 
 TEST(DateTest, YearOutOfRange)
 {
@@ -73,16 +74,9 @@ TEST(DateTest, AddMonthTest)
 
 TEST(DateTest, AddDayTest)
 {
-  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{3}, Date::create(1988, 5, 6).value());
-  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{30}, Date::create(1988, 3, 5).value());
-  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{365}, Date::create(1988, 2, 2).value());
-}
-
-/*
-TEST(DateTest, AddDayTest)
-{
   EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{3}, Date::create(1988, 2, 6).value());
-  EXPECT_FALSE(Date::create(1988, 2, 29).value() + Day{1});
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{30}, Date::create(1988, 3, 4).value());
+  EXPECT_EQ(Date::create(1989, 2, 3).value() + Day{30}, Date::create(1989, 3, 5).value());
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{365}, Date::create(1989, 2, 2).value());
+  EXPECT_EQ(Date::create(1989, 2, 3).value() + Day{365}, Date::create(1990, 2, 3).value());
 }
-*/
-
