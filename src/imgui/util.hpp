@@ -21,16 +21,19 @@ auto map(Container<In> const &input, F f) -> Container<decltype(f(input[0]))>
   return output;
 }
 
+// WARNING: ignore this if you're starting to learn C++ now
+// makes sure a type is printable
+template<typename T>
+concept Printable = requires (T t) {
+  std::cout << t << std::endl;
+};
+
 }// namespace cash_overflow::utils
 
 // WARNING: ignore this if you're starting to learn C++ now
 // makes tl::expected printable if the value type and error type are printable
 // great for making sense of GTest result
-template<typename V, typename E>
-requires requires (V v, E e) {
-  std::cout << v;
-  std::cout << e;
-}
+template<cash_overflow::utils::Printable V, cash_overflow::utils::Printable E>
 std::ostream& operator<<(std::ostream& os, tl::expected<V, E> const& expected) {
   if (expected) {
     os << expected.value();
