@@ -6,6 +6,18 @@
 #include <fmt/format.h>
 
 #include "error.hpp"
+#include "logger.hpp"
+
+using LoggingLevel = cashoverflow::logging::LogLevel;
+
+auto &LOGGER = cashoverflow::logging::Logger::log(LoggingLevel::ERR);
+
+struct Day
+{
+  Day(int v) : value{ v } {}
+  auto operator<=>(Day const &) const = default;
+  int value{};
+};
 
 struct Year
 {
@@ -16,21 +28,43 @@ struct Year
     return value % 4 == 0 && !(value % 100 == 0 && (value % 400 != 0));
   }
   int value{};
+  Day getNumberOfDays(Year year)
+  {
+      return year.isLeapYear() ? 366 : 365;
+  }
+
 };
+
+
 
 struct Month
 {
   Month(int v) : value{ v } {}
   auto operator<=>(Month const &) const = default;
   int value{};
+  Day getNumberOfDays(Year year)
+  {
+    switch (value) {
+    case 11:
+    case 4:
+    case 6:
+    case 9:
+      return 30;
+    case 12:
+    case 10:
+    case 8:
+    case 7:
+    case 5:
+    case 3:
+    case 1:
+      return 31;
+    case 2: {
+      return year.isLeapYear() ? 29 : 28;
+    }
+    }
+  }
 };
 
-struct Day
-{
-  Day(int v) : value{ v } {}
-  auto operator<=>(Day const &) const = default;
-  int value{};
-};
 
 class Date
 {
@@ -81,18 +115,33 @@ public:
   }
   tl::expected<Date, Error> operator+(Month m)
   {
-    return Date::create(year, month.value + m.value, day);
+    if (month.value + m.value < 12) {
+      return Date::create(year, month.value + m.value, day);
+    }
+    int yearsToAdd = m.value / 12;
+    LOGGER.write(yearsToAdd, LoggingLevel::DBG);
+
+    int remainingMonths = m.value % 12;
+    LOGGER.write(remainingMonths, LoggingLevel::DBG);
+
+    auto monthsToAdd = month.value + remainingMonths;
+    LOGGER.write(monthsToAdd, LoggingLevel::DBG);
+
+    if (monthsToAdd > 12) {
+      return Date::create(year.value + yearsToAdd + 1, monthsToAdd - 12, day);
+    } else {
+      return Date::create(year.value + yearsToAdd, monthsToAdd, day);
+    }
   }
+
   tl::expected<Date, Error> operator+(Day d)
   {
-    return Date::create(year, month, day.value() + d.value());
+    return Date::create(year, month, day.value + d.value);
   }
 
 private:
   Date(Year y, Month m, Day d) : year(y), month(m), day(d)
-  {
-    // we have to check this here for now but then each class should check this
-  }
+  {}
   Year year;
   Month month;
   Day day;
