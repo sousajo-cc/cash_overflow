@@ -11,9 +11,9 @@
 class Day
 {
 public:
-  explicit Day(int v) : value{ v } {}
-  auto operator<=>(Day const &) const = default;
-  int getValue() const {
+  [[nodiscard]] constexpr explicit Day(int v) : value{ v } {}
+  [[nodiscard]] constexpr auto operator<=>(Day const &) const = default;
+  [[nodiscard]] constexpr int getValue() const {
     return value;
   }
 private:
@@ -23,16 +23,16 @@ private:
 class Year
 {
 public:
-  explicit Year(int v) : value{ v } {}
-  auto operator<=>(Year const &) const = default;
-  int getValue() const {
+  [[nodiscard]] constexpr explicit Year(int v) : value{ v } {}
+  [[nodiscard]] constexpr auto operator<=>(Year const &) const = default;
+  [[nodiscard]] constexpr int getValue() const {
     return value;
   }
-  bool isLeapYear()
+  [[nodiscard]] constexpr bool isLeapYear() const
   {
     return value % 4 == 0 && !(value % 100 == 0 && (value % 400 != 0));
   }
-  Day getNumberOfDays(Year year)
+  [[nodiscard]] constexpr Day getNumberOfDays(Year const& year) const
   {
     return Day{ year.isLeapYear() ? 366 : 365 };
   }
@@ -43,12 +43,12 @@ private:
 class Month
 {
 public:
-  explicit Month(int v) : value{ v } {}
-  auto operator<=>(Month const &) const = default;
-  int getValue() const {
+  [[nodiscard]] constexpr explicit Month(int v) : value{ v } {}
+  [[nodiscard]] constexpr auto operator<=>(Month const&) const = default;
+  [[nodiscard]] constexpr int getValue() const {
     return value;
   }
-  Day getNumberOfDays(Year year)
+  [[nodiscard]] constexpr Day getNumberOfDays(Year const& year)
   {
     switch (value) {
     case 11:
@@ -112,21 +112,21 @@ public:
     }
     return Date(y, m, d);
   }
-  std::string toString()
+  std::string toString() const
   {
     return fmt::format("{}-{}-{}", year.getValue(), month.getValue(), day.getValue());
   }
-  friend std::ostream &operator<<(std::ostream &os, Date date)
+  friend std::ostream &operator<<(std::ostream &os, Date const& date)
   {
     os << date.toString();
     return os;
   }
   auto operator<=>(Date const &) const = default;
-  tl::expected<Date, Error> operator+(Year y)
+  tl::expected<Date, Error> operator+(Year const& y) const
   {
     return Date::create(Year{ year.getValue() + y.getValue() }, month, day);
   }
-  tl::expected<Date, Error> operator+(Month m)
+  tl::expected<Date, Error> operator+(Month const& m) const
   {
     using LoggingLevel = cashoverflow::logging::LogLevel;
 
@@ -151,7 +151,7 @@ public:
     }
   }
 
-  tl::expected<Date, Error> operator+(Day d)
+  tl::expected<Date, Error> operator+(Day d) const
   {
     auto m_ = month;
     auto y_ = year;
