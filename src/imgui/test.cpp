@@ -1,5 +1,6 @@
 #include "colors.h"
 #include "imgui_raii_wrapper.h"
+#include "logger.hpp"
 
 #include <imgui-SFML.h>
 
@@ -93,6 +94,11 @@ int main()
     ImGui::SFML::Render(window);
     window.display();
   }
+  using LoggingLevel = cashoverflow::logging::LogLevel;
+  auto& LOGGER = cashoverflow::logging::Logger::log(LoggingLevel::WARN);
+  LOGGER.write("debug i dont print",LoggingLevel::DBG);
+  LOGGER.write("warn i print",LoggingLevel::WARN);
+  LOGGER.write("ERR i print",LoggingLevel::ERR);
 
   ImGui::SFML::Shutdown();
 
