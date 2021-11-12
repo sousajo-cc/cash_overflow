@@ -56,3 +56,9 @@ TEST(DateTest, ComparisonTest)
   EXPECT_LT(Date::create(1984, 2, 3).value(), Date::create(1988, 2, 3).value());
   EXPECT_LE(Date::create(1984, 2, 3).value(), Date::create(1988, 2, 3).value());
 }
+
+TEST(DateTest, AddYearTest)
+{
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Year{3}, Date::create(1991, 2, 3).value());
+  EXPECT_FALSE(Date::create(1988, 2, 29).value() + Year{1});
+}

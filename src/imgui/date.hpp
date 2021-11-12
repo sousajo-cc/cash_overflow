@@ -70,7 +70,9 @@ public:
     return os;
   }
   auto operator<=>(Date const&) const = default;
-//  Date operator+(Day d) {}
+  tl::expected<Date, Error> operator+(Year y) {
+    return Date::create(year.value + y.value, month, day);
+  }
 private:
   Date(Year y, Month m, Day d) : year(y), month(m), day(d)
   {
