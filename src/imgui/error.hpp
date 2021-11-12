@@ -3,12 +3,13 @@
 
 namespace cash_overflow::error {
 
-struct Error {
-  Error(std::string m) : message{m} {}
-  Error(const char* m) : message{m} {}
+struct Error
+{
+  Error(std::string m) : message{ m } {}
+  Error(const char *m) : message{ m } {}
   std::string message;
 };
 
-}
+}// namespace cash_overflow::error
 
-#endif//CASH_OVERFLOW_ERROR_HPP
+#endif
