@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <tl/expected.hpp>
+#include <fmt/format.h>
 
 #include "error.hpp"
 
@@ -43,7 +44,13 @@ public:
     }
     return Date(y, m, d);
   }
-
+  std::string toString() {
+    return fmt::format("{}-{}-{}", year, month, day);
+  }
+  friend std::ostream& operator<<(std::ostream& os, Date date) {
+    os << date.toString();
+    return os;
+  }
 private:
   Date(Year y, Month m, Day d) : year(y), month(m), day(d)
   {

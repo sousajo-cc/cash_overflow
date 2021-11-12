@@ -37,3 +37,10 @@ TEST(DateTest, DayOutOfRangeOnLeapYear)
   EXPECT_FALSE(Date::create(2000, 2, 30));
   EXPECT_FALSE(Date::create(2001, 2, 29));
 }
+
+TEST(DateTest, ToStringTest)
+{
+  auto date = Date::create(1988, 2, 3);
+  ASSERT_TRUE(date);
+  EXPECT_EQ(date.value().toString(), "1988-2-3");
+}
