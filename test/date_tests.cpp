@@ -44,3 +44,16 @@ TEST(DateTest, ToStringTest)
   ASSERT_TRUE(date);
   EXPECT_EQ(date.value().toString(), "1988-2-3");
 }
+
+TEST(DateTest, ComparisonTest)
+{
+  EXPECT_EQ(Date::create(1988, 2, 3).value(), Date::create(1988, 2, 3).value());
+  EXPECT_NE(Date::create(1988, 2, 3).value(), Date::create(1988, 2, 4).value());
+  EXPECT_NE(Date::create(1988, 2, 3).value(), Date::create(1988, 3, 3).value());
+  EXPECT_NE(Date::create(1988, 2, 3).value(), Date::create(1984, 2, 3).value());
+  EXPECT_GT(Date::create(1988, 2, 3).value(), Date::create(1984, 2, 3).value());
+  EXPECT_GE(Date::create(1988, 2, 3).value(), Date::create(1984, 2, 3).value());
+  EXPECT_LT(Date::create(1984, 2, 3).value(), Date::create(1988, 2, 3).value());
+  EXPECT_LE(Date::create(1984, 2, 3).value(), Date::create(1988, 2, 3).value());
+
+}

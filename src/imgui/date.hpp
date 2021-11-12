@@ -51,6 +51,7 @@ public:
     os << date.toString();
     return os;
   }
+  auto operator<=>(Date const&) const = default;
 private:
   Date(Year y, Month m, Day d) : year(y), month(m), day(d)
   {
