@@ -136,6 +136,18 @@ public:
 
   tl::expected<Date, Error> operator+(Day d)
   {
+    auto m_ = month;
+    auto y_ = year;
+    auto d_ = d;
+    while (d.value > m_.getNumberOfDays()){
+      d.value = d.value - m_.getNumberOfDays();
+      if (m_ == 12) {
+        m_ = 1;
+        y_ = y_ + 1;
+      } else {
+        m_ = m_ + Month{1};
+      }
+    }
     return Date::create(year, month, day.value + d.value);
   }
 
