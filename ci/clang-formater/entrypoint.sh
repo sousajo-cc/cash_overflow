@@ -29,7 +29,7 @@ function clang_file() {
 	
     log_ "Run running clang on ${1}"
     
-    local files=$(find ${1} -regex '.*\.\(cpp\|hpp\|h\|cc\|cxx\)'  | tr '\n' ' ') 
+    local files=$(find . -regex '.*\.\(cpp\|hpp\|h\|cc\|cxx\)'  | tr '\n' ' ') 
 
     
     /usr/bin/clang-format-${CLANG_FORMAT_VERSION} ${3} --style=file --fallback-style=${2} ${files} || local format_status=$?
