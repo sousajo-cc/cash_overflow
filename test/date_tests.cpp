@@ -62,3 +62,16 @@ TEST(DateTest, AddYearTest)
   EXPECT_EQ(Date::create(1988, 2, 3).value() + Year{3}, Date::create(1991, 2, 3).value());
   EXPECT_FALSE(Date::create(1988, 2, 29).value() + Year{1});
 }
+
+TEST(DateTest, AddMonthTest)
+{
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Month{3}, Date::create(1991, 2, 6).value());
+  EXPECT_FALSE(Date::create(1988, 1, 30).value() + Month{1});
+}
+
+TEST(DateTest, AddDayTest)
+{
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{3}, Date::create(1988, 2, 6).value());
+  EXPECT_FALSE(Date::create(1988, 2, 29).value() + Day{1});
+}
+

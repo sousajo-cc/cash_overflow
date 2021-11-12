@@ -7,9 +7,10 @@
 
 #include "error.hpp"
 
-struct Year {
-  Year(int v) : value{v} {}
-  auto operator<=>(Year const&) const = default;
+struct Year
+{
+  Year(int v) : value{ v } {}
+  auto operator<=>(Year const &) const = default;
   bool isLeapYear()
   {
     return value % 4 == 0 && !(value % 100 == 0 && (value % 400 != 0));
@@ -17,15 +18,17 @@ struct Year {
   int value{};
 };
 
-struct Month {
-  Month(int v) : value{v} {}
-  auto operator<=>(Month const&) const = default;
+struct Month
+{
+  Month(int v) : value{ v } {}
+  auto operator<=>(Month const &) const = default;
   int value{};
 };
 
-struct Day {
-  Day(int v) : value{v} {}
-  auto operator<=>(Day const&) const = default;
+struct Day
+{
+  Day(int v) : value{ v } {}
+  auto operator<=>(Day const &) const = default;
   int value{};
 };
 
@@ -62,17 +65,29 @@ public:
     }
     return Date(y, m, d);
   }
-  std::string toString() {
+  std::string toString()
+  {
     return fmt::format("{}-{}-{}", year.value, month.value, day.value);
   }
-  friend std::ostream& operator<<(std::ostream& os, Date date) {
+  friend std::ostream &operator<<(std::ostream &os, Date date)
+  {
     os << date.toString();
     return os;
   }
-  auto operator<=>(Date const&) const = default;
-  tl::expected<Date, Error> operator+(Year y) {
+  auto operator<=>(Date const &) const = default;
+  tl::expected<Date, Error> operator+(Year y)
+  {
     return Date::create(year.value + y.value, month, day);
   }
+  tl::expected<Date, Error> operator+(Month m)
+  {
+    return Date::create(year, month.value + m.value, day);
+  }
+  tl::expected<Date, Error> operator+(Day d)
+  {
+    return Date::create(year, month, day.value() + d.value());
+  }
+
 private:
   Date(Year y, Month m, Day d) : year(y), month(m), day(d)
   {
