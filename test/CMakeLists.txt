@@ -22,6 +22,7 @@ add_executable(
     hello_test.cpp
     table_builder_tests.cpp
     map_tests.cpp
+        date_tests.cpp
 )
 target_link_libraries(
     hello_test
