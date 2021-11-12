@@ -80,22 +80,20 @@ private:
 class Text
 {
 public:
-  Text(char const *text_) : text{ text_ } {}
-  Text(std::string text_) : text{ std::move(text_) } {}
-  Text(char const *text_, ImVec4 color_) : text{ text_ }, color{ color_ } {}
-  Text(std::string text_, ImVec4 color_) : text{ std::move(text_) }, color{ color_ } {}
-  std::string get_text() const
-  {
+  Text(char const* text_) : text{text_} {}
+  Text(std::string text_) : text{std::move(text_)} {}
+  Text(char const* text_, Color color_) : text{text_}, color{color_} {}
+  Text(std::string text_, Color color_) : text{std::move(text_)}, color{color_} {}
+  std::string get_text() const {
     return text;
   }
-  std::optional<ImVec4> get_color() const
-  {
+  std::optional<Color> get_color() const {
     return color;
   }
   void write() const
   {
     if (color) {
-      ImGui::TextColored(color.value(), "%s", text.c_str());
+      ImGui::TextColored(color.value().toImVec4(), "%s", text.c_str());
     } else {
       ImGui::Text("%s", text.c_str());
     }
@@ -103,7 +101,7 @@ public:
 
 private:
   std::string text{};
-  std::optional<ImVec4> color{};
+  std::optional<Color> color{};
 };
 
 class Table

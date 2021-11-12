@@ -1,6 +1,7 @@
 #include "colors.h"
 #include "imgui_raii_wrapper.h"
 #include "logger.hpp"
+#include "colors.h"
 
 #include <imgui-SFML.h>
 
@@ -8,8 +9,9 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 
-void draw_mockup_table()
-{
+using namespace colors;
+
+void draw_mockup_table() {
   using colors::Green;
   using colors::Red;
   using cash_overflow::error::Error;
