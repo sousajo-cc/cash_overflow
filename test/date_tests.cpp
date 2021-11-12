@@ -55,5 +55,4 @@ TEST(DateTest, ComparisonTest)
   EXPECT_GE(Date::create(1988, 2, 3).value(), Date::create(1984, 2, 3).value());
   EXPECT_LT(Date::create(1984, 2, 3).value(), Date::create(1988, 2, 3).value());
   EXPECT_LE(Date::create(1984, 2, 3).value(), Date::create(1988, 2, 3).value());
-
 }

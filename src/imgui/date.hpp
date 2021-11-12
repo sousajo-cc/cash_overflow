@@ -7,9 +7,27 @@
 
 #include "error.hpp"
 
-using Day = int;
-using Month = int;
-using Year = int;
+struct Year {
+  Year(int v) : value{v} {}
+  auto operator<=>(Year const&) const = default;
+  bool isLeapYear()
+  {
+    return value % 4 == 0 && !(value % 100 == 0 && (value % 400 != 0));
+  }
+  int value{};
+};
+
+struct Month {
+  Month(int v) : value{v} {}
+  auto operator<=>(Month const&) const = default;
+  int value{};
+};
+
+struct Day {
+  Day(int v) : value{v} {}
+  auto operator<=>(Day const&) const = default;
+  int value{};
+};
 
 class Date
 {
@@ -37,7 +55,7 @@ public:
     }
 
     if (m == 2) {
-      Day lastDay = isLeapYear(y) ? 29 : 28;
+      Day lastDay = y.isLeapYear() ? 29 : 28;
       if (d > lastDay) {
         return tl::make_unexpected("Day is out of range for selected Month");
       }
@@ -45,13 +63,14 @@ public:
     return Date(y, m, d);
   }
   std::string toString() {
-    return fmt::format("{}-{}-{}", year, month, day);
+    return fmt::format("{}-{}-{}", year.value, month.value, day.value);
   }
   friend std::ostream& operator<<(std::ostream& os, Date date) {
     os << date.toString();
     return os;
   }
   auto operator<=>(Date const&) const = default;
+//  Date operator+(Day d) {}
 private:
   Date(Year y, Month m, Day d) : year(y), month(m), day(d)
   {
@@ -60,10 +79,6 @@ private:
   Year year;
   Month month;
   Day day;
-  static bool isLeapYear(Year y)
-  {
-    return y % 4 == 0 && !(y % 100 == 0 && (y % 400 != 0));
-  }
 };
 
 // Date::create()
