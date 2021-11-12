@@ -32,9 +32,9 @@ public:
   {
     return value % 4 == 0 && !(value % 100 == 0 && (value % 400 != 0));
   }
-  [[nodiscard]] constexpr Day getNumberOfDays(Year const& year) const
+  [[nodiscard]] constexpr Day getNumberOfDays() const
   {
-    return Day{ year.isLeapYear() ? 366 : 365 };
+    return Day{ isLeapYear() ? 366 : 365 };
   }
 private:
   int value{};
@@ -48,7 +48,7 @@ public:
   [[nodiscard]] constexpr int getValue() const {
     return value;
   }
-  [[nodiscard]] constexpr Day getNumberOfDays(Year const& year)
+  [[nodiscard]] constexpr Day getNumberOfDays(Year const& year) const
   {
     switch (value) {
     case 11:
@@ -112,7 +112,7 @@ public:
     }
     return Date(y, m, d);
   }
-  std::string toString() const
+  [[nodiscard]] std::string toString() const
   {
     return fmt::format("{}-{}-{}", year.getValue(), month.getValue(), day.getValue());
   }
