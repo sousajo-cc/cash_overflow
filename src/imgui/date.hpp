@@ -516,4 +516,25 @@ private:
   Day day;
 };
 
+template<typename T>
+struct isDurationType : std::false_type {};
+
+template<typename T>
+constexpr bool isDuration = isDurationType<T>::value_type;
+
+template<>
+struct isDurationType<Day> : std::true_type {};
+
+template<>
+struct isDurationType<Week> : std::true_type {};
+
+template<>
+struct isDurationType<Month> : std::true_type {};
+
+template<>
+struct isDurationType<Year> : std::true_type {};
+
+template<typename T>
+concept Duration = isDurationType<T>::value;
+
 #endif// CASH_OVERFLOW_DATE_HPP
