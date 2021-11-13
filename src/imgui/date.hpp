@@ -40,173 +40,25 @@ inline std::string toString(DaysOfTheWeek d)
   }
 }
 
-class Day
+struct Day
 {
-public:
   [[nodiscard]] constexpr explicit Day(int v) : value{ v } {}
   [[nodiscard]] constexpr auto operator<=>(Day const &) const = default;
-  [[nodiscard]] constexpr int getValue() const
-  {
-    return value;
-  }
-  constexpr Day operator+(Day const &other) const
-  {
-    return Day{ value + other.value };
-  }
-  constexpr Day operator-(Day const &other) const
-  {
-    return Day{ value - other.value };
-  }
-  constexpr Day operator*(int factor) const
-  {
-    return Day{ factor * value };
-  }
-  friend constexpr Day operator*(int factor, Day const &day)
-  {
-    return day * factor;
-  }
-  constexpr Day operator/(int factor) const
-  {
-    return Day{ value / factor };
-  }
-  constexpr Day operator%(int factor) const
-  {
-    return Day{ value % factor };
-  }
-  constexpr Day &operator++()
-  {
-    ++value;
-    return *this;
-  }
-  constexpr Day const operator++(int)
-  {
-    Day const d = *this;
-    value++;
-    return d;
-  }
-  constexpr Day &operator--()
-  {
-    --value;
-    return *this;
-  }
-  constexpr Day const operator--(int)
-  {
-    Day const d = *this;
-    value--;
-    return d;
-  }
-  constexpr Day& operator+=(Day const& other) {
-    value += other.value;
-    return *this;
-  }
-  constexpr Day& operator-=(Day const& other) {
-    value -= other.value;
-    return *this;
-  }
-  constexpr Day& operator*=(int factor) {
-    value *= factor;
-    return *this;
-  }
-  constexpr Day& operator/=(int factor) {
-    value /= factor;
-    return *this;
-  }
-  constexpr Day& operator%=(int factor) {
-    value %= factor;
-    return *this;
-  }
-private:
   int value{};
 };
 
-class Week
+struct Week
 {
 public:
   [[nodiscard]] constexpr explicit Week(int v) : value{ v } {}
   [[nodiscard]] constexpr auto operator<=>(Week const &) const = default;
-  [[nodiscard]] constexpr int getValue() const
-  {
-    return value;
-  }
-  constexpr Week operator+(Week const &other) const
-  {
-    return Week{ value + other.value };
-  }
-  constexpr Week operator-(Week const &other) const
-  {
-    return Week{ value - other.value };
-  }
-  constexpr Week operator*(int factor) const
-  {
-    return Week{ factor * value };
-  }
-  friend constexpr Week operator*(int factor, Week const &day)
-  {
-    return day * factor;
-  }
-  constexpr Week operator/(int factor) const
-  {
-    return Week{ value / factor };
-  }
-  constexpr Week operator%(int factor) const
-  {
-    return Week{ value % factor };
-  }
-  constexpr Week &operator++()
-  {
-    ++value;
-    return *this;
-  }
-  constexpr Week const operator++(int)
-  {
-    Week const d = *this;
-    value++;
-    return d;
-  }
-  constexpr Week &operator--()
-  {
-    --value;
-    return *this;
-  }
-  constexpr Week const operator--(int)
-  {
-    Week const d = *this;
-    value--;
-    return d;
-  }
-  constexpr Week& operator+=(Week const& other) {
-    value += other.value;
-    return *this;
-  }
-  constexpr Week& operator-=(Week const& other) {
-    value -= other.value;
-    return *this;
-  }
-  constexpr Week& operator*=(int factor) {
-    value *= factor;
-    return *this;
-  }
-  constexpr Week& operator/=(int factor) {
-    value /= factor;
-    return *this;
-  }
-  constexpr Week& operator%=(int factor) {
-    value %= factor;
-    return *this;
-  }
-private:
   int value{};
 };
 
-class Year
+struct Year
 {
-public:
   [[nodiscard]] constexpr explicit Year(int v) : value{ v } {}
   [[nodiscard]] constexpr auto operator<=>(Year const &) const = default;
-  [[nodiscard]] constexpr int getValue() const
-  {
-    return value;
-  }
   [[nodiscard]] constexpr bool isLeapYear() const
   {
     return value % 4 == 0 && !(value % 100 == 0 && (value % 400 != 0));
@@ -215,85 +67,13 @@ public:
   {
     return Year{ isLeapYear() ? 366 : 365 };
   }
-  constexpr Year operator+(Year const &other) const
-  {
-    return Year{ value + other.value };
-  }
-  constexpr Year operator-(Year const &other) const
-  {
-    return Year{ value - other.value };
-  }
-  constexpr Year operator*(int factor) const
-  {
-    return Year{ factor * value };
-  }
-  friend constexpr Year operator*(int factor, Year const &Year)
-  {
-    return Year * factor;
-  }
-  constexpr Year operator/(int factor) const
-  {
-    return Year{ value / factor };
-  }
-  constexpr Year operator%(int factor) const
-  {
-    return Year{ value % factor };
-  }
-  constexpr Year &operator++()
-  {
-    ++value;
-    return *this;
-  }
-  constexpr Year const operator++(int)
-  {
-    Year const d = *this;
-    value++;
-    return d;
-  }
-  constexpr Year &operator--()
-  {
-    --value;
-    return *this;
-  }
-  constexpr Year const operator--(int)
-  {
-    Year const d = *this;
-    value--;
-    return d;
-  }
-  constexpr Year& operator+=(Year const& other) {
-    value += other.value;
-    return *this;
-  }
-  constexpr Year& operator-=(Year const& other) {
-    value -= other.value;
-    return *this;
-  }
-  constexpr Year& operator*=(int factor) {
-    value *= factor;
-    return *this;
-  }
-  constexpr Year& operator/=(int factor) {
-    value /= factor;
-    return *this;
-  }
-  constexpr Year& operator%=(int factor) {
-    value %= factor;
-    return *this;
-  }
-private:
   int value{};
 };
 
-class Month
+struct Month
 {
-public:
   [[nodiscard]] constexpr explicit Month(int v) : value{ v } {}
   [[nodiscard]] constexpr auto operator<=>(Month const &) const = default;
-  [[nodiscard]] constexpr int getValue() const
-  {
-    return value;
-  }
   [[nodiscard]] constexpr Day getNumberOfDays(Year const &year) const
   {
     switch (value) {
@@ -317,72 +97,6 @@ public:
       return Day{ 0 };
     }
   }
-  constexpr Month operator+(Month const &other) const
-  {
-    return Month{ value + other.value };
-  }
-  constexpr Month operator-(Month const &other) const
-  {
-    return Month{ value - other.value };
-  }
-  constexpr Month operator*(int factor) const
-  {
-    return Month{ factor * value };
-  }
-  friend constexpr Month operator*(int factor, Month const &Month)
-  {
-    return Month * factor;
-  }
-  constexpr Month operator/(int factor) const
-  {
-    return Month{ value / factor };
-  }
-  constexpr Month operator%(int factor) const
-  {
-    return Month{ value % factor };
-  }
-  constexpr Month &operator++()
-  {
-    ++value;
-    return *this;
-  }
-  constexpr Month const operator++(int)
-  {
-    Month const d = *this;
-    value++;
-    return d;
-  }
-  constexpr Month &operator--()
-  {
-    --value;
-    return *this;
-  }
-  constexpr Month const operator--(int)
-  {
-    Month const d = *this;
-    value--;
-    return d;
-  }
-  constexpr Month& operator+=(Month const& other) {
-    value += other.value;
-    return *this;
-  }
-  constexpr Month& operator-=(Month const& other) {
-    value -= other.value;
-    return *this;
-  }
-  constexpr Month& operator*=(int factor) {
-    value *= factor;
-    return *this;
-  }
-  constexpr Month& operator/=(int factor) {
-    value /= factor;
-    return *this;
-  }
-  constexpr Month& operator%=(int factor) {
-    value %= factor;
-    return *this;
-  }
   [[nodiscard]] constexpr Year toYears() const
   {
     return Year{ value / 12 };
@@ -391,11 +105,111 @@ public:
   {
     return value > 12;
   }
-
-private:
   int value{};
 };
 
+template<typename T>
+struct isDurationType : std::false_type {};
+
+template<typename T>
+constexpr bool isDuration = isDurationType<T>::value;
+
+template<>
+struct isDurationType<Day> : std::true_type {};
+
+template<>
+struct isDurationType<Week> : std::true_type {};
+
+template<>
+struct isDurationType<Month> : std::true_type {};
+
+template<>
+struct isDurationType<Year> : std::true_type {};
+
+template<typename T>
+concept Duration = isDuration<T>;
+
+template<Duration D>
+constexpr D operator+(D const &d1, D const &d2)
+{
+  return D{ d1.value + d2.value };
+}
+template<Duration D>
+constexpr D operator-(D const &d1, D const &d2)
+{
+  return D{ d1.value - d2.value };
+}
+template<Duration D>
+constexpr D operator*(D const &d, int factor)
+{
+  return D{ factor * d.value };
+}
+template<Duration D>
+constexpr D operator*(int factor, D const &day)
+{
+  return day * factor;
+}
+template<Duration D>
+constexpr D operator/(D const &d, int factor)
+{
+  return D{ d.value / factor };
+}
+template<Duration D>
+constexpr D operator%(D const &d, int factor)
+{
+  return D{ d.value % factor };
+}
+template<Duration D>
+constexpr D &operator++(D &d)
+{
+  ++d.value;
+  return d;
+}
+template<Duration D>
+constexpr D const operator++(D &d, int)
+{
+  D const previous = d;
+  d.value++;
+  return previous;
+}
+template<Duration D>
+constexpr D &operator--(D &d)
+{
+  --d.value;
+  return d;
+}
+template<Duration D>
+constexpr D const operator--(D &d, int)
+{
+  D const previous = d;
+  d.value--;
+  return previous;
+}
+template<Duration D>
+constexpr D& operator+=(D &d, D const& other) {
+  d.value += other.value;
+  return d;
+}
+template<Duration D>
+constexpr D& operator-=(D &d, D const& other) {
+  d.value -= other.value;
+  return d;
+}
+template<Duration D>
+constexpr D& operator*=(D &d, int factor) {
+  d.value *= factor;
+  return d;
+}
+template<Duration D>
+constexpr D& operator/=(D &d, int factor) {
+  d.value /= factor;
+  return d;
+}
+template<Duration D>
+constexpr D& operator%=(D &d, int factor) {
+  d.value %= factor;
+  return d;
+}
 
 class Date
 {
@@ -428,7 +242,7 @@ public:
 
   [[nodiscard]] std::string toString() const
   {
-    return fmt::format("{}-{}-{}", year.getValue(), month.getValue(), day.getValue());
+    return fmt::format("{}-{}-{}", year.value, month.value, day.value);
   }
 
   friend std::ostream &operator<<(std::ostream &os, Date const &date)
@@ -454,13 +268,13 @@ public:
       return Date::create(year, month + m, day);
     }
     Year yearsToAdd = m.toYears();
-    LOGGER.write(yearsToAdd.getValue(), LoggingLevel::DBG);
+    LOGGER.write(yearsToAdd.value, LoggingLevel::DBG);
 
     Month remainingMonths = m % 12;
-    LOGGER.write(remainingMonths.getValue(), LoggingLevel::DBG);
+    LOGGER.write(remainingMonths.value, LoggingLevel::DBG);
 
     Month monthsToAdd = month + remainingMonths;
-    LOGGER.write(monthsToAdd.getValue(), LoggingLevel::DBG);
+    LOGGER.write(monthsToAdd.value, LoggingLevel::DBG);
 
     if (monthsToAdd.isOverAYear()) {
       ++yearsToAdd;
@@ -476,18 +290,18 @@ public:
     auto y_ = year;
     auto d_ = day;
     while (d > m_.getNumberOfDays(y_)) {
-      d = Day{ d.getValue() - m_.getNumberOfDays(y_).getValue() };
-      if (m_.getValue() == 12) {
+      d = Day{ d.value - m_.getNumberOfDays(y_).value };
+      if (m_.value == 12) {
         m_ = Month{ 1 };
-        y_ = Year{ y_.getValue() + 1 };
+        y_ = Year{ y_.value + 1 };
       } else {
-        m_ = Month{ m_.getValue() + 1 };
+        m_ = Month{ m_.value + 1 };
       }
     }
-    d_ = Day{ d_.getValue() + d.getValue() };
+    d_ = Day{ d_.value + d.value };
     if (d_ > m_.getNumberOfDays(y_)) {
-      d_ = Day{ d_.getValue() - m_.getNumberOfDays(y_).getValue() };
-      m_ = Month{ m_.getValue() + 1 };
+      d_ = Day{ d_.value - m_.getNumberOfDays(y_).value };
+      m_ = Month{ m_.value + 1 };
     }
     return Date::create(y_, m_, d_);
   }
@@ -498,10 +312,10 @@ public:
   // https://www.tondering.dk/claus/cal/chrweek.php#calcdow
   std::string getWeekDay()
   {
-    auto a = (14 - month.getValue()) / 12;
-    auto y = year.getValue() - a;
-    auto m = month.getValue() + (12 * a) - 2;
-    auto d = (day.getValue() + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
+    auto a = (14 - month.value) / 12;
+    auto y = year.value - a;
+    auto m = month.value + (12 * a) - 2;
+    auto d = (day.value + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
     using LoggingLevel = cashoverflow::logging::LogLevel;
     auto &LOGGER = cashoverflow::logging::Logger::log(LoggingLevel::ERR);
     LOGGER.write(d, LoggingLevel::DBG);
@@ -515,26 +329,5 @@ private:
   Month month;
   Day day;
 };
-
-template<typename T>
-struct isDurationType : std::false_type {};
-
-template<typename T>
-constexpr bool isDuration = isDurationType<T>::value_type;
-
-template<>
-struct isDurationType<Day> : std::true_type {};
-
-template<>
-struct isDurationType<Week> : std::true_type {};
-
-template<>
-struct isDurationType<Month> : std::true_type {};
-
-template<>
-struct isDurationType<Year> : std::true_type {};
-
-template<typename T>
-concept Duration = isDurationType<T>::value;
 
 #endif// CASH_OVERFLOW_DATE_HPP
