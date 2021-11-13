@@ -18,7 +18,7 @@ enum class DaysOfTheWeek {
   Saturday,
 };
 
-std::string toString(DaysOfTheWeek d)
+inline std::string toString(DaysOfTheWeek d)
 {
   switch (d) {
   case DaysOfTheWeek::Sunday:
