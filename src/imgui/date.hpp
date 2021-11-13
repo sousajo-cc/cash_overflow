@@ -84,7 +84,37 @@ public:
     value++;
     return d;
   }
-
+  constexpr Day &operator--()
+  {
+    --value;
+    return *this;
+  }
+  constexpr Day const operator--(int)
+  {
+    Day const d = *this;
+    value--;
+    return d;
+  }
+  constexpr Day& operator+=(Day const& other) {
+    value += other.value;
+    return *this;
+  }
+  constexpr Day& operator-=(Day const& other) {
+    value -= other.value;
+    return *this;
+  }
+  constexpr Day& operator*=(int factor) {
+    value *= factor;
+    return *this;
+  }
+  constexpr Day& operator/=(int factor) {
+    value /= factor;
+    return *this;
+  }
+  constexpr Day& operator%=(int factor) {
+    value %= factor;
+    return *this;
+  }
 private:
   int value{};
 };
@@ -141,7 +171,37 @@ public:
     value++;
     return d;
   }
-
+  constexpr Year &operator--()
+  {
+    --value;
+    return *this;
+  }
+  constexpr Year const operator--(int)
+  {
+    Year const d = *this;
+    value--;
+    return d;
+  }
+  constexpr Year& operator+=(Year const& other) {
+    value += other.value;
+    return *this;
+  }
+  constexpr Year& operator-=(Year const& other) {
+    value -= other.value;
+    return *this;
+  }
+  constexpr Year& operator*=(int factor) {
+    value *= factor;
+    return *this;
+  }
+  constexpr Year& operator/=(int factor) {
+    value /= factor;
+    return *this;
+  }
+  constexpr Year& operator%=(int factor) {
+    value %= factor;
+    return *this;
+  }
 private:
   int value{};
 };
@@ -212,6 +272,37 @@ public:
     Month const d = *this;
     value++;
     return d;
+  }
+  constexpr Month &operator--()
+  {
+    --value;
+    return *this;
+  }
+  constexpr Month const operator--(int)
+  {
+    Month const d = *this;
+    value--;
+    return d;
+  }
+  constexpr Month& operator+=(Month const& other) {
+    value += other.value;
+    return *this;
+  }
+  constexpr Month& operator-=(Month const& other) {
+    value -= other.value;
+    return *this;
+  }
+  constexpr Month& operator*=(int factor) {
+    value *= factor;
+    return *this;
+  }
+  constexpr Month& operator/=(int factor) {
+    value /= factor;
+    return *this;
+  }
+  constexpr Month& operator%=(int factor) {
+    value %= factor;
+    return *this;
   }
   [[nodiscard]] constexpr Year toYears() const
   {
