@@ -4,50 +4,50 @@
 
 TEST(YearTest, ArithmeticTest)
 {
-  Year y{3};
-  Year const z{68};
-  EXPECT_EQ(y + z,Year{71});
-  EXPECT_EQ(y - z,Year{-65});
-  EXPECT_EQ(3 * y,Year{9});
-  EXPECT_EQ(y * 3,Year{9});
-  EXPECT_EQ(y / 2,Year{1});
-  EXPECT_EQ(y % 2,Year{1});
+  Year y{ 3 };
+  Year const z{ 68 };
+  EXPECT_EQ(y + z, Year{ 71 });
+  EXPECT_EQ(y - z, Year{ -65 });
+  EXPECT_EQ(3 * y, Year{ 9 });
+  EXPECT_EQ(y * 3, Year{ 9 });
+  EXPECT_EQ(y / 2, Year{ 1 });
+  EXPECT_EQ(y % 2, Year{ 1 });
   ++y;
-  EXPECT_EQ(++y,Year{5});
+  EXPECT_EQ(++y, Year{ 5 });
   y++;
-  EXPECT_EQ(y++,Year{6});
+  EXPECT_EQ(y++, Year{ 6 });
 }
 
 TEST(MonthTest, ArithmeticTest)
 {
-  Month m{3};
-  Month const n{68};
-  EXPECT_EQ(m + n,Month{71});
-  EXPECT_EQ(m - n,Month{-65});
-  EXPECT_EQ(3* m,Month{9});
-  EXPECT_EQ(m *3,Month{9});
-  EXPECT_EQ(m / 2,Month{1});
-  EXPECT_EQ(m % 2,Month{1});
+  Month m{ 3 };
+  Month const n{ 68 };
+  EXPECT_EQ(m + n, Month{ 71 });
+  EXPECT_EQ(m - n, Month{ -65 });
+  EXPECT_EQ(3 * m, Month{ 9 });
+  EXPECT_EQ(m * 3, Month{ 9 });
+  EXPECT_EQ(m / 2, Month{ 1 });
+  EXPECT_EQ(m % 2, Month{ 1 });
   ++m;
-  EXPECT_EQ(++m,Month{5});
+  EXPECT_EQ(++m, Month{ 5 });
   m++;
-  EXPECT_EQ(m++,Month{6});
+  EXPECT_EQ(m++, Month{ 6 });
 }
 
 TEST(DayTest, ArithmeticTest)
 {
-  Day d{3};
-  Day const e{68};
-  EXPECT_EQ(d+e,Day{71});
-  EXPECT_EQ(d-e,Day{-65});
-  EXPECT_EQ(3*d,Day{9});
-  EXPECT_EQ(d*3,Day{9});
-  EXPECT_EQ(d / 2,Day{1});
-  EXPECT_EQ(d % 2,Day{1});
+  Day d{ 3 };
+  Day const e{ 68 };
+  EXPECT_EQ(d + e, Day{ 71 });
+  EXPECT_EQ(d - e, Day{ -65 });
+  EXPECT_EQ(3 * d, Day{ 9 });
+  EXPECT_EQ(d * 3, Day{ 9 });
+  EXPECT_EQ(d / 2, Day{ 1 });
+  EXPECT_EQ(d % 2, Day{ 1 });
   ++d;
-  EXPECT_EQ(++d,Day{5});
+  EXPECT_EQ(++d, Day{ 5 });
   d++;
-  EXPECT_EQ(d++,Day{6});
+  EXPECT_EQ(d++, Day{ 6 });
 }
 
 TEST(DateTest, YearOutOfRange)
@@ -108,23 +108,32 @@ TEST(DateTest, ComparisonTest)
 
 TEST(DateTest, AddYearTest)
 {
-  EXPECT_EQ(Date::create(1988, 2, 3).value() + Year{3}, Date::create(1991, 2, 3).value());
-  EXPECT_FALSE(Date::create(1988, 2, 29).value() + Year{1});
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Year{ 3 }, Date::create(1991, 2, 3).value());
+  EXPECT_FALSE(Date::create(1988, 2, 29).value() + Year{ 1 });
 }
 
 TEST(DateTest, AddMonthTest)
 {
-  EXPECT_EQ(Date::create(1988, 2, 3).value() + Month{3}, Date::create(1988, 5, 3).value());
-  EXPECT_EQ(Date::create(1988, 2, 3).value() + Month{13}, Date::create(1989, 3, 3).value());
-  EXPECT_EQ(Date::create(1988, 2, 3).value() + Month{23}, Date::create(1990, 1, 3).value());
-  EXPECT_FALSE(Date::create(1988, 2, 29).value() + Month{12});
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Month{ 3 }, Date::create(1988, 5, 3).value());
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Month{ 13 }, Date::create(1989, 3, 3).value());
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Month{ 23 }, Date::create(1990, 1, 3).value());
+  EXPECT_FALSE(Date::create(1988, 2, 29).value() + Month{ 12 });
 }
 
 TEST(DateTest, AddDayTest)
 {
-  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{3}, Date::create(1988, 2, 6).value());
-  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{30}, Date::create(1988, 3, 4).value());
-  EXPECT_EQ(Date::create(1989, 2, 3).value() + Day{30}, Date::create(1989, 3, 5).value());
-  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{365}, Date::create(1989, 2, 2).value());
-  EXPECT_EQ(Date::create(1989, 2, 3).value() + Day{365}, Date::create(1990, 2, 3).value());
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{ 3 }, Date::create(1988, 2, 6).value());
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{ 30 }, Date::create(1988, 3, 4).value());
+  EXPECT_EQ(Date::create(1989, 2, 3).value() + Day{ 30 }, Date::create(1989, 3, 5).value());
+  EXPECT_EQ(Date::create(1988, 2, 3).value() + Day{ 365 }, Date::create(1989, 2, 2).value());
+  EXPECT_EQ(Date::create(1989, 2, 3).value() + Day{ 365 }, Date::create(1990, 2, 3).value());
+}
+
+TEST(DateTest, GetWeekDayTest)
+{
+  EXPECT_EQ(Date::create(1989, 2, 3).value().getWeekDay(), "Friday");
+  EXPECT_EQ(Date::create(1988, 2, 3).value().getWeekDay(), "Wednesday");
+  EXPECT_EQ(Date::create(2021, 11, 13).value().getWeekDay(), "Saturday");
+  EXPECT_EQ(Date::create(2021, 11, 12).value().getWeekDay(), "Friday");
+  EXPECT_EQ(Date::create(2022, 07, 13).value().getWeekDay(), "Wednesday");
 }

@@ -8,6 +8,38 @@
 #include "error.hpp"
 #include "logger.hpp"
 
+enum class DaysOfTheWeek {
+  Sunday,
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
+};
+
+std::string toString(DaysOfTheWeek d)
+{
+  switch (d) {
+  case DaysOfTheWeek::Sunday:
+    return "Sunday";
+  case DaysOfTheWeek::Monday:
+    return "Monday";
+  case DaysOfTheWeek::Tuesday:
+    return "Tuesday";
+  case DaysOfTheWeek::Wednesday:
+    return "Wednesday";
+  case DaysOfTheWeek::Thursday:
+    return "Thursday";
+  case DaysOfTheWeek::Friday:
+    return "Friday";
+  case DaysOfTheWeek::Saturday:
+    return "Saturday";
+  default:
+    return "";
+  }
+}
+
 class Day
 {
 public:
@@ -203,6 +235,7 @@ public:
   {
     return create(Year{ y }, Month{ m }, Day{ d });
   }
+
   static tl::expected<Date, Error> create(Year y, Month m, Day d)
   {
     if (y < Year{ 1970 }) {
@@ -222,20 +255,25 @@ public:
 
     return Date(y, m, d);
   }
+
   [[nodiscard]] std::string toString() const
   {
     return fmt::format("{}-{}-{}", year.getValue(), month.getValue(), day.getValue());
   }
+
   friend std::ostream &operator<<(std::ostream &os, Date const &date)
   {
     os << date.toString();
     return os;
   }
+
   auto operator<=>(Date const &) const = default;
+
   tl::expected<Date, Error> operator+(Year const &y) const
   {
     return Date::create(year + y, month, day);
   }
+
   tl::expected<Date, Error> operator+(Month const &m) const
   {
     using LoggingLevel = cashoverflow::logging::LogLevel;
@@ -282,6 +320,23 @@ public:
       m_ = Month{ m_.getValue() + 1 };
     }
     return Date::create(y_, m_, d_);
+  }
+
+  // the website design is so bad that we are assuming
+  // that everything stated there is true
+  // including the algorithm to find the weekday
+  // https://www.tondering.dk/claus/cal/chrweek.php#calcdow
+  std::string getWeekDay()
+  {
+    auto a = (14 - month.getValue()) / 12;
+    auto y = year.getValue() - a;
+    auto m = month.getValue() + (12 * a) - 2;
+    auto d = (day.getValue() + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
+    using LoggingLevel = cashoverflow::logging::LogLevel;
+    auto &LOGGER = cashoverflow::logging::Logger::log(LoggingLevel::ERR);
+    LOGGER.write(d, LoggingLevel::DBG);
+    auto d_ = static_cast<DaysOfTheWeek>(d);
+    return ::toString(d_);
   }
 
 private:
