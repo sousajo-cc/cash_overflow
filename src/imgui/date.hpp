@@ -119,6 +119,85 @@ private:
   int value{};
 };
 
+class Week
+{
+public:
+  [[nodiscard]] constexpr explicit Week(int v) : value{ v } {}
+  [[nodiscard]] constexpr auto operator<=>(Week const &) const = default;
+  [[nodiscard]] constexpr int getValue() const
+  {
+    return value;
+  }
+  constexpr Week operator+(Week const &other) const
+  {
+    return Week{ value + other.value };
+  }
+  constexpr Week operator-(Week const &other) const
+  {
+    return Week{ value - other.value };
+  }
+  constexpr Week operator*(int factor) const
+  {
+    return Week{ factor * value };
+  }
+  friend constexpr Week operator*(int factor, Week const &day)
+  {
+    return day * factor;
+  }
+  constexpr Week operator/(int factor) const
+  {
+    return Week{ value / factor };
+  }
+  constexpr Week operator%(int factor) const
+  {
+    return Week{ value % factor };
+  }
+  constexpr Week &operator++()
+  {
+    ++value;
+    return *this;
+  }
+  constexpr Week const operator++(int)
+  {
+    Week const d = *this;
+    value++;
+    return d;
+  }
+  constexpr Week &operator--()
+  {
+    --value;
+    return *this;
+  }
+  constexpr Week const operator--(int)
+  {
+    Week const d = *this;
+    value--;
+    return d;
+  }
+  constexpr Week& operator+=(Week const& other) {
+    value += other.value;
+    return *this;
+  }
+  constexpr Week& operator-=(Week const& other) {
+    value -= other.value;
+    return *this;
+  }
+  constexpr Week& operator*=(int factor) {
+    value *= factor;
+    return *this;
+  }
+  constexpr Week& operator/=(int factor) {
+    value /= factor;
+    return *this;
+  }
+  constexpr Week& operator%=(int factor) {
+    value %= factor;
+    return *this;
+  }
+private:
+  int value{};
+};
+
 class Year
 {
 public:
