@@ -10,7 +10,8 @@ struct Error
   Error(std::string m) : message{ m } {}
   Error(const char *m) : message{ m } {}
   std::string message;
-  friend std::ostream& operator<<(std::ostream& os, Error const& e) {
+  friend std::ostream &operator<<(std::ostream &os, Error const &e)
+  {
     os << e.message;
     return os;
   }

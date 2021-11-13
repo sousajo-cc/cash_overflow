@@ -24,7 +24,8 @@ auto map(Container<In> const &input, F f) -> Container<decltype(f(input[0]))>
 // WARNING: ignore this if you're starting to learn C++ now
 // makes sure a type is printable
 template<typename T>
-concept Printable = requires (T t) {
+concept Printable = requires(T t)
+{
   std::cout << t << std::endl;
 };
 
@@ -34,7 +35,8 @@ concept Printable = requires (T t) {
 // makes tl::expected printable if the value type and error type are printable
 // great for making sense of GTest result
 template<cash_overflow::utils::Printable V, cash_overflow::utils::Printable E>
-std::ostream& operator<<(std::ostream& os, tl::expected<V, E> const& expected) {
+std::ostream &operator<<(std::ostream &os, tl::expected<V, E> const &expected)
+{
   if (expected) {
     os << expected.value();
   } else {
