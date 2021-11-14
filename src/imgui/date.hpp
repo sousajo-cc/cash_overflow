@@ -42,41 +42,41 @@ inline std::string toString(DaysOfTheWeek d)
 
 struct Day
 {
-  [[nodiscard]] constexpr explicit Day(int v) : value{ v } {}
+  [[nodiscard]] constexpr explicit Day(int v) : durationValue{ v } {}
   [[nodiscard]] constexpr auto operator<=>(Day const &) const = default;
-  int value{};
+  int durationValue{};
 };
 
 struct Week
 {
 public:
-  [[nodiscard]] constexpr explicit Week(int v) : value{ v } {}
+  [[nodiscard]] constexpr explicit Week(int v) : durationValue{ v } {}
   [[nodiscard]] constexpr auto operator<=>(Week const &) const = default;
-  int value{};
+  int durationValue{};
 };
 
 struct Year
 {
-  [[nodiscard]] constexpr explicit Year(int v) : value{ v } {}
+  [[nodiscard]] constexpr explicit Year(int v) : durationValue{ v } {}
   [[nodiscard]] constexpr auto operator<=>(Year const &) const = default;
   [[nodiscard]] constexpr bool isLeapYear() const
   {
-    return value % 4 == 0 && !(value % 100 == 0 && (value % 400 != 0));
+    return durationValue % 4 == 0 && !(durationValue % 100 == 0 && (durationValue % 400 != 0));
   }
   [[nodiscard]] constexpr Year getNumberOfDays() const
   {
     return Year{ isLeapYear() ? 366 : 365 };
   }
-  int value{};
+  int durationValue{};
 };
 
 struct Month
 {
-  [[nodiscard]] constexpr explicit Month(int v) : value{ v } {}
+  [[nodiscard]] constexpr explicit Month(int v) : durationValue{ v } {}
   [[nodiscard]] constexpr auto operator<=>(Month const &) const = default;
   [[nodiscard]] constexpr Day getNumberOfDays(Year const &year) const
   {
-    switch (value) {
+    switch (durationValue) {
     case 11:
     case 4:
     case 6:
@@ -99,50 +99,35 @@ struct Month
   }
   [[nodiscard]] constexpr Year toYears() const
   {
-    return Year{ value / 12 };
+    return Year{ durationValue / 12 };
   }
   constexpr bool isOverAYear() const
   {
-    return value > 12;
+    return durationValue > 12;
   }
-  int value{};
+  int durationValue{};
 };
 
 template<typename T>
-struct isDurationType : std::false_type {};
-
-template<typename T>
-constexpr bool isDuration = isDurationType<T>::value;
-
-template<>
-struct isDurationType<Day> : std::true_type {};
-
-template<>
-struct isDurationType<Week> : std::true_type {};
-
-template<>
-struct isDurationType<Month> : std::true_type {};
-
-template<>
-struct isDurationType<Year> : std::true_type {};
-
-template<typename T>
-concept Duration = isDuration<T>;
+concept Duration = requires(T c)
+{
+  c.durationValue;
+};
 
 template<Duration D>
 constexpr D operator+(D const &d1, D const &d2)
 {
-  return D{ d1.value + d2.value };
+  return D{ d1.durationValue + d2.durationValue };
 }
 template<Duration D>
 constexpr D operator-(D const &d1, D const &d2)
 {
-  return D{ d1.value - d2.value };
+  return D{ d1.durationValue - d2.durationValue };
 }
 template<Duration D>
 constexpr D operator*(D const &d, int factor)
 {
-  return D{ factor * d.value };
+  return D{ factor * d.durationValue };
 }
 template<Duration D>
 constexpr D operator*(int factor, D const &day)
@@ -152,62 +137,67 @@ constexpr D operator*(int factor, D const &day)
 template<Duration D>
 constexpr D operator/(D const &d, int factor)
 {
-  return D{ d.value / factor };
+  return D{ d.durationValue / factor };
 }
 template<Duration D>
 constexpr D operator%(D const &d, int factor)
 {
-  return D{ d.value % factor };
+  return D{ d.durationValue % factor };
 }
 template<Duration D>
 constexpr D &operator++(D &d)
 {
-  ++d.value;
+  ++d.durationValue;
   return d;
 }
 template<Duration D>
 constexpr D const operator++(D &d, int)
 {
   D const previous = d;
-  d.value++;
+  d.durationValue++;
   return previous;
 }
 template<Duration D>
 constexpr D &operator--(D &d)
 {
-  --d.value;
+  --d.durationValue;
   return d;
 }
 template<Duration D>
 constexpr D const operator--(D &d, int)
 {
   D const previous = d;
-  d.value--;
+  d.durationValue--;
   return previous;
 }
 template<Duration D>
-constexpr D& operator+=(D &d, D const& other) {
-  d.value += other.value;
+constexpr D &operator+=(D &d, D const &other)
+{
+  d.durationValue += other.durationValue;
   return d;
 }
 template<Duration D>
-constexpr D& operator-=(D &d, D const& other) {
-  d.value -= other.value;
+constexpr D &operator-=(D &d, D const &other)
+{
+  d.durationValue -= other.durationValue;
   return d;
 }
 template<Duration D>
-constexpr D& operator*=(D &d, int factor) {
-  d.value *= factor;
+constexpr D &operator*=(D &d, int factor)
+{
+  d.durationValue *= factor;
   return d;
 }
 template<Duration D>
-constexpr D& operator/=(D &d, int factor) {
-  d.value /= factor;
+constexpr D &operator/=(D &d, int factor)
+{
+  d.durationValue /= factor;
   return d;
 }
 template<Duration D>
-constexpr D& operator%=(D &d, int factor) {
-  d.value %= factor;
+constexpr D &operator%=(D &d, int factor)
+{
+  d.durationValue %= factor;
   return d;
 }
 
@@ -242,7 +232,7 @@ public:
 
   [[nodiscard]] std::string toString() const
   {
-    return fmt::format("{}-{}-{}", year.value, month.value, day.value);
+    return fmt::format("{}-{}-{}", year.durationValue, month.durationValue, day.durationValue);
   }
 
   friend std::ostream &operator<<(std::ostream &os, Date const &date)
@@ -268,13 +258,13 @@ public:
       return Date::create(year, month + m, day);
     }
     Year yearsToAdd = m.toYears();
-    LOGGER.write(yearsToAdd.value, LoggingLevel::DBG);
+    LOGGER.write(yearsToAdd.durationValue, LoggingLevel::DBG);
 
     Month remainingMonths = m % 12;
-    LOGGER.write(remainingMonths.value, LoggingLevel::DBG);
+    LOGGER.write(remainingMonths.durationValue, LoggingLevel::DBG);
 
     Month monthsToAdd = month + remainingMonths;
-    LOGGER.write(monthsToAdd.value, LoggingLevel::DBG);
+    LOGGER.write(monthsToAdd.durationValue, LoggingLevel::DBG);
 
     if (monthsToAdd.isOverAYear()) {
       ++yearsToAdd;
@@ -290,18 +280,18 @@ public:
     auto y_ = year;
     auto d_ = day;
     while (d > m_.getNumberOfDays(y_)) {
-      d = Day{ d.value - m_.getNumberOfDays(y_).value };
-      if (m_.value == 12) {
+      d = Day{ d.durationValue - m_.getNumberOfDays(y_).durationValue };
+      if (m_.durationValue == 12) {
         m_ = Month{ 1 };
-        y_ = Year{ y_.value + 1 };
+        y_ = Year{ y_.durationValue + 1 };
       } else {
-        m_ = Month{ m_.value + 1 };
+        m_ = Month{ m_.durationValue + 1 };
       }
     }
-    d_ = Day{ d_.value + d.value };
+    d_ = Day{ d_.durationValue + d.durationValue };
     if (d_ > m_.getNumberOfDays(y_)) {
-      d_ = Day{ d_.value - m_.getNumberOfDays(y_).value };
-      m_ = Month{ m_.value + 1 };
+      d_ = Day{ d_.durationValue - m_.getNumberOfDays(y_).durationValue };
+      m_ = Month{ m_.durationValue + 1 };
     }
     return Date::create(y_, m_, d_);
   }
@@ -312,10 +302,10 @@ public:
   // https://www.tondering.dk/claus/cal/chrweek.php#calcdow
   std::string getWeekDay()
   {
-    auto a = (14 - month.value) / 12;
-    auto y = year.value - a;
-    auto m = month.value + (12 * a) - 2;
-    auto d = (day.value + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
+    auto a = (14 - month.durationValue) / 12;
+    auto y = year.durationValue - a;
+    auto m = month.durationValue + (12 * a) - 2;
+    auto d = (day.durationValue + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
     using LoggingLevel = cashoverflow::logging::LogLevel;
     auto &LOGGER = cashoverflow::logging::Logger::log(LoggingLevel::ERR);
     LOGGER.write(d, LoggingLevel::DBG);

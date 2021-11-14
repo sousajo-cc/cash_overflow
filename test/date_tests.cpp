@@ -20,10 +20,10 @@ TEST(YearTest, ArithmeticTest)
   EXPECT_EQ(--y, Year{ 5 });
   y--;
   EXPECT_EQ(y--, Year{ 4 });
-  EXPECT_EQ(y+=Year{2}, Year{ 5 });
-  EXPECT_EQ(y-=Year{1}, Year{ 4 });
-  EXPECT_EQ(y*=3, Year{ 12 });
-  EXPECT_EQ(y/=4, Year{ 3 });
+  EXPECT_EQ(y += Year{ 2 }, Year{ 5 });
+  EXPECT_EQ(y -= Year{ 1 }, Year{ 4 });
+  EXPECT_EQ(y *= 3, Year{ 12 });
+  EXPECT_EQ(y /= 4, Year{ 3 });
 }
 
 TEST(MonthTest, ArithmeticTest)
@@ -44,10 +44,10 @@ TEST(MonthTest, ArithmeticTest)
   EXPECT_EQ(--m, Month{ 5 });
   m--;
   EXPECT_EQ(m--, Month{ 4 });
-  EXPECT_EQ(m+=Month{2}, Month{ 5 });
-  EXPECT_EQ(m-=Month{1}, Month{ 4 });
-  EXPECT_EQ(m*=3, Month{ 12 });
-  EXPECT_EQ(m/=4, Month{ 3 });
+  EXPECT_EQ(m += Month{ 2 }, Month{ 5 });
+  EXPECT_EQ(m -= Month{ 1 }, Month{ 4 });
+  EXPECT_EQ(m *= 3, Month{ 12 });
+  EXPECT_EQ(m /= 4, Month{ 3 });
 }
 
 TEST(WeekTest, ArithmeticTest)
@@ -68,10 +68,10 @@ TEST(WeekTest, ArithmeticTest)
   EXPECT_EQ(--w, Week{ 5 });
   w--;
   EXPECT_EQ(w--, Week{ 4 });
-  EXPECT_EQ(w +=Week{2}, Week{ 5 });
-  EXPECT_EQ(w -=Week{1}, Week{ 4 });
-  EXPECT_EQ(w *=3, Week{ 12 });
-  EXPECT_EQ(w /=4, Week{ 3 });
+  EXPECT_EQ(w += Week{ 2 }, Week{ 5 });
+  EXPECT_EQ(w -= Week{ 1 }, Week{ 4 });
+  EXPECT_EQ(w *= 3, Week{ 12 });
+  EXPECT_EQ(w /= 4, Week{ 3 });
 }
 
 TEST(DayTest, ArithmeticTest)
@@ -92,10 +92,10 @@ TEST(DayTest, ArithmeticTest)
   EXPECT_EQ(--d, Day{ 5 });
   d--;
   EXPECT_EQ(d--, Day{ 4 });
-  EXPECT_EQ(d+=Day{2}, Day{ 5 });
-  EXPECT_EQ(d-=Day{1}, Day{ 4 });
-  EXPECT_EQ(d*=3, Day{ 12 });
-  EXPECT_EQ(d/=4, Day{ 3 });
+  EXPECT_EQ(d += Day{ 2 }, Day{ 5 });
+  EXPECT_EQ(d -= Day{ 1 }, Day{ 4 });
+  EXPECT_EQ(d *= 3, Day{ 12 });
+  EXPECT_EQ(d /= 4, Day{ 3 });
 }
 
 TEST(DateTest, YearOutOfRange)
