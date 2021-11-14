@@ -3,7 +3,7 @@
 
 #include <tl/expected.hpp>
 
-#include <algorithm>
+#include <ranges>
 #include <concepts>
 
 namespace cash_overflow::utils {
@@ -11,13 +11,13 @@ namespace cash_overflow::utils {
 // WARNING: ignore this if you're starting to learn C++ now
 // applies a function to every element on a vector
 // refer to the tests for usage examples
-template<typename In, std::invocable<In> F, template<typename> typename Container>
-auto map(Container<In> const &input, F f) -> Container<decltype(f(input[0]))>
+auto map(std::ranges::range auto const &input, auto f)
 {
   using Out = decltype(f(input[0]));
-  Container<Out> output;
-  output.resize(input.size());
-  std::transform(input.begin(), input.end(), output.begin(), f);
+  std::vector<Out> output{};
+  for (auto val : input | std::ranges::views::transform(f)) {
+    output.push_back(val);
+  }
   return output;
 }
 
