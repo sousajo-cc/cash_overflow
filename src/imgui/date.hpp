@@ -102,7 +102,7 @@ struct Month
   {
     return Year{ durationValue / 12 };
   }
-  constexpr bool isOverAYear() const
+  [[nodiscard]] constexpr bool isOverAYear() const
   {
     return durationValue > 12;
   }
@@ -309,7 +309,7 @@ public:
   // that everything stated there is true
   // including the algorithm to find the weekday
   // https://www.tondering.dk/claus/cal/chrweek.php#calcdow
-  std::string getWeekDay()
+  [[nodiscard]] std::string getWeekDay() const
   {
     auto a = (14 - month.durationValue) / 12;
     auto y = year.durationValue - a;
@@ -321,7 +321,7 @@ public:
     auto d_ = static_cast<DaysOfTheWeek>(d);
     return cash_overflow::date::toString(d_);
   }
-  std::string getMonthName() const
+  [[nodiscard]] std::string getMonthName() const
   {
     switch (month.durationValue) {
     case 11:
@@ -367,7 +367,7 @@ public:
     return os;
   }
 
-  Day daysSinceStartOfThisYear() const {
+  [[nodiscard]] Day daysSinceStartOfThisYear() const {
     Day result{0};
     for (Month m{1}; m < month; ++m) {
       result += m.getNumberOfDays(year);
