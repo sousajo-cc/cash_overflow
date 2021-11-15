@@ -2,6 +2,12 @@
 #include "../src/imgui/date.hpp"
 #include "../src/imgui/util.hpp"
 
+using cash_overflow::date::Day;
+using cash_overflow::date::Week;
+using cash_overflow::date::Month;
+using cash_overflow::date::Year;
+using cash_overflow::date::Date;
+
 TEST(YearTest, ArithmeticTest)
 {
   Year y{ 3 };

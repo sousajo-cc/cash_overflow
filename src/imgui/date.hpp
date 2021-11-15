@@ -110,12 +110,11 @@ struct Month
 };
 }// namespace cash_overflow::date
 
-using Day = cash_overflow::date::Day;
-using Week = cash_overflow::date::Week;
-using Month = cash_overflow::date::Month;
-using Year = cash_overflow::date::Year;
 template<typename T>
-concept Duration = std::is_same_v<T, Day> || std::is_same_v<T, Week> || std::is_same_v<T, Month> || std::is_same_v<T, Year>;
+concept Duration = std::is_same_v<T, cash_overflow::date::Day> ||
+                            std::is_same_v<T, cash_overflow::date::Week> ||
+                            std::is_same_v<T, cash_overflow::date::Month> ||
+                            std::is_same_v<T, cash_overflow::date::Year>;
 
 template<Duration D>
 constexpr D operator+(D const &d1, D const &d2)
@@ -397,6 +396,5 @@ private:
   }
 };
 }// namespace cash_overflow::date
-using Date = cash_overflow::date::Date;
 
 #endif// CASH_OVERFLOW_DATE_HPP
