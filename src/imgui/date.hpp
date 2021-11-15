@@ -109,10 +109,7 @@ struct Month
 };
 
 template<typename T>
-concept Duration = requires(T c)
-{
-  c.durationValue;
-};
+concept Duration = std::is_same_v<T, Day> || std::is_same_v<T, Week> || std::is_same_v<T, Month> || std::is_same_v<T, Year>;
 
 template<Duration D>
 constexpr D operator+(D const &d1, D const &d2)
@@ -312,7 +309,37 @@ public:
     auto d_ = static_cast<DaysOfTheWeek>(d);
     return ::toString(d_);
   }
-
+  std::string getMonthName() const
+  {
+    switch (month.durationValue) {
+    case 11:
+      return "November";
+    case 4:
+      return "April";
+    case 6:
+      return "June";
+    case 9:
+      return "September";
+    case 12:
+      return "December";
+    case 10:
+      return "October";
+    case 8:
+      return "August";
+    case 7:
+      return "July";
+    case 5:
+      return "May";
+    case 3:
+      return "March";
+    case 1:
+      return "January";
+    case 2:
+      return "February";
+    default:
+      return "Onzember";
+    }
+  }
 private:
   Date(Year y, Month m, Day d) : year(y), month(m), day(d) {}
   Year year;
