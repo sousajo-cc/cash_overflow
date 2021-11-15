@@ -8,6 +8,7 @@
 #include "error.hpp"
 #include "logger.hpp"
 
+namespace cash_overflow::date {
 enum class DaysOfTheWeek {
   Sunday,
   Monday,
@@ -107,7 +108,12 @@ struct Month
   }
   int durationValue{};
 };
+}// namespace cash_overflow::date
 
+using Day = cash_overflow::date::Day;
+using Week = cash_overflow::date::Week;
+using Month = cash_overflow::date::Month;
+using Year = cash_overflow::date::Year;
 template<typename T>
 concept Duration = std::is_same_v<T, Day> || std::is_same_v<T, Week> || std::is_same_v<T, Month> || std::is_same_v<T, Year>;
 
@@ -198,6 +204,7 @@ constexpr D &operator%=(D &d, int factor)
   return d;
 }
 
+namespace cash_overflow::date {
 class Date
 {
 public:
@@ -307,7 +314,7 @@ public:
     auto &LOGGER = cashoverflow::logging::Logger::log(LoggingLevel::ERR);
     LOGGER.write(d, LoggingLevel::DBG);
     auto d_ = static_cast<DaysOfTheWeek>(d);
-    return ::toString(d_);
+    return cash_overflow::date::toString(d_);
   }
   std::string getMonthName() const
   {
@@ -340,11 +347,28 @@ public:
       return "Onzember";
     }
   }
+
+  // WARNING: weird black magic
+  // That being said, it looks making the constructor explicit and/or making operator<< a hidden friend
+  // reduce the lookup scope sufficiently to work around the issue. https://godbolt.org/z/aYPznYccY
+  // https://githubmemory.com/repo/google/googletest/issues/3552
+  friend std::ostream &operator<<(std::ostream &os, tl::expected<Date, cash_overflow::error::Error> const &expected)
+  {
+    if (expected) {
+      os << expected.value();
+    } else {
+      os << expected.error();
+    }
+    return os;
+  }
+
 private:
   Date(Year y, Month m, Day d) : year(y), month(m), day(d) {}
   Year year;
   Month month;
   Day day;
 };
+}// namespace cash_overflow::date
+using Date = cash_overflow::date::Date;
 
 #endif// CASH_OVERFLOW_DATE_HPP
