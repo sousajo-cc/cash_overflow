@@ -362,6 +362,15 @@ public:
     return os;
   }
 
+  Day daysUntil(Date const& futureDate) const {
+    (void) futureDate;
+    return Day{0}; //TODO
+  }
+
+  Day operator-(Date const& other) const {
+    return daysUntil(other);
+  }
+
 private:
   Date(Year y, Month m, Day d) : year(y), month(m), day(d) {}
   Year year;

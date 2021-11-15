@@ -185,3 +185,15 @@ TEST(DateTest, GetWeekDayTest)
   EXPECT_EQ(Date::create(2021, 11, 12).value().getWeekDay(), "Friday");
   EXPECT_EQ(Date::create(2022, 07, 13).value().getWeekDay(), "Wednesday");
 }
+
+TEST(DateTest, DaysUntilTest)
+{
+  EXPECT_EQ(Date::create(1989, 2, 3).value().daysUntil(Date::create(1989, 2, 3).value()), Day{0});
+  EXPECT_EQ(Date::create(1989, 2, 3).value() - Date::create(1989, 2, 3).value(), Day{0});
+  EXPECT_EQ(Date::create(1989, 2, 3).value().daysUntil(Date::create(1989, 2, 27).value()), Day{24});
+  EXPECT_EQ(Date::create(1989, 2, 3).value().daysUntil(Date::create(1989, 3, 3).value()), Day{28});
+  EXPECT_EQ(Date::create(1989, 2, 3).value().daysUntil(Date::create(1989, 3, 1).value()), Day{26});
+  EXPECT_EQ(Date::create(1989, 2, 3).value().daysUntil(Date::create(1990, 1, 6).value()), Day{337});
+  EXPECT_EQ(Date::create(1989, 2, 3).value().daysUntil(Date::create(2009, 10, 30).value()), Day{7574});
+  EXPECT_EQ(Date::create(2009, 10, 30).value().daysUntil(Date::create(1989, 2, 3).value()), Day{-7574});
+}
