@@ -128,6 +128,11 @@ constexpr D operator-(D const &d1, D const &d2)
   return D{ d1.durationValue - d2.durationValue };
 }
 template<Duration D>
+constexpr D operator-(D const &d)
+{
+  return D{ -d.durationValue };
+}
+template<Duration D>
 constexpr D operator*(D const &d, int factor)
 {
   return D{ factor * d.durationValue };
