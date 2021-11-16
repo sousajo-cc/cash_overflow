@@ -113,93 +113,92 @@ struct Month
 template<typename T>
 concept Duration = std::is_same_v<T, cash_overflow::date::Day> || std::is_same_v<T, cash_overflow::date::Week> || std::is_same_v<T, cash_overflow::date::Month> || std::is_same_v<T, cash_overflow::date::Year>;
 
-template<Duration D>
-constexpr D operator+(D const &d1, D const &d2)
+constexpr auto operator+(Duration auto const &d1, decltype(d1) d2)
 {
-  return D{ d1.durationValue + d2.durationValue };
+  return decltype(d1){ d1.durationValue + d2.durationValue };
 }
-template<Duration D>
-constexpr D operator-(D const &d1, D const &d2)
+
+constexpr auto operator-(Duration auto const &d1, decltype(d1) d2)
 {
-  return D{ d1.durationValue - d2.durationValue };
+  return decltype(d1){ d1.durationValue - d2.durationValue };
 }
-template<Duration D>
-constexpr D operator-(D const &d)
+
+constexpr auto operator-(Duration auto const &d)
 {
-  return D{ -d.durationValue };
+  return decltype(d){ -d.durationValue };
 }
-template<Duration D>
-constexpr D operator*(D const &d, int factor)
+
+constexpr auto operator*(Duration auto const &d, int factor)
 {
-  return D{ factor * d.durationValue };
+  return decltype(d){ factor * d.durationValue };
 }
-template<Duration D>
-constexpr D operator*(int factor, D const &day)
+
+constexpr auto operator*(int factor, Duration auto const &day)
 {
   return day * factor;
 }
-template<Duration D>
-constexpr D operator/(D const &d, int factor)
+
+constexpr auto operator/(Duration auto const &d, int factor)
 {
-  return D{ d.durationValue / factor };
+  return decltype(d){ d.durationValue / factor };
 }
-template<Duration D>
-constexpr D operator%(D const &d, int factor)
+
+constexpr auto operator%(Duration auto const &d, int factor)
 {
-  return D{ d.durationValue % factor };
+  return decltype(d){ d.durationValue % factor };
 }
-template<Duration D>
-constexpr D &operator++(D &d)
+
+constexpr auto &operator++(Duration auto &d)
 {
   ++d.durationValue;
   return d;
 }
-template<Duration D>
-constexpr D const operator++(D &d, int)
+
+constexpr auto const operator++(Duration auto &d, int)
 {
-  D const previous = d;
+  Duration auto const previous = d;
   d.durationValue++;
   return previous;
 }
-template<Duration D>
-constexpr D &operator--(D &d)
+
+constexpr auto &operator--(Duration auto &d)
 {
   --d.durationValue;
   return d;
 }
-template<Duration D>
-constexpr D const operator--(D &d, int)
+
+constexpr auto const operator--(Duration auto &d, int)
 {
-  D const previous = d;
+  Duration auto const previous = d;
   d.durationValue--;
   return previous;
 }
-template<Duration D>
-constexpr D &operator+=(D &d, D const &other)
+
+constexpr auto &operator+=(Duration auto &d, Duration auto const &other)
 {
   d.durationValue += other.durationValue;
   return d;
 }
-template<Duration D>
-constexpr D &operator-=(D &d, D const &other)
+
+constexpr auto &operator-=(Duration auto &d, Duration auto const &other)
 {
   d.durationValue -= other.durationValue;
   return d;
 }
-template<Duration D>
-constexpr D &operator*=(D &d, int factor)
+
+constexpr auto &operator*=(Duration auto &d, int factor)
 {
   d.durationValue *= factor;
   return d;
 }
-template<Duration D>
-constexpr D &operator/=(D &d, int factor)
+
+constexpr auto &operator/=(Duration auto &d, int factor)
 {
   d.durationValue /= factor;
   return d;
 }
-template<Duration D>
-constexpr D &operator%=(D &d, int factor)
+
+constexpr auto &operator%=(Duration auto &d, int factor)
 {
   d.durationValue %= factor;
   return d;
