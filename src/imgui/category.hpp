@@ -18,6 +18,33 @@ enum class CategoryType {
   Expenses
 };
 
+class IterableCategoryType {
+public:
+  class Iterator {
+  public:
+    constexpr Iterator(int value) : m_value(value) {}
+    constexpr CategoryType operator*() const {
+      return static_cast<CategoryType>(m_value);
+    }
+    constexpr void operator++() {
+      ++m_value;
+    }
+    constexpr auto operator<=>(Iterator const&) const = default;
+  private:
+    int m_value;
+  };
+};
+
+constexpr IterableCategoryType::Iterator begin(IterableCategoryType)
+{
+  return IterableCategoryType::Iterator(static_cast<int>(CategoryType::Assets));
+}
+
+constexpr IterableCategoryType::Iterator end(IterableCategoryType)
+{
+  return IterableCategoryType::Iterator(static_cast<int>(CategoryType::Expenses) + 1);
+}
+
 inline std::string toString(CategoryType type)
 {
   switch (type) {
@@ -54,7 +81,12 @@ inline tl::expected<CategoryType, cash_overflow::error::Error> fromString(std::s
 
 inline std::vector<std::string> getAllValidCategoryNames()
 {
-  return {};
+//  return cash_overflow::utils::map(IterableCategoryType{}, toString); //seria fixe
+  std::vector<std::string> allValidCategoryNames;
+  for (auto x : IterableCategoryType{}) {
+    allValidCategoryNames.push_back(toString(x));
+  }
+  return allValidCategoryNames;
 }
 
 struct Category
