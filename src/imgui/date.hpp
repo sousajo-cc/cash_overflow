@@ -111,10 +111,7 @@ struct Month
 }// namespace cash_overflow::date
 
 template<typename T>
-concept Duration = std::is_same_v<T, cash_overflow::date::Day> ||
-                            std::is_same_v<T, cash_overflow::date::Week> ||
-                            std::is_same_v<T, cash_overflow::date::Month> ||
-                            std::is_same_v<T, cash_overflow::date::Year>;
+concept Duration = std::is_same_v<T, cash_overflow::date::Day> || std::is_same_v<T, cash_overflow::date::Week> || std::is_same_v<T, cash_overflow::date::Month> || std::is_same_v<T, cash_overflow::date::Year>;
 
 template<Duration D>
 constexpr D operator+(D const &d1, D const &d2)
@@ -320,6 +317,7 @@ public:
     auto d_ = static_cast<DaysOfTheWeek>(d);
     return cash_overflow::date::toString(d_);
   }
+
   [[nodiscard]] std::string getMonthName() const
   {
     switch (month.durationValue) {
@@ -366,19 +364,22 @@ public:
     return os;
   }
 
-  [[nodiscard]] Day daysSinceStartOfThisYear() const {
-    Day result{0};
-    for (Month m{1}; m < month; ++m) {
+  [[nodiscard]] Day daysSinceStartOfThisYear() const
+  {
+    Day result{ 0 };
+    for (Month m{ 1 }; m < month; ++m) {
       result += m.getNumberOfDays(year);
     }
     return result + day;
   }
 
-  [[nodiscard]] Day daysUntil(Date const& futureDate) const {
+  [[nodiscard]] Day daysUntil(Date const &futureDate) const
+  {
     return futureDate.toDays() - toDays();
   }
 
-  Day operator-(Date const& other) const {
+  Day operator-(Date const &other) const
+  {
     return daysUntil(other);
   }
 
@@ -387,12 +388,16 @@ private:
   Year year;
   Month month;
   Day day;
-  [[nodiscard]] int countLeapYears() const {
-    return (year/4 - year/100 + year/400).durationValue;
+
+  [[nodiscard]] int countLeapYears() const
+  {
+    return (year / 4 - year / 100 + year / 400).durationValue;
   }
-  //counts number of days since the arbitrary virtual date 0000-1-1
-  [[nodiscard]] Day toDays() const {
-    return Day{year.durationValue*365 + countLeapYears()} + daysSinceStartOfThisYear();
+
+  // counts number of days since the arbitrary virtual date 0000-1-1
+  [[nodiscard]] Day toDays() const
+  {
+    return Day{ year.durationValue * 365 + countLeapYears() } + daysSinceStartOfThisYear();
   }
 };
 }// namespace cash_overflow::date
