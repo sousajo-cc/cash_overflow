@@ -208,7 +208,8 @@ namespace cash_overflow::date {
 class Date
 {
 public:
-  using Error = cash_overflow::error::Error;
+  using ErrorType = cash_overflow::error::ErrorType;
+  using Error = cash_overflow::error::Error<ErrorType::DateError>;
   static tl::expected<Date, Error> create(int y, int m, int d)
   {
     return create(Year{ y }, Month{ m }, Day{ d });
@@ -353,7 +354,7 @@ public:
   // That being said, it looks making the constructor explicit and/or making operator<< a hidden friend
   // reduce the lookup scope sufficiently to work around the issue. https://godbolt.org/z/aYPznYccY
   // https://githubmemory.com/repo/google/googletest/issues/3552
-  friend std::ostream &operator<<(std::ostream &os, tl::expected<Date, cash_overflow::error::Error> const &expected)
+  friend std::ostream &operator<<(std::ostream &os, tl::expected<Date, cash_overflow::error::Error<ErrorType::DateError>> const &expected)
   {
     if (expected) {
       os << expected.value();

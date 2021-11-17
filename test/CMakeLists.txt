@@ -20,9 +20,8 @@ enable_testing()
 add_executable(
     hello_test
     hello_test.cpp
-    table_builder_tests.cpp
-    map_tests.cpp
-        date_tests.cpp
+    table_builder_tests.cpp error_tests.cpp
+    map_tests.cpp date_tests.cpp
 )
 target_link_libraries(
     hello_test

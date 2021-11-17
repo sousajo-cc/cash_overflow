@@ -26,7 +26,8 @@ public:
   class Builder
   {
   private:
-    using Error = cash_overflow::error::Error;
+    using ErrorType = cash_overflow::error::ErrorType;
+    using Error = cash_overflow::error::Error<ErrorType::TableError>;
 
   public:
     Builder &with_id(std::string name)
