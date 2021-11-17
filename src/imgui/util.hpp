@@ -35,6 +35,39 @@ concept Printable = requires(T t)
   std::cout << t << std::endl;
 };
 
+template<class Enum>
+class IterableEnum
+{
+public:
+  class Iterator
+  {
+  public:
+    constexpr Iterator(int value) : m_value(value) {}
+    constexpr Enum operator*() const
+    {
+      return static_cast<Enum>(m_value);
+    }
+    constexpr void operator++()
+    {
+      ++m_value;
+    }
+    constexpr auto operator<=>(Iterator const &) const = default;
+
+  private:
+    int m_value;
+  };
+};
+template<typename T>
+constexpr IterableEnum<T>::Iterator begin(IterableEnum<T>)
+{
+  return typename IterableEnum<T>::Iterator(static_cast<int>(T::First));
+}
+template<typename T>
+constexpr IterableEnum<T>::Iterator end(IterableEnum<T>)
+{
+  return typename IterableEnum<T>::Iterator(static_cast<int>(T::Last) + 1);
+}
+
 }// namespace cash_overflow::utils
 
 // WARNING: ignore this if you're starting to learn C++ now
@@ -50,5 +83,6 @@ std::ostream &operator<<(std::ostream &os, tl::expected<V, E> const &expected)
   }
   return os;
 }
+
 
 #endif
