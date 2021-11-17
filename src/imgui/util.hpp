@@ -35,8 +35,15 @@ concept Printable = requires(T t)
   std::cout << t << std::endl;
 };
 
-template<class Enum>
-class IterableEnum
+template<typename T>
+concept EnumIterable = std::is_enum_v<T> && requires(T t)
+{
+  T::First;
+  T::Last;
+};
+
+template<EnumIterable Enum>
+class EnumIterator
 {
 public:
   class Iterator
@@ -57,15 +64,17 @@ public:
     int m_value;
   };
 };
-template<typename T>
-constexpr IterableEnum<T>::Iterator begin(IterableEnum<T>)
+
+template<EnumIterable T>
+constexpr EnumIterator<T>::Iterator begin(EnumIterator<T>)
 {
-  return typename IterableEnum<T>::Iterator(static_cast<int>(T::First));
+  return typename EnumIterator<T>::Iterator(static_cast<int>(T::First));
 }
-template<typename T>
-constexpr IterableEnum<T>::Iterator end(IterableEnum<T>)
+
+template<EnumIterable T>
+constexpr EnumIterator<T>::Iterator end(EnumIterator<T>)
 {
-  return typename IterableEnum<T>::Iterator(static_cast<int>(T::Last) + 1);
+  return typename EnumIterator<T>::Iterator(static_cast<int>(T::Last) + 1);
 }
 
 }// namespace cash_overflow::utils
@@ -83,6 +92,5 @@ std::ostream &operator<<(std::ostream &os, tl::expected<V, E> const &expected)
   }
   return os;
 }
-
 
 #endif

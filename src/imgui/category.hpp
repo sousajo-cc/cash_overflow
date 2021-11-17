@@ -59,9 +59,9 @@ inline tl::expected<CategoryType, cash_overflow::error::Error> fromString(std::s
 inline std::vector<std::string> getAllValidCategoryNames()
 {
   // return cash_overflow::utils::map(IterableEnum{}, toString); //seria fixe
-  using cash_overflow::utils::IterableEnum;
+  using cash_overflow::utils::EnumIterator;
   std::vector<std::string> allValidCategoryNames;
-  for (auto x : IterableEnum<CategoryType>{}) {
+  for (cash_overflow::utils::EnumIterable auto x : EnumIterator<CategoryType>{}) {
     allValidCategoryNames.push_back(toString(x));
   }
   return allValidCategoryNames;
