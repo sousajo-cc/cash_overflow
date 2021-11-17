@@ -93,6 +93,8 @@ public:
     }
   }
 
+  // fixme: make this
+  // auto write(LogLevel lvl, T const &...msg)
   template<typename T>
   auto write(T const &msg, LogLevel lvl)
   {
