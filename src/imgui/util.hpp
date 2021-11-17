@@ -21,6 +21,12 @@ auto map(std::ranges::range auto const &input, auto f)
   return output;
 }
 
+inline std::string toString(std::vector<char> const &in)
+{
+  std::string s(in.begin(), in.end());
+  return s;
+}
+
 // WARNING: ignore this if you're starting to learn C++ now
 // makes sure a type is printable
 template<typename T>

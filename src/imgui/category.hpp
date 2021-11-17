@@ -18,18 +18,23 @@ enum class CategoryType {
   Expenses
 };
 
-class IterableCategoryType {
+class IterableCategoryType
+{
 public:
-  class Iterator {
+  class Iterator
+  {
   public:
     constexpr Iterator(int value) : m_value(value) {}
-    constexpr CategoryType operator*() const {
+    constexpr CategoryType operator*() const
+    {
       return static_cast<CategoryType>(m_value);
     }
-    constexpr void operator++() {
+    constexpr void operator++()
+    {
       ++m_value;
     }
-    constexpr auto operator<=>(Iterator const&) const = default;
+    constexpr auto operator<=>(Iterator const &) const = default;
+
   private:
     int m_value;
   };
@@ -65,23 +70,25 @@ inline tl::expected<CategoryType, cash_overflow::error::Error> fromString(std::s
 {
   constexpr auto toLower = [](unsigned char c) -> char { return static_cast<char>(std::tolower(c)); };
   using cash_overflow::utils::map;
-  // WARNING: the map implementation of the date branch will break this
-  if (map(type, toLower) == "assets") {
+  using cash_overflow::utils::toString;
+
+  std::string typeAsString = toString(map(type, toLower));
+  if (typeAsString == "assets") {
     return CategoryType::Assets;
-  } else if (map(type, toLower) == "liabilities") {
+  } else if (typeAsString == "liabilities") {
     return CategoryType::Liabilities;
-  } else if (map(type, toLower) == "incomes") {
+  } else if (typeAsString == "incomes") {
     return CategoryType::Incomes;
-  } else if (map(type, toLower) == "expenses") {
+  } else if (typeAsString == "expenses") {
     return CategoryType::Expenses;
   } else {
-    return tl::make_unexpected(fmt::format("Unknown Category Type: {}", type));
+    return tl::make_unexpected(fmt::format("Unknown Category Type: {}", typeAsString));
   }
 }
 
 inline std::vector<std::string> getAllValidCategoryNames()
 {
-//  return cash_overflow::utils::map(IterableCategoryType{}, toString); //seria fixe
+  // return cash_overflow::utils::map(IterableCategoryType{}, toString); //seria fixe
   std::vector<std::string> allValidCategoryNames;
   for (auto x : IterableCategoryType{}) {
     allValidCategoryNames.push_back(toString(x));
