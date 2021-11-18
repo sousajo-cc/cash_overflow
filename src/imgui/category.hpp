@@ -16,7 +16,7 @@ enum class CategoryType {
   Liabilities,
   Incomes,
   Expenses,
-  First = Assets, // First and Last allow to iterate
+  First = Assets,// First and Last allow to iterate
   Last = Expenses
 };
 
