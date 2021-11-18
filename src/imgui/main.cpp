@@ -3,6 +3,11 @@
 #include "imguiWrapper/dropDown.hpp"
 #include "logger.hpp"
 #include "category.hpp"
+#include "fileHandler.hpp"
+#include <iostream>
+//#include "user.hpp"
+//#include "account.hpp"
+#include "db.hpp"
 
 #include <vector>
 
@@ -77,16 +82,21 @@ void draw(std::vector<Category> const &categories)
 
 int main()
 {
-  std::array<char, 24> categoryName{};
+  bool popup = false;
+  //std::array<char, 24> categoryName{};
+  std::array<char, 24> userName{};
+  std::array<char, 24> passWord{};
   std::vector<Category> categories;
   std::string currentSelectedCategoryType;
   sf::RenderWindow window(sf::VideoMode(640, 480), "Cash Overflow");
   window.setFramerateLimit(60);
   ImGui::SFML::Init(window);
-
   sf::CircleShape shape{ 100.F };
   shape.setFillColor(sf::Color::Cyan);
   shape.setPosition(sf::Vector2f{ 500.0, 350.0 });
+
+  cashoverflow::utils::FileHandler dbCreation("/home/miguel/Desktop/MyRepos/cash_overflow/src/imgui/users.db");
+  
 
   sf::Clock deltaClock;
   while (window.isOpen()) {
@@ -101,18 +111,54 @@ int main()
 
     ImGui::SFML::Update(window, deltaClock.restart());
 
-    draw(categories);
+    //draw(categories);
 
-    {
-      cash_overflow::gui::Window addCategory{ "Add new Category." };
-      ImGui::InputText("Category Name", categoryName.data(), categoryName.size());
-      currentSelectedCategoryType = DropDown{ cash_overflow::category::getAllValidCategoryNames(), std::move(currentSelectedCategoryType) }.draw();
+    // {
+    //   //cash_overflow::gui::Window addCategory{ "Add new Category." };
+    //   ImGui::InputText("Category Name", categoryName.data(), categoryName.size());
+    //   currentSelectedCategoryType = DropDown{ cash_overflow::category::getAllValidCategoryNames(), std::move(currentSelectedCategoryType) }.draw();
 
-      if (ImGui::Button("OK")) {
-        std::string s(std::begin(categoryName), std::end(categoryName));
-        categories.emplace_back(s, cash_overflow::category::CategoryType::Liabilities);
+    //   if (ImGui::Button("OK")) {
+    //     std::string s(std::begin(categoryName), std::end(categoryName));
+    //     categories.emplace_back(s, cash_overflow::category::CategoryType::Liabilities);
+    //   }
+    // }
+
+  {
+    cash_overflow::gui::Window addCategory{ "Login" };
+    ImGui::InputText("User Name", userName.data(), userName.size());
+    ImGui::InputText("Password",passWord.data(), passWord.size(),ImGuiInputTextFlags_Password);
+    if (ImGui::Button("Login")) {
+        // Go to user profile and check user and password
+        //cash_overflow::db::
       }
+  }
+  if (ImGui::BeginMainMenuBar()) {
+    if (ImGui::BeginMenu("Options")) {
+      if(ImGui::MenuItem("Create User")) {
+        popup = true;
+      }
+      ImGui::MenuItem("Save");
+      ImGui::MenuItem("Save as");
+      ImGui::EndMenu();
     }
+    ImGui::EndMainMenuBar();
+  }
+
+  if(popup) 
+    ImGui::OpenPopup("Popup");
+
+  if (ImGui::BeginPopup("Popup"))
+  {
+    ImGui::InputText("User Name", userName.data(), userName.size());
+    ImGui::InputText("Password",passWord.data(), passWord.size(),ImGuiInputTextFlags_Password);
+    if (ImGui::Button("OK")) {
+      ImGui::InputText("Password", userName.data(), userName.size());
+    }
+    ImGui::EndPopup();
+  }
+
+
 
     window.clear();
     window.draw(shape);
