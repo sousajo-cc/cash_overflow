@@ -10,22 +10,24 @@ struct FileHandler
 {
   explicit FileHandler(std::string fileName_) : fileName(std::move(fileName_))
   {
-    fileStream.open(fileName.c_str(), std::ios_base::in);
-    if (!fileStream.is_open()) {
-      throw std::runtime_error("could not open the file.");
-    }
+    
   };
-  FileHandler(FileHandler const &) = delete;
-  FileHandler &operator=(FileHandler const &) = delete;
-  FileHandler(FileHandler &&) = delete;
-  FileHandler &operator=(FileHandler &&) = delete;
-  ~FileHandler()
-  {
-    if (fileStream.is_open()) {
-      fileStream.close();
-    }
+  FileHandler(FileHandler const &) = default;
+  FileHandler &operator=(FileHandler const &) = default;
+  FileHandler(FileHandler &&) = default;
+  FileHandler &operator=(FileHandler &&) = default;
+  ~FileHandler() = default;
+  // {
+  //   if (fileStream.is_open()) {
+  //     fileStream.close();
+  //   }
+  // }
+  void open() {
+    fileStream.open(fileName.c_str(), std::ios_base::in);
+      if (!fileStream.is_open()) {
+        throw std::runtime_error("could not open the file.");
+      }
   }
-
   std::string read() const
   {
     std::ostringstream os;
