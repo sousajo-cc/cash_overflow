@@ -106,7 +106,7 @@ int main()
     {
       cash_overflow::gui::Window addCategory{ "Add new Category." };
       ImGui::InputText("Category Name", categoryName.data(), categoryName.size());
-      currentSelectedCategoryType = DropDown{ { "Ola", "Boa Tarde" }, std::move(currentSelectedCategoryType) }.draw();
+      currentSelectedCategoryType = DropDown{ cash_overflow::category::getAllValidCategoryNames(), std::move(currentSelectedCategoryType) }.draw();
 
       if (ImGui::Button("OK")) {
         std::string s(std::begin(categoryName), std::end(categoryName));

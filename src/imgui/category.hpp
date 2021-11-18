@@ -16,7 +16,7 @@ enum class CategoryType {
   Liabilities,
   Incomes,
   Expenses,
-  First = Assets,
+  First = Assets, // First and Last allow to iterate
   Last = Expenses
 };
 
@@ -38,11 +38,9 @@ inline std::string toString(CategoryType type)
 
 inline tl::expected<CategoryType, cash_overflow::error::Error> fromString(std::string const &type)
 {
-  constexpr auto toLower = [](unsigned char c) -> char { return static_cast<char>(std::tolower(c)); };
-  using cash_overflow::utils::map;
-  using cash_overflow::utils::toString;
+  using cash_overflow::utils::toLowerCase;
 
-  std::string typeAsString = toString(map(type, toLower));
+  std::string typeAsString = toLowerCase(type);
   if (typeAsString == "assets") {
     return CategoryType::Assets;
   } else if (typeAsString == "liabilities") {
@@ -56,12 +54,15 @@ inline tl::expected<CategoryType, cash_overflow::error::Error> fromString(std::s
   }
 }
 
+// maybe return std::array since size is know at compile time
 inline std::vector<std::string> getAllValidCategoryNames()
 {
   // return cash_overflow::utils::map(IterableEnum{}, toString); //seria fixe
   using cash_overflow::utils::EnumIterator;
+  using cash_overflow::utils::size;
   std::vector<std::string> allValidCategoryNames;
-  for (cash_overflow::utils::EnumIterable auto x : EnumIterator<CategoryType>{}) {
+  allValidCategoryNames.reserve(size<CategoryType>());
+  for (auto x : EnumIterator<CategoryType>{}) {
     allValidCategoryNames.push_back(toString(x));
   }
   return allValidCategoryNames;

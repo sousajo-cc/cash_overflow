@@ -27,6 +27,12 @@ inline std::string toString(std::vector<char> const &in)
   return s;
 }
 
+inline std::string toLowerCase(std::string str)
+{
+  constexpr auto toLower = [](unsigned char c) -> char { return static_cast<char>(std::tolower(c)); };
+  return toString(map(str, toLower));
+}
+
 // WARNING: ignore this if you're starting to learn C++ now
 // makes sure a type is printable
 template<typename T>
@@ -64,6 +70,12 @@ public:
     int m_value;
   };
 };
+
+template<EnumIterable T>
+constexpr std::size_t size()
+{
+  return static_cast<std::size_t>(T::Last) + 1;
+}
 
 template<EnumIterable T>
 constexpr EnumIterator<T>::Iterator begin(EnumIterator<T>)
