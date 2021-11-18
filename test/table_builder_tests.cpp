@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../src/imgui/tableBuilder.hpp"
+#include "../src/imgui/imguiWrapper/tableBuilder.hpp"
 
 TEST(TableBuilderTests, NoHeaders)
 {

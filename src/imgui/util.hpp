@@ -21,6 +21,18 @@ auto map(std::ranges::range auto const &input, auto f)
   return output;
 }
 
+inline std::string toString(std::vector<char> const &in)
+{
+  std::string s(in.begin(), in.end());
+  return s;
+}
+
+inline std::string toLowerCase(std::string str)
+{
+  constexpr auto toLower = [](unsigned char c) -> char { return static_cast<char>(std::tolower(c)); };
+  return toString(map(str, toLower));
+}
+
 // WARNING: ignore this if you're starting to learn C++ now
 // makes sure a type is printable
 template<typename T>
@@ -28,6 +40,54 @@ concept Printable = requires(T t)
 {
   std::cout << t << std::endl;
 };
+
+template<typename T>
+concept EnumIterable = std::is_enum_v<T> && requires(T t)
+{
+  T::First;
+  T::Last;
+};
+
+template<EnumIterable Enum>
+class EnumIterator
+{
+public:
+  class Iterator
+  {
+  public:
+    constexpr Iterator(int value) : m_value(value) {}
+    constexpr Enum operator*() const
+    {
+      return static_cast<Enum>(m_value);
+    }
+    constexpr void operator++()
+    {
+      ++m_value;
+    }
+    constexpr auto operator<=>(Iterator const &) const = default;
+
+  private:
+    int m_value;
+  };
+};
+
+template<EnumIterable T>
+constexpr std::size_t size()
+{
+  return static_cast<std::size_t>(T::Last) + 1;
+}
+
+template<EnumIterable T>
+constexpr EnumIterator<T>::Iterator begin(EnumIterator<T>)
+{
+  return typename EnumIterator<T>::Iterator(static_cast<int>(T::First));
+}
+
+template<EnumIterable T>
+constexpr EnumIterator<T>::Iterator end(EnumIterator<T>)
+{
+  return typename EnumIterator<T>::Iterator(static_cast<int>(T::Last) + 1);
+}
 
 }// namespace cash_overflow::utils
 

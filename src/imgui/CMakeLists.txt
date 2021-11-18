@@ -1,5 +1,5 @@
 # imgui test executable, with full warnings enable
-add_executable(test_imgui test.cpp logger.hpp fileHandler.hpp window.hpp)
+add_executable(test_imgui main.cpp logger.hpp fileHandler.hpp imguiWrapper/window.hpp logger.hpp)
 find_package(ImGui-SFML REQUIRED)
 find_package(tl-expected REQUIRED)
 include_directories(${tl_INCLUDE_DIRS})

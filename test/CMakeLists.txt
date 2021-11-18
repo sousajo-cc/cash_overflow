@@ -19,6 +19,7 @@ enable_testing()
 
 add_executable(
     hello_test
+    category_tests.cpp
     hello_test.cpp
     table_builder_tests.cpp
     map_tests.cpp
