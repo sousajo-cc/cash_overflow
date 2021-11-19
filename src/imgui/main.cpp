@@ -82,7 +82,6 @@ void draw(std::vector<Category> const &categories)
 
 int main()
 {
-  bool popup = false;
   //std::array<char, 24> categoryName{};
   std::array<char, 24> userName{};
   std::array<char, 24> passWord{};
@@ -95,8 +94,6 @@ int main()
   shape.setFillColor(sf::Color::Cyan);
   shape.setPosition(sf::Vector2f{ 500.0, 350.0 });
 
-  cashoverflow::utils::FileHandler dbCreation("/home/miguel/Desktop/MyRepos/cash_overflow/src/imgui/users.db");
-  
 
   sf::Clock deltaClock;
   while (window.isOpen()) {
@@ -129,14 +126,14 @@ int main()
     ImGui::InputText("User Name", userName.data(), userName.size());
     ImGui::InputText("Password",passWord.data(), passWord.size(),ImGuiInputTextFlags_Password);
     if (ImGui::Button("Login")) {
-        // Go to user profile and check user and password
-        //cash_overflow::db::
+      std::cout << "tou ca filho\n";
+       if(cash_overflow::db::Db(std::make_unique<cashoverflow::utils::FileHandler>("/home/miguel/Desktop/MyRepos/cash_overflow/src/imgui/users.db")).read(userName.data()))
+          std::cout << "Eu existo\n";
       }
   }
   if (ImGui::BeginMainMenuBar()) {
     if (ImGui::BeginMenu("Options")) {
       if(ImGui::MenuItem("Create User")) {
-        popup = true;
       }
       ImGui::MenuItem("Save");
       ImGui::MenuItem("Save as");
@@ -145,18 +142,6 @@ int main()
     ImGui::EndMainMenuBar();
   }
 
-  if(popup) 
-    ImGui::OpenPopup("Popup");
-
-  if (ImGui::BeginPopup("Popup"))
-  {
-    ImGui::InputText("User Name", userName.data(), userName.size());
-    ImGui::InputText("Password",passWord.data(), passWord.size(),ImGuiInputTextFlags_Password);
-    if (ImGui::Button("OK")) {
-      ImGui::InputText("Password", userName.data(), userName.size());
-    }
-    ImGui::EndPopup();
-  }
 
 
 
