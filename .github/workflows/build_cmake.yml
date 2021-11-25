@@ -56,6 +56,7 @@ jobs:
           sudo update-alternatives --install /usr/bin/conan conan /home/runner/.local/bin/conan 10
           sudo update-alternatives --config conan
           sudo apt install libudev-dev
+          sudo apt install libgl1-mesa-dev
         fi;
 
     - name: Configure CMake
