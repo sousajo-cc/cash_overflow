@@ -68,7 +68,7 @@ jobs:
           sudo apt install libxmuu-dev
           sudo apt install libxrandr-dev
           sudo apt install libxres-dev
-          sudo apt install libxscrnsaver-dev
+          sudo apt install libxss-dev
         fi;
 
     - name: Configure CMake
