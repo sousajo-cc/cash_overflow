@@ -57,6 +57,7 @@ jobs:
           sudo update-alternatives --config conan
           sudo apt install libudev-dev
           sudo apt install libgl1-mesa-dev
+          sudo apt install libx11-xcb-dev
         fi;
 
     - name: Configure CMake
