@@ -62,7 +62,7 @@ jobs:
         CC: gcc-10
         CXX: g++-10
       run: |
-          cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE -DENABLE_COVERAGE:BOOL=${{ matrix.ENABLE_COVERAGE }}
+          cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE -DENABLE_COVERAGE:BOOL=${{ matrix.ENABLE_COVERAGE }} -DCPP_STARTER_USE_IMGUI=ON
 
     - name: Build
       # Execute the build.  You can specify a specific target with "--target <NAME>"
