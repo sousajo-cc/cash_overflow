@@ -2,33 +2,43 @@
 #include <string>
 #include "fileHandler.hpp"
 
-namespace cash_overflow::db
+namespace cash_overflow::db {
+using FileHandlerPtr = std::unique_ptr<cashoverflow::utils::IFileHandler>;
+class Db
 {
-    using FileHandlerPtr = std::unique_ptr<cashoverflow::utils::IFileHandler>;
-    class Db
-    {
-    private:
-        FileHandlerPtr fileHandler;
-    public:
-        Db(FileHandlerPtr fileHandlerArg): fileHandler(std::move(fileHandlerArg)) {}
-        bool update() {
-            return true;
-        }
+private:
+  FileHandlerPtr fileHandler;
 
-        bool read(const std::string &user) {
-            std::string content = fileHandler->read();
-            std::size_t found = content.find(user);
-            return found != std::string::npos;
-        }
+public:
+  Db(FileHandlerPtr fileHandlerArg) : fileHandler(std::move(fileHandlerArg)) {}
+  bool update()
+  {
+    return true;
+  }
 
-        // bool create(std::string userName, std::string passWord) {
-        //     std::string content = fileHandler_.read();
-        //     std::cout << content << std::endl;
-        //     return true;
-        // }
+  bool read(const std::string &user)
+  {
+    std::string content = fileHandler->read();
+    std::size_t found = content.find(user);
+    return found != std::string::npos;
+  }
 
-        bool delete_() {
-            return true;
-        }
-    };
-} // namespace cash_overflow::db
+  // create needs to write a line to db
+  // creating a user can be: user:password
+  // another entity can be: ola:eu:estou:aqui
+  // lets discuss after
+  bool create(std::string const &username, std::string const &password)
+  {
+    if (!read(username)) {
+      auto entry = username + ":" + password;
+      fileHandler->write(entry);
+    }
+    return true;
+  }
+
+  bool delete_()
+  {
+    return true;
+  }
+};
+}// namespace cash_overflow::db

@@ -4,10 +4,12 @@
 #include "logger.hpp"
 #include "category.hpp"
 #include "fileHandler.hpp"
+#include "db.hpp"
+#include "app.hpp"
 #include <iostream>
 //#include "user.hpp"
 //#include "account.hpp"
-#include "db.hpp"
+
 
 #include <vector>
 
@@ -81,9 +83,7 @@ void draw(std::vector<Category> const &categories)
 
 int main()
 {
-  //std::array<char, 24> categoryName{};
-  std::array<char, 24> userName{};
-  std::array<char, 24> passWord{};
+
   std::vector<Category> categories;
   std::string currentSelectedCategoryType;
   sf::RenderWindow window(sf::VideoMode(640, 480), "Cash Overflow");
@@ -93,6 +93,11 @@ int main()
   shape.setFillColor(sf::Color::Cyan);
   shape.setPosition(sf::Vector2f{ 500.0, 350.0 });
 
+  using Db = cash_overflow::db::Db;
+  Db appDatabase = Db(std::make_unique<cashoverflow::utils::FileHandler>("/home/sousajo/etudes/ctw/cash_overflow/db/users.db"));
+
+  App app{ std::move(appDatabase) };
+  (void)app;
 
   sf::Clock deltaClock;
   while (window.isOpen()) {
@@ -120,28 +125,9 @@ int main()
     //   }
     // }
 
-  {
-    cash_overflow::gui::Window addCategory{ "Login" };
-    ImGui::InputText("User Name", userName.data(), userName.size());
-    ImGui::InputText("Password",passWord.data(), passWord.size(),ImGuiInputTextFlags_Password);
-    if (ImGui::Button("Login")) {
-      std::cout << "tou ca filho\n";
-       if(cash_overflow::db::Db(std::make_unique<cashoverflow::utils::FileHandler>("/home/miguel/Desktop/MyRepos/cash_overflow/src/imgui/users.db")).read(userName.data()))
-          std::cout << "Eu existo\n";
-      }
-  }
-  if (ImGui::BeginMainMenuBar()) {
-    if (ImGui::BeginMenu("Options")) {
-      if(ImGui::MenuItem("Create User")) {
-      }
-      ImGui::MenuItem("Save");
-      ImGui::MenuItem("Save as");
-      ImGui::EndMenu();
+    {
+      app.start();
     }
-    ImGui::EndMainMenuBar();
-  }
-
-
 
 
     window.clear();
