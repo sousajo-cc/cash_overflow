@@ -4,6 +4,7 @@
 #include <spdlog/spdlog.h>
 #include <docopt/docopt.h>
 
+////
 static constexpr auto USAGE =
   R"(Naval Fate.
 

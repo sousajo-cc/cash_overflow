@@ -5,7 +5,7 @@ RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
         software-properties-common wget git gpg-agent file \
         python3 python3-pip doxygen graphviz ccache cppcheck build-essential \
-        neovim emacs nano
+        neovim emacs nano freeglut3-dev libsdl2-dev libassimp-dev libudev-dev
 
 # Install conan
 RUN python3 -m pip install --upgrade pip setuptools && \

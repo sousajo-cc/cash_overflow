@@ -49,6 +49,8 @@ macro(run_conan)
       ${CMAKE_SOURCE_DIR}
       BUILD
       missing
+      OPTIONS
+      cpp_starter_use_imgui=ON
       SETTINGS
       ${settings})
   endforeach()
