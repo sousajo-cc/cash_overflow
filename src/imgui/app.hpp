@@ -48,14 +48,16 @@ struct App
         if (ImGui::MenuItem("Create User")) {
           draw = DrawActions::CREATE_USER;
         }
+        ImGui::EndMenu();
       }
-      cash_overflow::gui::Window addCategory{ "Login" };
-      ImGui::InputText("User Name", user.data(), user.size());
-      ImGui::InputText("Password", password.data(), password.size(), ImGuiInputTextFlags_Password);
-      if (ImGui::Button("Login")) {
-        if (db_.read(user.data())) {
-          draw = DrawActions::MAIN_SCREEN;
-        }
+      ImGui::EndMainMenuBar();
+    }
+    cash_overflow::gui::Window login{ "Login" };
+    ImGui::InputText("User Name", user.data(), user.size());
+    ImGui::InputText("Password", password.data(), password.size(), ImGuiInputTextFlags_Password);
+    if (ImGui::Button("Login")) {
+      if (db_.read(user.data())) {
+        draw = DrawActions::MAIN_SCREEN;
       }
     }
   }
@@ -64,15 +66,17 @@ struct App
   {
     if (ImGui::BeginMainMenuBar()) {
       if (ImGui::BeginMenu("Options")) {
+          ImGui::EndMenu();
       }
-      [[maybe_unused]] cash_overflow::gui::Window addCategory{ "Create User" };
-      ImGui::InputText("User Name", user.data(), user.size());
-      ImGui::InputText("Password", password.data(), password.size(), ImGuiInputTextFlags_Password);
-      if (ImGui::Button("Create")) {
-        if (db_.create(user.data(), password.data())) {
-          std::fill(std::begin(password), std::end(password), 0);
-          draw = DrawActions::LOGIN;
-        }
+      ImGui::EndMainMenuBar();
+    }
+    [[maybe_unused]] cash_overflow::gui::Window addCategory{ "Create User" };
+    ImGui::InputText("User Name", user.data(), user.size());
+    ImGui::InputText("Password", password.data(), password.size(), ImGuiInputTextFlags_Password);
+    if (ImGui::Button("Create")) {
+      if (db_.create(user.data(), password.data())) {
+        std::fill(std::begin(password), std::end(password), 0);
+        draw = DrawActions::LOGIN;
       }
     }
   }

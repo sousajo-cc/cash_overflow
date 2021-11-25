@@ -81,8 +81,15 @@ void draw(std::vector<Category> const &categories)
   }
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+
+  if (argc < 2) {
+    cashoverflow::logging::Logger::log(cashoverflow::logging::LogLevel::ERR).write("Please specify a database path.", cashoverflow::logging::LogLevel::ERR);
+    return -1;
+  }
+
+  std::string const dbPath{argv[1]};
 
   std::vector<Category> categories;
   std::string currentSelectedCategoryType;
@@ -94,7 +101,7 @@ int main()
   shape.setPosition(sf::Vector2f{ 500.0, 350.0 });
 
   using Db = cash_overflow::db::Db;
-  Db appDatabase = Db(std::make_unique<cashoverflow::utils::FileHandler>("/home/sousajo/etudes/ctw/cash_overflow/db/users.db"));
+  Db appDatabase = Db(std::make_unique<cashoverflow::utils::FileHandler>(std::move(dbPath)));
 
   App app{ std::move(appDatabase) };
   (void)app;

@@ -8,6 +8,7 @@ class Db
 {
 private:
   FileHandlerPtr fileHandler;
+  std::string content = fileHandler->read();
 
 public:
   Db(FileHandlerPtr fileHandlerArg) : fileHandler(std::move(fileHandlerArg)) {}
@@ -18,7 +19,6 @@ public:
 
   bool read(const std::string &user)
   {
-    std::string content = fileHandler->read();
     std::size_t found = content.find(user);
     return found != std::string::npos;
   }
