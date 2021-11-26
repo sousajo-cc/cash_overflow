@@ -1,11 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
 
-# Set default cmake compilers
-set(CMAKE_C_COMPILER "gcc.exe")
-set(CMAKE_CXX_COMPILER "g++.exe")
-#set(CMAKE_C_COMPILER "clang.exe")
-#set(CMAKE_CXX_COMPILER "clang++.exe")
-
 # Set the project name to your project name, my project isn't very descriptive
 project(cash_overflow CXX)
 include(cmake/StandardProjectSettings.cmake)
@@ -58,12 +52,12 @@ if(ENABLE_PCH)
   #
   # consider breaking this out per project as necessary
   target_precompile_headers(
-    project_options
-    INTERFACE
-    <vector>
-    <string>
-    <map>
-    <utility>)
+          project_options
+          INTERFACE
+          <vector>
+          <string>
+          <map>
+          <utility>)
 endif()
 
 option(ENABLE_CONAN "Use Conan for dependency management" ON)
