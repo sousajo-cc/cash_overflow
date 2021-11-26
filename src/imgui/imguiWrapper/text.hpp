@@ -2,12 +2,15 @@
 #define CASH_OVERFLOW_TEXT_HPP
 #include <imgui.h>
 #include <string>
+#include "colors.hpp"
 
-using Color = cash_overflow::colors::Color;
+
 namespace cash_overflow::gui {
 
 class Text
 {
+  using Color=cash_overflow::colors::Color;
+
 public:
   Text(char const *text_) : text{ text_ } {}
   Text(std::string text_) : text{ std::move(text_) } {}
