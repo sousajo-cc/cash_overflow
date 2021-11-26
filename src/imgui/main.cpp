@@ -13,7 +13,7 @@
 #include <SFML/Graphics/CircleShape.hpp>
 using Category = cash_overflow::category::Category;
 using DropDown = cash_overflow::gui::DropDown;
-using colors = cash_overflow::colors;
+using namespace cash_overflow::colors;
 
 void drawTable(std::vector<Category> const &categories)
 {
@@ -21,7 +21,7 @@ void drawTable(std::vector<Category> const &categories)
                                                .with_id("Table")
                                                .with_number_of_columns(4)
                                                .with_headers({ "Account/Category", "Remaining Budget", "Change", "Total" })
-                                               .add_row({ "Assets", "", { "$-778.32", colors.Red }, "$29,754.72" })
+                                               .add_row({ "Assets", "", { "$-778.32", Red }, "$29,754.72" })
                                                .add_row({ "|- Cash", "", { "$-2.85", Red }, "$236.30" })
                                                .add_row({ "|- Checking Account", "", { "$-634.99", Red }, "$7,327.01" })
                                                .add_row({ "|- Euro Account", "", { "-120.00 EUR", Red }, "5,403.00 EUR" })

@@ -3,6 +3,7 @@
 #include <imgui.h>
 #include <string>
 
+using Color = cash_overflow::colors::Color;
 namespace cash_overflow::gui {
 
 class Text
@@ -23,7 +24,7 @@ public:
   void write() const
   {
     if (color) {
-      ImGui::TextColored(color.value(), "%s", text.c_str());
+      ImGui::TextColored(color.value().getColor(), "%s", text.c_str());
     } else {
       ImGui::Text("%s", text.c_str());
     }

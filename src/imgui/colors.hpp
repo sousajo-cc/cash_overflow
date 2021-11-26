@@ -4,12 +4,13 @@
 #include <imgui.h>
 
 namespace cash_overflow::colors {
+
 class Color
 {
 public:
   Color() : color{ 0.0f, 0.0f, 0.0f, 0.0f } {};
   Color(float r, float g, float b, float o) : color{ r, g, b, o } {};
-  ImVec4 toImVec4() const
+  ImVec4 getColor() const
   {
     return color;
   }
@@ -18,7 +19,6 @@ private:
   ImVec4 color{};
 };
 
-namespace colors {
   const Color Black{ .0F, .0F, .0F, 1.0F };
   const Color White{ 1.0F, 1.0F, 1.0F, 1.0F };
   const Color Red{ 1.0F, .0F, .0F, 1.0F };
@@ -35,7 +35,7 @@ namespace colors {
   const Color Purple{ .5F, .0F, .5F, 1.0F };
   const Color Teal{ .0F, .5F, .5F, 1.0F };
   const Color Navy{ .0F, .0F, .5F, 1.0F };
-}
-}// namespace colors
+
+}// cash_overflow::colors
 
 #endif//CASH_OVERFLOW_COLORS_H
