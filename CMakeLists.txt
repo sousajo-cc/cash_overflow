@@ -6,7 +6,7 @@ include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
 
 # Link this 'library' to set the c++ standard / compile-time options requested
-add_library(project_options INTERFACE src/imgui/imguiWrapper/colorOptions.hpp)
+add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_20)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
@@ -52,12 +52,12 @@ if(ENABLE_PCH)
   #
   # consider breaking this out per project as necessary
   target_precompile_headers(
-          project_options
-          INTERFACE
-          <vector>
-          <string>
-          <map>
-          <utility>)
+    project_options
+    INTERFACE
+    <vector>
+    <string>
+    <map>
+    <utility>)
 endif()
 
 option(ENABLE_CONAN "Use Conan for dependency management" ON)
