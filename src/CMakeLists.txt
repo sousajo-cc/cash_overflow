@@ -7,26 +7,22 @@ option(CPP_STARTER_USE_SDL "Enable compilation of SDL sample" OFF)
 
 # sdl
 if(CPP_STARTER_USE_SDL)
-  message("Using SDL2")
-  add_subdirectory(sdl)
+  message("THIS OPTION WAS REMOVED!")
 endif()
 
 # qt
 if(CPP_STARTER_USE_QT)
-  message("Using Qt")
-  add_subdirectory(qt)
+  message("THIS OPTION WAS REMOVED!")
 endif()
 
 # fltk test
 if(CPP_STARTER_USE_FLTK)
-  message("Using FLTK")
-  add_subdirectory(fltk)
+  message("THIS OPTION WAS REMOVED!")
 endif()
 
 # gtkmm test
 if(CPP_STARTER_USE_GTKMM)
-  message("Using gtkmm")
-  add_subdirectory(gtkmm)
+  message("THIS OPTION WAS REMOVED!")
 endif()
 
 # imgui example
@@ -37,8 +33,7 @@ endif()
 
 # Nana
 if(CPP_STARTER_USE_NANA)
-  message("Using Nana")
-  add_subdirectory(nana)
+  message("THIS OPTION WAS REMOVED!")
 endif()
 
 find_package(fmt)
