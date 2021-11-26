@@ -1,6 +1,8 @@
 #ifndef CASH_OVERFLOW_DROPDOWN_HPP
 #define CASH_OVERFLOW_DROPDOWN_HPP
 
+#include <imgui.h>
+
 #include <vector>
 #include <string>
 #include <iostream>
