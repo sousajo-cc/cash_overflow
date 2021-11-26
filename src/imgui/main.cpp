@@ -1,4 +1,4 @@
-#include "imguiWrapper/colors.h"
+#include "imguiWrapper/colorOptions.hpp"
 #include "imguiWrapper/tableBuilder.hpp"
 #include "imguiWrapper/dropDown.hpp"
 #include "logger.hpp"
@@ -16,9 +16,8 @@ using DropDown = cash_overflow::gui::DropDown;
 
 void drawTable(std::vector<Category> const &categories)
 {
-  using colors::Green;
-  using colors::Red;
-  using cash_overflow::error::Error;
+  using cash_overflow::colors::Red;
+  using cash_overflow::colors::Green;
 
   cash_overflow::gui::Table::Builder table = cash_overflow::gui::Table::Builder{}
                                                .with_id("Table")
