@@ -9,8 +9,8 @@ class [[nodiscard]] TabItem
 {
 public:
   explicit TabItem(std::string const &id) : selected{ ImGui::BeginTabItem(id.c_str()) } {}
-  TabItem(TabItem const &) = delete;
-  TabItem &operator=(TabItem const &) = delete;
+  TabItem(TabItem const&) = delete;
+  TabItem &operator=(TabItem const&) = delete;
   TabItem(TabItem &&) = delete;
   TabItem &operator=(TabItem &&) = delete;
   ~TabItem()

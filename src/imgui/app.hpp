@@ -2,6 +2,8 @@
 #define CASH_OVERFLOW_APP_HPP
 
 #include "db.hpp"
+#include "imguiWrapper/mainMenuBar.hpp"
+#include "imguiWrapper/menu.hpp"
 
 #include <imgui-SFML.h>
 
@@ -28,7 +30,7 @@ struct App
 
   void drawMainScreen()
   {
-    if (ImGui::BeginMainMenuBar()) {
+    if (cash_overflow::gui::MainMenuBar menuBar{}) {
       if (ImGui::BeginMenu("Options")) {
         ImGui::MenuItem("Save");
         ImGui::MenuItem("Save as");
@@ -37,20 +39,17 @@ struct App
         }
         ImGui::EndMenu();
       }
-      ImGui::EndMainMenuBar();
     }
   }
 
   void drawLoginScreen()
   {
-    if (ImGui::BeginMainMenuBar()) {
-      if (ImGui::BeginMenu("Options")) {
+    if (cash_overflow::gui::MainMenuBar menuBar{}) {
+      if (cash_overflow::gui::Menu menu{"Options"}) {
         if (ImGui::MenuItem("Create User")) {
           draw = DrawActions::CREATE_USER;
         }
-        ImGui::EndMenu();
       }
-      ImGui::EndMainMenuBar();
     }
     cash_overflow::gui::Window login{ "Login" };
     ImGui::InputText("User Name", user.data(), user.size());
@@ -64,11 +63,9 @@ struct App
 
   void drawCreateUserScreen()
   {
-    if (ImGui::BeginMainMenuBar()) {
-      if (ImGui::BeginMenu("Options")) {
-          ImGui::EndMenu();
+    if (cash_overflow::gui::MainMenuBar menuBar{}) {
+      if (cash_overflow::gui::Menu menu{"Options"}) {
       }
-      ImGui::EndMainMenuBar();
     }
     [[maybe_unused]] cash_overflow::gui::Window addCategory{ "Create User" };
     ImGui::InputText("User Name", user.data(), user.size());
