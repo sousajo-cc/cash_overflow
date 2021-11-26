@@ -17,4 +17,4 @@ private:
   ImVec4 color{};
 };
 
-#endif//CASH_OVERFLOW_COLORS_H
+#endif// CASH_OVERFLOW_COLORS_H

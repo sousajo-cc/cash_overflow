@@ -22,6 +22,6 @@ const Color Purple{ .5F, .0F, .5F, 1.0F };
 const Color Teal{ .0F, .5F, .5F, 1.0F };
 const Color Navy{ .0F, .0F, .5F, 1.0F };
 
-}// cash_overflow::colors
+}// namespace cash_overflow::colors
 
 #endif// CASH_OVERFLOW_COLOROPTIONS_H
