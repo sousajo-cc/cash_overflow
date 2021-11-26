@@ -13,10 +13,12 @@
 #include <SFML/Graphics/CircleShape.hpp>
 using Category = cash_overflow::category::Category;
 using DropDown = cash_overflow::gui::DropDown;
-using namespace cash_overflow::colors;
 
 void drawTable(std::vector<Category> const &categories)
 {
+  using cash_overflow::colors::Red;
+  using cash_overflow::colors::Green;
+
   cash_overflow::gui::Table::Builder table = cash_overflow::gui::Table::Builder{}
                                                .with_id("Table")
                                                .with_number_of_columns(4)
