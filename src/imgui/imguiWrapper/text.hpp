@@ -1,6 +1,9 @@
 #ifndef CASH_OVERFLOW_TEXT_HPP
 #define CASH_OVERFLOW_TEXT_HPP
+
 #include <imgui.h>
+
+#include <optional>
 #include <string>
 #include "color.hpp"
 
