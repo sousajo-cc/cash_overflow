@@ -13,7 +13,7 @@ enum struct LogLevel {
   ERR,
 };
 
-std::string toString(LogLevel lvl)
+inline std::string toString(LogLevel lvl)
 {
   switch (lvl) {
   case LogLevel::DBG:
@@ -29,7 +29,7 @@ std::string toString(LogLevel lvl)
   }
 }
 
-std::ostream &operator<<(std::ostream &os, LogLevel &lvl)
+inline std::ostream &operator<<(std::ostream &os, LogLevel &lvl)
 {
   switch (lvl) {
   case LogLevel::DBG:
