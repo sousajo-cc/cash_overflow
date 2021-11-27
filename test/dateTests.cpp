@@ -8,72 +8,67 @@ using cash_overflow::date::Month;
 using cash_overflow::date::Year;
 using cash_overflow::date::Date;
 
-TEST(YearArithmeticTest, AddTest)
-{
+class YearArithmeticTest : public ::testing::Test {
+protected:
   Year y{ 3 };
   Year const z{ 68 };
+};
+
+TEST_F(YearArithmeticTest, AddTest)
+{
   EXPECT_EQ(y + z, Year{ 71 });
   EXPECT_EQ(y += Year{ 2 }, Year{ 5 });
   EXPECT_EQ(y, Year{ 5 });
 }
 
-TEST(YearArithmeticTest, SubtractTest)
+TEST_F(YearArithmeticTest, SubtractTest)
 {
-  Year y{ 3 };
-  Year const z{ 68 };
   EXPECT_EQ(y - z, Year{ -65 });
   EXPECT_EQ(y -= Year{ 2 }, Year{ 1 });
   EXPECT_EQ(y, Year{ 1 });
   EXPECT_EQ(-z, Year{ -68 });
 }
 
-TEST(YearArithmeticTest, MultiplyTest)
+TEST_F(YearArithmeticTest, MultiplyTest)
 {
-  Year y{ 3 };
   EXPECT_EQ(3 * y, Year{ 9 });
   EXPECT_EQ(y * 3, Year{ 9 });
   EXPECT_EQ(y *= 3, Year{ 9 });
   EXPECT_EQ(y, Year{ 9 });
 }
 
-TEST(YearArithmeticTest, DivideTest)
+TEST_F(YearArithmeticTest, DivideTest)
 {
-  Year y{ 3 };
   EXPECT_EQ(y / 2, Year{ 1 });
   EXPECT_EQ(y /= 3, Year{ 1 });
   EXPECT_EQ(y, Year{ 1 });
 }
 
-TEST(YearArithmeticTest, RemainderTest)
+TEST_F(YearArithmeticTest, RemainderTest)
 {
-  Year y{ 3 };
   EXPECT_EQ(y % 2, Year{ 1 });
 }
 
-TEST(YearArithmeticTest, PreIncrementTest)
+TEST_F(YearArithmeticTest, PreIncrementTest)
 {
-  Year y{ 3 };
   EXPECT_EQ(++y, Year{ 4 });
   EXPECT_EQ(y, Year{ 4 });
 }
 
-TEST(YearArithmeticTest, PostIncrementTest)
+TEST_F(YearArithmeticTest, PostIncrementTest)
 {
-  Year y{ 3 };
   EXPECT_EQ(y++, Year{ 3 });
   EXPECT_EQ(y, Year{ 4 });
 }
 
-TEST(YearArithmeticTest, PreDecrementTest)
+TEST_F(YearArithmeticTest, PreDecrementTest)
 {
-  Year y{ 3 };
   EXPECT_EQ(--y, Year{ 2 });
   EXPECT_EQ(y, Year{ 2 });
 }
 
-TEST(YearArithmeticTest, PostDecrementTest)
+TEST_F(YearArithmeticTest, PostDecrementTest)
 {
-  Year y{ 3 };
   EXPECT_EQ(y--, Year{ 3 });
   EXPECT_EQ(y, Year{ 2 });
 }
