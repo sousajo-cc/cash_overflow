@@ -8,29 +8,74 @@ using cash_overflow::date::Month;
 using cash_overflow::date::Year;
 using cash_overflow::date::Date;
 
-TEST(YearTest, ArithmeticTest)
+TEST(YearArithmeticTest, AddTest)
 {
   Year y{ 3 };
   Year const z{ 68 };
   EXPECT_EQ(y + z, Year{ 71 });
+  EXPECT_EQ(y += Year{ 2 }, Year{ 5 });
+  EXPECT_EQ(y, Year{ 5 });
+}
+
+TEST(YearArithmeticTest, SubtractTest)
+{
+  Year y{ 3 };
+  Year const z{ 68 };
   EXPECT_EQ(y - z, Year{ -65 });
+  EXPECT_EQ(y -= Year{ 2 }, Year{ 1 });
+  EXPECT_EQ(y, Year{ 1 });
+  EXPECT_EQ(-z, Year{ -68 });
+}
+
+TEST(YearArithmeticTest, MultiplyTest)
+{
+  Year y{ 3 };
   EXPECT_EQ(3 * y, Year{ 9 });
   EXPECT_EQ(y * 3, Year{ 9 });
+  EXPECT_EQ(y *= 3, Year{ 9 });
+  EXPECT_EQ(y, Year{ 9 });
+}
+
+TEST(YearArithmeticTest, DivideTest)
+{
+  Year y{ 3 };
   EXPECT_EQ(y / 2, Year{ 1 });
+  EXPECT_EQ(y /= 3, Year{ 1 });
+  EXPECT_EQ(y, Year{ 1 });
+}
+
+TEST(YearArithmeticTest, RemainderTest)
+{
+  Year y{ 3 };
   EXPECT_EQ(y % 2, Year{ 1 });
-  ++y;
-  EXPECT_EQ(++y, Year{ 5 });
-  y++;
-  EXPECT_EQ(y++, Year{ 6 });
-  --y;
-  EXPECT_EQ(--y, Year{ 5 });
-  y--;
-  EXPECT_EQ(y--, Year{ 4 });
-  EXPECT_EQ(y += Year{ 2 }, Year{ 5 });
-  EXPECT_EQ(y -= Year{ 1 }, Year{ 4 });
-  EXPECT_EQ(y *= 3, Year{ 12 });
-  EXPECT_EQ(y /= 4, Year{ 3 });
-  EXPECT_EQ(-y, Year{ -3 });
+}
+
+TEST(YearArithmeticTest, PreIncrementTest)
+{
+  Year y{ 3 };
+  EXPECT_EQ(++y, Year{ 4 });
+  EXPECT_EQ(y, Year{ 4 });
+}
+
+TEST(YearArithmeticTest, PostIncrementTest)
+{
+  Year y{ 3 };
+  EXPECT_EQ(y++, Year{ 3 });
+  EXPECT_EQ(y, Year{ 4 });
+}
+
+TEST(YearArithmeticTest, PreDecrementTest)
+{
+  Year y{ 3 };
+  EXPECT_EQ(--y, Year{ 2 });
+  EXPECT_EQ(y, Year{ 2 });
+}
+
+TEST(YearArithmeticTest, PostDecrementTest)
+{
+  Year y{ 3 };
+  EXPECT_EQ(y--, Year{ 3 });
+  EXPECT_EQ(y, Year{ 2 });
 }
 
 TEST(MonthTest, ArithmeticTest)
