@@ -101,23 +101,34 @@ INSTANTIATE_TYPED_TEST_SUITE_P(Month, DurationArithmeticTest, Month);
 INSTANTIATE_TYPED_TEST_SUITE_P(Week, DurationArithmeticTest, Week);
 INSTANTIATE_TYPED_TEST_SUITE_P(Day, DurationArithmeticTest, Day);
 
-TEST(DateTest, YearOutOfRange)
+TEST(DateTest, YearTooLow)
 {
-  auto unexpected = Date::create(-1, 1, 1);
-  EXPECT_FALSE(unexpected);
+  EXPECT_FALSE(Date::create(1969, 1, 1));
 }
 
-TEST(DateTest, MonthOutOfRange)
+TEST(DateTest, MonthTooLow)
 {
-  EXPECT_FALSE(Date::create(1989, -1, 1));
+  EXPECT_FALSE(Date::create(1989, 0, 1));
+}
+
+TEST(DateTest, MonthTooHigh)
+{
   EXPECT_FALSE(Date::create(1989, 13, 1));
 }
 
-TEST(DateTest, DayOutOfRange)
+TEST(DateTest, DayTooLow)
 {
-  EXPECT_FALSE(Date::create(1989, 1, -1));
+  EXPECT_FALSE(Date::create(1989, 1, 0));
+}
+
+TEST(DateTest, DayTooHigh)
+{
   EXPECT_FALSE(Date::create(1989, 1, 32));
   EXPECT_FALSE(Date::create(1989, 2, 29));
+  EXPECT_FALSE(Date::create(1988, 2, 30));
+  EXPECT_FALSE(Date::create(1900, 2, 29));
+  EXPECT_FALSE(Date::create(2000, 2, 30));
+  EXPECT_FALSE(Date::create(2001, 2, 29));
   EXPECT_FALSE(Date::create(1989, 3, 32));
   EXPECT_FALSE(Date::create(1989, 4, 31));
   EXPECT_FALSE(Date::create(1989, 5, 32));
@@ -128,14 +139,6 @@ TEST(DateTest, DayOutOfRange)
   EXPECT_FALSE(Date::create(1989, 10, 32));
   EXPECT_FALSE(Date::create(1989, 11, 31));
   EXPECT_FALSE(Date::create(1989, 12, 32));
-}
-
-TEST(DateTest, DayOutOfRangeOnLeapYear)
-{
-  EXPECT_FALSE(Date::create(1988, 2, 30));
-  EXPECT_FALSE(Date::create(1900, 2, 29));
-  EXPECT_FALSE(Date::create(2000, 2, 30));
-  EXPECT_FALSE(Date::create(2001, 2, 29));
 }
 
 TEST(DateTest, ToStringTest)
