@@ -8,145 +8,98 @@ using cash_overflow::date::Month;
 using cash_overflow::date::Year;
 using cash_overflow::date::Date;
 
-class YearArithmeticTest : public ::testing::Test {
-protected:
-  Year y{ 3 };
-  Year const z{ 68 };
+template<Duration D>
+class DurationArithmeticTest : public ::testing::Test
+{
 };
 
-TEST_F(YearArithmeticTest, AddTest)
+TYPED_TEST_SUITE_P(DurationArithmeticTest);
+
+TYPED_TEST_P(DurationArithmeticTest, AddTest)
 {
-  EXPECT_EQ(y + z, Year{ 71 });
-  EXPECT_EQ(y += Year{ 2 }, Year{ 5 });
-  EXPECT_EQ(y, Year{ 5 });
+  TypeParam y{ 3 };
+  TypeParam const z{ 68 };
+  EXPECT_EQ(y + z, TypeParam{ 71 });
+  EXPECT_EQ(y += TypeParam{ 2 }, TypeParam{ 5 });
+  EXPECT_EQ(y, TypeParam{ 5 });
 }
 
-TEST_F(YearArithmeticTest, SubtractTest)
+TYPED_TEST_P(DurationArithmeticTest, SubtractTest)
 {
-  EXPECT_EQ(y - z, Year{ -65 });
-  EXPECT_EQ(y -= Year{ 2 }, Year{ 1 });
-  EXPECT_EQ(y, Year{ 1 });
-  EXPECT_EQ(-z, Year{ -68 });
+  TypeParam y{ 3 };
+  TypeParam const z{ 68 };
+  EXPECT_EQ(y - z, TypeParam{ -65 });
+  EXPECT_EQ(y -= TypeParam{ 2 }, TypeParam{ 1 });
+  EXPECT_EQ(y, TypeParam{ 1 });
+  EXPECT_EQ(-z, TypeParam{ -68 });
 }
 
-TEST_F(YearArithmeticTest, MultiplyTest)
+TYPED_TEST_P(DurationArithmeticTest, MultiplyTest)
 {
-  EXPECT_EQ(3 * y, Year{ 9 });
-  EXPECT_EQ(y * 3, Year{ 9 });
-  EXPECT_EQ(y *= 3, Year{ 9 });
-  EXPECT_EQ(y, Year{ 9 });
+  TypeParam y{ 3 };
+  EXPECT_EQ(3 * y, TypeParam{ 9 });
+  EXPECT_EQ(y * 3, TypeParam{ 9 });
+  EXPECT_EQ(y *= 3, TypeParam{ 9 });
+  EXPECT_EQ(y, TypeParam{ 9 });
 }
 
-TEST_F(YearArithmeticTest, DivideTest)
+TYPED_TEST_P(DurationArithmeticTest, DivideTest)
 {
-  EXPECT_EQ(y / 2, Year{ 1 });
-  EXPECT_EQ(y /= 3, Year{ 1 });
-  EXPECT_EQ(y, Year{ 1 });
+  TypeParam y{ 3 };
+  EXPECT_EQ(y / 2, TypeParam{ 1 });
+  EXPECT_EQ(y /= 3, TypeParam{ 1 });
+  EXPECT_EQ(y, TypeParam{ 1 });
 }
 
-TEST_F(YearArithmeticTest, RemainderTest)
+TYPED_TEST_P(DurationArithmeticTest, RemainderTest)
 {
-  EXPECT_EQ(y % 2, Year{ 1 });
+  TypeParam y{ 3 };
+  EXPECT_EQ(y % 2, TypeParam{ 1 });
 }
 
-TEST_F(YearArithmeticTest, PreIncrementTest)
+TYPED_TEST_P(DurationArithmeticTest, PreIncrementTest)
 {
-  EXPECT_EQ(++y, Year{ 4 });
-  EXPECT_EQ(y, Year{ 4 });
+  TypeParam y{ 3 };
+  EXPECT_EQ(++y, TypeParam{ 4 });
+  EXPECT_EQ(y, TypeParam{ 4 });
 }
 
-TEST_F(YearArithmeticTest, PostIncrementTest)
+TYPED_TEST_P(DurationArithmeticTest, PostIncrementTest)
 {
-  EXPECT_EQ(y++, Year{ 3 });
-  EXPECT_EQ(y, Year{ 4 });
+  TypeParam y{ 3 };
+  EXPECT_EQ(y++, TypeParam{ 3 });
+  EXPECT_EQ(y, TypeParam{ 4 });
 }
 
-TEST_F(YearArithmeticTest, PreDecrementTest)
+TYPED_TEST_P(DurationArithmeticTest, PreDecrementTest)
 {
-  EXPECT_EQ(--y, Year{ 2 });
-  EXPECT_EQ(y, Year{ 2 });
+  TypeParam y{ 3 };
+  EXPECT_EQ(--y, TypeParam{ 2 });
+  EXPECT_EQ(y, TypeParam{ 2 });
 }
 
-TEST_F(YearArithmeticTest, PostDecrementTest)
+TYPED_TEST_P(DurationArithmeticTest, PostDecrementTest)
 {
-  EXPECT_EQ(y--, Year{ 3 });
-  EXPECT_EQ(y, Year{ 2 });
+  TypeParam y{ 3 };
+  EXPECT_EQ(y--, TypeParam{ 3 });
+  EXPECT_EQ(y, TypeParam{ 2 });
 }
 
-TEST(MonthTest, ArithmeticTest)
-{
-  Month m{ 3 };
-  Month const n{ 68 };
-  EXPECT_EQ(m + n, Month{ 71 });
-  EXPECT_EQ(m - n, Month{ -65 });
-  EXPECT_EQ(3 * m, Month{ 9 });
-  EXPECT_EQ(m * 3, Month{ 9 });
-  EXPECT_EQ(m / 2, Month{ 1 });
-  EXPECT_EQ(m % 2, Month{ 1 });
-  ++m;
-  EXPECT_EQ(++m, Month{ 5 });
-  m++;
-  EXPECT_EQ(m++, Month{ 6 });
-  --m;
-  EXPECT_EQ(--m, Month{ 5 });
-  m--;
-  EXPECT_EQ(m--, Month{ 4 });
-  EXPECT_EQ(m += Month{ 2 }, Month{ 5 });
-  EXPECT_EQ(m -= Month{ 1 }, Month{ 4 });
-  EXPECT_EQ(m *= 3, Month{ 12 });
-  EXPECT_EQ(m /= 4, Month{ 3 });
-  EXPECT_EQ(-m, Month{ -3 });
-}
+REGISTER_TYPED_TEST_SUITE_P(DurationArithmeticTest,
+  AddTest,
+  SubtractTest,
+  MultiplyTest,
+  DivideTest,
+  RemainderTest,
+  PreIncrementTest,
+  PostIncrementTest,
+  PreDecrementTest,
+  PostDecrementTest);
 
-TEST(WeekTest, ArithmeticTest)
-{
-  Week w{ 3 };
-  Week const x{ 68 };
-  EXPECT_EQ(w + x, Week{ 71 });
-  EXPECT_EQ(w - x, Week{ -65 });
-  EXPECT_EQ(3 * w, Week{ 9 });
-  EXPECT_EQ(w * 3, Week{ 9 });
-  EXPECT_EQ(w / 2, Week{ 1 });
-  EXPECT_EQ(w % 2, Week{ 1 });
-  ++w;
-  EXPECT_EQ(++w, Week{ 5 });
-  w++;
-  EXPECT_EQ(w++, Week{ 6 });
-  --w;
-  EXPECT_EQ(--w, Week{ 5 });
-  w--;
-  EXPECT_EQ(w--, Week{ 4 });
-  EXPECT_EQ(w += Week{ 2 }, Week{ 5 });
-  EXPECT_EQ(w -= Week{ 1 }, Week{ 4 });
-  EXPECT_EQ(w *= 3, Week{ 12 });
-  EXPECT_EQ(w /= 4, Week{ 3 });
-  EXPECT_EQ(-w, Week{ -3 });
-}
-
-TEST(DayTest, ArithmeticTest)
-{
-  Day d{ 3 };
-  Day const e{ 68 };
-  EXPECT_EQ(d + e, Day{ 71 });
-  EXPECT_EQ(d - e, Day{ -65 });
-  EXPECT_EQ(3 * d, Day{ 9 });
-  EXPECT_EQ(d * 3, Day{ 9 });
-  EXPECT_EQ(d / 2, Day{ 1 });
-  EXPECT_EQ(d % 2, Day{ 1 });
-  ++d;
-  EXPECT_EQ(++d, Day{ 5 });
-  d++;
-  EXPECT_EQ(d++, Day{ 6 });
-  --d;
-  EXPECT_EQ(--d, Day{ 5 });
-  d--;
-  EXPECT_EQ(d--, Day{ 4 });
-  EXPECT_EQ(d += Day{ 2 }, Day{ 5 });
-  EXPECT_EQ(d -= Day{ 1 }, Day{ 4 });
-  EXPECT_EQ(d *= 3, Day{ 12 });
-  EXPECT_EQ(d /= 4, Day{ 3 });
-  EXPECT_EQ(-d, Day{ -3 });
-}
+INSTANTIATE_TYPED_TEST_SUITE_P(Year, DurationArithmeticTest, Year);
+INSTANTIATE_TYPED_TEST_SUITE_P(Month, DurationArithmeticTest, Month);
+INSTANTIATE_TYPED_TEST_SUITE_P(Week, DurationArithmeticTest, Week);
+INSTANTIATE_TYPED_TEST_SUITE_P(Day, DurationArithmeticTest, Day);
 
 TEST(DateTest, YearOutOfRange)
 {
