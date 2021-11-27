@@ -12,9 +12,9 @@
 #include <SFML/Graphics/CircleShape.hpp>
 
 enum class DrawActions {
-  LOGIN,
-  CREATE_USER,
-  MAIN_SCREEN
+  Login,
+  CreateUser,
+  MainScreen
 };
 
 struct App
@@ -22,7 +22,7 @@ struct App
   using Db = cash_overflow::db::Db;
   App(Db db) : db_{ std::move(db) } {}
   Db db_;
-  DrawActions draw = DrawActions::LOGIN;
+  DrawActions draw = DrawActions::Login;
   bool loggedIn = false;
   bool createUser = false;
   std::array<char, 24> user{};
@@ -35,7 +35,7 @@ struct App
         ImGui::MenuItem("Save");
         ImGui::MenuItem("Save as");
         if (ImGui::MenuItem("Logout")) {
-          draw = DrawActions::LOGIN;
+          draw = DrawActions::Login;
         }
         ImGui::EndMenu();
       }
@@ -47,7 +47,7 @@ struct App
     if (cash_overflow::gui::MainMenuBar menuBar{}) {
       if (cash_overflow::gui::Menu menu{"Options"}) {
         if (ImGui::MenuItem("Create User")) {
-          draw = DrawActions::CREATE_USER;
+          draw = DrawActions::CreateUser;
         }
       }
     }
@@ -56,7 +56,7 @@ struct App
     ImGui::InputText("Password", password.data(), password.size(), ImGuiInputTextFlags_Password);
     if (ImGui::Button("Login")) {
       if (db_.read(user.data())) {
-        draw = DrawActions::MAIN_SCREEN;
+        draw = DrawActions::MainScreen;
       }
     }
   }
@@ -67,13 +67,13 @@ struct App
       if (cash_overflow::gui::Menu menu{"Options"}) {
       }
     }
-    [[maybe_unused]] cash_overflow::gui::Window addCategory{ "Create User" };
+    cash_overflow::gui::Window addCategory{ "Create User" };
     ImGui::InputText("User Name", user.data(), user.size());
     ImGui::InputText("Password", password.data(), password.size(), ImGuiInputTextFlags_Password);
     if (ImGui::Button("Create")) {
       if (db_.create(user.data(), password.data())) {
         std::fill(std::begin(password), std::end(password), 0);
-        draw = DrawActions::LOGIN;
+        draw = DrawActions::Login;
       }
     }
   }
@@ -81,13 +81,13 @@ struct App
   void start()
   {
     switch (draw) {
-    case (DrawActions::LOGIN):
+    case (DrawActions::Login):
       drawLoginScreen();
       break;
-    case (DrawActions::MAIN_SCREEN):
+    case (DrawActions::MainScreen):
       drawMainScreen();
       break;
-    case (DrawActions::CREATE_USER):
+    case (DrawActions::CreateUser):
       drawCreateUserScreen();
       break;
     default:
