@@ -39,7 +39,8 @@ endif()
 find_package(fmt)
 find_package(spdlog)
 find_package(docopt)
-
+find_package(SQLite3 REQUIRED)
+include_directories(${SQLite3_INCLUDE_DIRS})
 # Generic test that uses conan libs
 add_executable(intro main.cpp)
 target_link_libraries(
@@ -48,4 +49,4 @@ target_link_libraries(
           project_warnings
           docopt::docopt
           fmt::fmt
-          spdlog::spdlog)
+          spdlog::spdlog ${SQLite3_LIBRARIES})

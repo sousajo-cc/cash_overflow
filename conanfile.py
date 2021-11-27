@@ -16,6 +16,7 @@ class CppStarterProject(ConanFile):
         "fmt/8.0.1",
         "spdlog/1.9.2",
         "tl-expected/1.0.0",
+        "sqlite3/3.36.0",
         "imgui-sfml/2.2@bincrafters/stable",
     )
     generators = "cmake", "gcc", "txt", "cmake_find_package"
