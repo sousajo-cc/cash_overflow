@@ -81,7 +81,7 @@ void draw(std::vector<Category> const &categories)
   }
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 
   if (argc < 2) {
@@ -89,10 +89,10 @@ int main(int argc, char* argv[])
     return -1;
   }
 
-  std::string const dbPath{argv[1]};
+  std::string const dbPath{ argv[1] };
 
-  std::vector<Category> categories;
-  std::string currentSelectedCategoryType;
+  [[maybe_unused]] std::vector<Category> categories;
+  [[maybe_unused]] std::string currentSelectedCategoryType;
   sf::RenderWindow window(sf::VideoMode(640, 480), "Cash Overflow");
   window.setFramerateLimit(60);
   ImGui::SFML::Init(window);
@@ -119,7 +119,7 @@ int main(int argc, char* argv[])
 
     ImGui::SFML::Update(window, deltaClock.restart());
 
-    //draw(categories);
+    // draw(categories);
 
     // {
     //   //cash_overflow::gui::Window addCategory{ "Add new Category." };

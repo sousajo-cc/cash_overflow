@@ -62,7 +62,7 @@ inline std::vector<std::string> getAllValidCategoryNames()
   using cash_overflow::utils::size;
   std::vector<std::string> allValidCategoryNames;
   allValidCategoryNames.reserve(size<CategoryType>());
-  for (auto x : EnumIterator<CategoryType>{}) {
+  for (cash_overflow::utils::EnumIterable auto x : EnumIterator<CategoryType>{}) {
     allValidCategoryNames.push_back(toString(x));
   }
   return allValidCategoryNames;

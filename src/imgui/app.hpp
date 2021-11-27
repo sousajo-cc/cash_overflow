@@ -45,7 +45,7 @@ struct App
   void drawLoginScreen()
   {
     if (cash_overflow::gui::MainMenuBar menuBar{}) {
-      if (cash_overflow::gui::Menu menu{"Options"}) {
+      if (cash_overflow::gui::Menu menu{ "Options" }) {
         if (ImGui::MenuItem("Create User")) {
           draw = DrawActions::CreateUser;
         }
@@ -64,7 +64,7 @@ struct App
   void drawCreateUserScreen()
   {
     if (cash_overflow::gui::MainMenuBar menuBar{}) {
-      if (cash_overflow::gui::Menu menu{"Options"}) {
+      if (cash_overflow::gui::Menu menu{ "Options" }) {
       }
     }
     cash_overflow::gui::Window addCategory{ "Create User" };
@@ -96,4 +96,4 @@ struct App
   }
 };
 
-#endif//CASH_OVERFLOW_APP_HPP
+#endif// CASH_OVERFLOW_APP_HPP

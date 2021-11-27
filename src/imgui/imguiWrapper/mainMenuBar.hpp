@@ -3,20 +3,23 @@
 
 namespace cash_overflow::gui {
 
-class [[nodiscard]] MainMenuBar {
+class [[nodiscard]] MainMenuBar
+{
 public:
-  explicit MainMenuBar() : selected {ImGui::BeginMainMenuBar()} {}
-  MainMenuBar(MainMenuBar const&) = delete;
-  MainMenuBar &operator=(MainMenuBar const&) = delete;
+  explicit MainMenuBar() : selected{ ImGui::BeginMainMenuBar() } {}
+  MainMenuBar(MainMenuBar const &) = delete;
+  MainMenuBar &operator=(MainMenuBar const &) = delete;
   MainMenuBar(MainMenuBar &&) = delete;
   MainMenuBar &operator=(MainMenuBar &&) = delete;
-  ~MainMenuBar(){
-    if(selected) {
+  ~MainMenuBar()
+  {
+    if (selected) {
       ImGui::EndMainMenuBar();
     }
   }
 
-  explicit operator bool()&{
+  explicit operator bool() &
+  {
     return selected;
   }
 
@@ -24,6 +27,5 @@ private:
   bool selected{};
 };
 
-}
+}// namespace cash_overflow::gui
 #endif// CASH_OVERFLOW_MAINMENUBAR_HPP
-
