@@ -16,23 +16,56 @@ find_package(fmt REQUIRED)
 include_directories(${fmt_INCLUDE_DIRS})
 
 enable_testing()
+include(GoogleTest)
 
 add_executable(
-    hello_test
-    category_tests.cpp
-    hello_test.cpp
-    table_builder_tests.cpp
-    map_tests.cpp
-        date_tests.cpp
+        categoryTests
+        categoryTests.cpp
 )
 target_link_libraries(
-    hello_test
-    gtest_main
-    project_warnings
-    project_options
-    ImGui-SFML::ImGui-SFML
-    fmt::fmt
+        categoryTests
+        gtest_main
+        project_warnings
+        project_options
+        fmt::fmt
 )
+gtest_discover_tests(categoryTests)
 
-include(GoogleTest)
-gtest_discover_tests(hello_test)
+add_executable(
+        dateTests
+        dateTests.cpp
+)
+target_link_libraries(
+        dateTests
+        gtest_main
+        project_warnings
+        project_options
+        fmt::fmt
+)
+gtest_discover_tests(dateTests)
+
+add_executable(
+        mapTests
+        mapTests.cpp
+)
+target_link_libraries(
+        mapTests
+        gtest_main
+        project_warnings
+        project_options
+)
+gtest_discover_tests(mapTests)
+
+add_executable(
+        tableBuilderTests
+        tableBuilderTests.cpp
+)
+target_link_libraries(
+        tableBuilderTests
+        gtest_main
+        project_warnings
+        project_options
+        ImGui-SFML::ImGui-SFML
+        fmt::fmt
+)
+gtest_discover_tests(tableBuilderTests)
