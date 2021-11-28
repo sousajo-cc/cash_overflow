@@ -85,6 +85,36 @@ TYPED_TEST_P(DurationArithmeticTest, PostDecrementTest)
   EXPECT_EQ(y, TypeParam{ 2 });
 }
 
+TYPED_TEST_P(DurationArithmeticTest, EqualityTest)
+{
+  TypeParam y{ 3 };
+  TypeParam const z{ 3 };
+  EXPECT_EQ(y, z);
+}
+
+TYPED_TEST_P(DurationArithmeticTest, InequalityTest)
+{
+  TypeParam y{ 3 };
+  TypeParam const z{ 68 };
+  EXPECT_NE(y, z);
+}
+
+TYPED_TEST_P(DurationArithmeticTest, LessThanTest)
+{
+  TypeParam y{ 3 };
+  TypeParam const z{ 68 };
+  EXPECT_LT(y, z);
+  EXPECT_LE(y, z);
+}
+
+TYPED_TEST_P(DurationArithmeticTest, GreaterThanTest)
+{
+  TypeParam y{ 3 };
+  TypeParam const z{ 68 };
+  EXPECT_GT(z, y);
+  EXPECT_GE(z, y);
+}
+
 REGISTER_TYPED_TEST_SUITE_P(DurationArithmeticTest,
   AddTest,
   SubtractTest,
@@ -94,12 +124,56 @@ REGISTER_TYPED_TEST_SUITE_P(DurationArithmeticTest,
   PreIncrementTest,
   PostIncrementTest,
   PreDecrementTest,
-  PostDecrementTest);
+  PostDecrementTest,
+  EqualityTest,
+  InequalityTest,
+  LessThanTest,
+  GreaterThanTest);
 
 INSTANTIATE_TYPED_TEST_SUITE_P(Year, DurationArithmeticTest, Year);
 INSTANTIATE_TYPED_TEST_SUITE_P(Month, DurationArithmeticTest, Month);
 INSTANTIATE_TYPED_TEST_SUITE_P(Week, DurationArithmeticTest, Week);
 INSTANTIATE_TYPED_TEST_SUITE_P(Day, DurationArithmeticTest, Day);
+
+TEST(WeekTest, ToString)
+{
+  using cash_overflow::date::toString;
+  using cash_overflow::date::DaysOfTheWeek;
+  EXPECT_EQ(toString(DaysOfTheWeek::Sunday), "Sunday");
+  EXPECT_EQ(toString(DaysOfTheWeek::Monday), "Monday");
+  EXPECT_EQ(toString(DaysOfTheWeek::Tuesday), "Tuesday");
+  EXPECT_EQ(toString(DaysOfTheWeek::Wednesday), "Wednesday");
+  EXPECT_EQ(toString(DaysOfTheWeek::Thursday), "Thursday");
+  EXPECT_EQ(toString(DaysOfTheWeek::Friday), "Friday");
+  EXPECT_EQ(toString(DaysOfTheWeek::Saturday), "Saturday");
+  EXPECT_EQ(toString(static_cast<DaysOfTheWeek>(-1)), "");
+}
+
+TEST(YearTest, LeapYear)
+{
+  EXPECT_TRUE(Year{ 1988 }.isLeapYear());
+  EXPECT_TRUE(Year{ 2000 }.isLeapYear());
+  EXPECT_FALSE(Year{ 1989 }.isLeapYear());
+  EXPECT_FALSE(Year{ 1900 }.isLeapYear());
+}
+
+TEST(MonthTest, NumberOfDays)
+{
+  EXPECT_EQ(Month{ 1 }.getNumberOfDays(Year{ 1988 }), Day{ 31 });
+  EXPECT_EQ(Month{ 2 }.getNumberOfDays(Year{ 1988 }), Day{ 29 });
+  EXPECT_EQ(Month{ 2 }.getNumberOfDays(Year{ 1989 }), Day{ 28 });
+  EXPECT_EQ(Month{ 3 }.getNumberOfDays(Year{ 1988 }), Day{ 31 });
+  EXPECT_EQ(Month{ 4 }.getNumberOfDays(Year{ 1988 }), Day{ 30 });
+  EXPECT_EQ(Month{ 5 }.getNumberOfDays(Year{ 1988 }), Day{ 31 });
+  EXPECT_EQ(Month{ 6 }.getNumberOfDays(Year{ 1988 }), Day{ 30 });
+  EXPECT_EQ(Month{ 7 }.getNumberOfDays(Year{ 1988 }), Day{ 31 });
+  EXPECT_EQ(Month{ 8 }.getNumberOfDays(Year{ 1988 }), Day{ 31 });
+  EXPECT_EQ(Month{ 9 }.getNumberOfDays(Year{ 1988 }), Day{ 30 });
+  EXPECT_EQ(Month{ 10 }.getNumberOfDays(Year{ 1988 }), Day{ 31 });
+  EXPECT_EQ(Month{ 11 }.getNumberOfDays(Year{ 1988 }), Day{ 30 });
+  EXPECT_EQ(Month{ 12 }.getNumberOfDays(Year{ 1988 }), Day{ 31 });
+  EXPECT_EQ(Month{ -1 }.getNumberOfDays(Year{ 1988 }), Day{ 0 });
+}
 
 TEST(DateTest, YearTooLow)
 {
@@ -202,4 +276,25 @@ TEST(DateTest, DaysUntilTest)
   EXPECT_EQ(Date::create(1989, 2, 3).value().daysUntil(Date::create(1990, 1, 6).value()), Day{ 337 });
   EXPECT_EQ(Date::create(1989, 2, 3).value().daysUntil(Date::create(2009, 10, 30).value()), Day{ 7574 });
   EXPECT_EQ(Date::create(2009, 10, 30).value().daysUntil(Date::create(1989, 2, 3).value()), -Day{ 7574 });
+}
+
+TEST(DateTest, StreamOperatorOnDate)
+{
+  std::ostringstream os;
+  os << Date::create(1989, 2, 3).value();
+  EXPECT_EQ(os.str(), "1989-2-3");
+}
+
+TEST(DateTest, StreamOperatorOnExpectedDate)
+{
+  std::ostringstream os;
+  os << Date::create(1989, 2, 3);
+  EXPECT_EQ(os.str(), "1989-2-3");
+}
+
+TEST(DateTest, StreamOperatorOnUnexpectedDate)
+{
+  std::ostringstream os;
+  os << Date::create(1989, 2, 32);
+  EXPECT_NE(os.str(), "1989-2-32");
 }
