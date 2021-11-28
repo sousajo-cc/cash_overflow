@@ -98,6 +98,38 @@ struct Month
       return Day{ 0 };
     }
   }
+
+  [[nodiscard]] std::string toString() const
+  {
+    switch (durationValue) {
+    case 1:
+      return "January";
+    case 2:
+      return "February";
+    case 3:
+      return "March";
+    case 4:
+      return "April";
+    case 5:
+      return "May";
+    case 6:
+      return "June";
+    case 7:
+      return "July";
+    case 8:
+      return "August";
+    case 9:
+      return "September";
+    case 10:
+      return "October";
+    case 11:
+      return "November";
+    case 12:
+      return "December";
+    default:
+      return "";
+    }
+  }
   [[nodiscard]] constexpr Year toYears() const
   {
     return Year{ durationValue / 12 };
@@ -319,34 +351,7 @@ public:
 
   [[nodiscard]] std::string getMonthName() const
   {
-    switch (month.durationValue) {
-    case 11:
-      return "November";
-    case 4:
-      return "April";
-    case 6:
-      return "June";
-    case 9:
-      return "September";
-    case 12:
-      return "December";
-    case 10:
-      return "October";
-    case 8:
-      return "August";
-    case 7:
-      return "July";
-    case 5:
-      return "May";
-    case 3:
-      return "March";
-    case 1:
-      return "January";
-    case 2:
-      return "February";
-    default:
-      return "Onzember";
-    }
+    return month.toString();
   }
 
   // WARNING: weird black magic

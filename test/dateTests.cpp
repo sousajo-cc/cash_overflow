@@ -175,6 +175,23 @@ TEST(MonthTest, NumberOfDays)
   EXPECT_EQ(Month{ -1 }.getNumberOfDays(Year{ 1988 }), Day{ 0 });
 }
 
+TEST(MonthTest, toString)
+{
+  EXPECT_EQ(Month{ 1 }.toString(), "January");
+  EXPECT_EQ(Month{ 2 }.toString(), "February");
+  EXPECT_EQ(Month{ 3 }.toString(), "March");
+  EXPECT_EQ(Month{ 4 }.toString(), "April");
+  EXPECT_EQ(Month{ 5 }.toString(), "May");
+  EXPECT_EQ(Month{ 6 }.toString(), "June");
+  EXPECT_EQ(Month{ 7 }.toString(), "July");
+  EXPECT_EQ(Month{ 8 }.toString(), "August");
+  EXPECT_EQ(Month{ 9 }.toString(), "September");
+  EXPECT_EQ(Month{ 10 }.toString(), "October");
+  EXPECT_EQ(Month{ 11 }.toString(), "November");
+  EXPECT_EQ(Month{ 12 }.toString(), "December");
+  EXPECT_EQ(Month{ 13 }.toString(), "");
+}
+
 TEST(DateTest, YearTooLow)
 {
   EXPECT_FALSE(Date::create(1969, 1, 1));
@@ -297,4 +314,20 @@ TEST(DateTest, StreamOperatorOnUnexpectedDate)
   std::ostringstream os;
   os << Date::create(1989, 2, 32);
   EXPECT_NE(os.str(), "1989-2-32");
+}
+
+TEST(DateTest, GetMonthName)
+{
+  EXPECT_EQ(Date::create(1989, 1, 3).value().getMonthName(), "January");
+  EXPECT_EQ(Date::create(1989, 2, 3).value().getMonthName(), "February");
+  EXPECT_EQ(Date::create(1989, 3, 3).value().getMonthName(), "March");
+  EXPECT_EQ(Date::create(1989, 4, 3).value().getMonthName(), "April");
+  EXPECT_EQ(Date::create(1989, 5, 3).value().getMonthName(), "May");
+  EXPECT_EQ(Date::create(1989, 6, 3).value().getMonthName(), "June");
+  EXPECT_EQ(Date::create(1989, 7, 3).value().getMonthName(), "July");
+  EXPECT_EQ(Date::create(1989, 8, 3).value().getMonthName(), "August");
+  EXPECT_EQ(Date::create(1989, 9, 3).value().getMonthName(), "September");
+  EXPECT_EQ(Date::create(1989, 10, 3).value().getMonthName(), "October");
+  EXPECT_EQ(Date::create(1989, 11, 3).value().getMonthName(), "November");
+  EXPECT_EQ(Date::create(1989, 12, 3).value().getMonthName(), "December");
 }
