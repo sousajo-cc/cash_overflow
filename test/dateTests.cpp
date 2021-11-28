@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../src/imgui/date.hpp"
-#include "../src/imgui/util.hpp"
+#include "date.hpp"
+#include "util.hpp"
 
 using cash_overflow::date::Day;
 using cash_overflow::date::Week;

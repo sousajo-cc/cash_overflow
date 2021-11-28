@@ -18,6 +18,8 @@ include_directories(${fmt_INCLUDE_DIRS})
 enable_testing()
 include(GoogleTest)
 
+include_directories(../src/imgui)
+
 add_executable(
         categoryTests
         categoryTests.cpp
@@ -69,3 +71,15 @@ target_link_libraries(
         fmt::fmt
 )
 gtest_discover_tests(tableBuilderTests)
+
+add_executable(
+        fileHandlerTests
+        fileHandlerTests.cpp
+)
+target_link_libraries(
+        fileHandlerTests
+        gtest_main
+        project_warnings
+        project_options
+)
+gtest_discover_tests(fileHandlerTests)

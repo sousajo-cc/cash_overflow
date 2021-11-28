@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../src/imgui/category.hpp"
+#include "category.hpp"
 
 using cash_overflow::category::getAllValidCategoryNames;
 
