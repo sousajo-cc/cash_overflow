@@ -83,3 +83,9 @@ target_link_libraries(
         project_options
 )
 gtest_discover_tests(fileHandlerTests)
+add_custom_command(
+        TARGET fileHandlerTests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources
+        ${CMAKE_CURRENT_BINARY_DIR}/resources
+)
