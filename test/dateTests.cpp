@@ -146,7 +146,7 @@ TEST(WeekTest, ToString)
   EXPECT_EQ(toString(DaysOfTheWeek::Thursday), "Thursday");
   EXPECT_EQ(toString(DaysOfTheWeek::Friday), "Friday");
   EXPECT_EQ(toString(DaysOfTheWeek::Saturday), "Saturday");
-  EXPECT_EQ(toString(static_cast<DaysOfTheWeek>(-1)), "");
+  EXPECT_EQ(toString(static_cast<DaysOfTheWeek>(-1)), "ERROR Week day");
 }
 
 TEST(YearTest, LeapYear)
@@ -189,7 +189,7 @@ TEST(MonthTest, toString)
   EXPECT_EQ(Month{ 10 }.toString(), "October");
   EXPECT_EQ(Month{ 11 }.toString(), "November");
   EXPECT_EQ(Month{ 12 }.toString(), "December");
-  EXPECT_EQ(Month{ 13 }.toString(), "");
+  EXPECT_EQ(Month{ 13 }.toString(), "ERROR Month");
 }
 
 TEST(DateTest, YearTooLow)

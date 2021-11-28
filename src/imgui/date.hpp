@@ -37,7 +37,7 @@ inline std::string toString(DaysOfTheWeek d)
   case DaysOfTheWeek::Saturday:
     return "Saturday";
   default:
-    return "";
+    return "ERROR Week day";
   }
 }
 
@@ -127,7 +127,7 @@ struct Month
     case 12:
       return "December";
     default:
-      return "";
+      return "ERROR Month";
     }
   }
   [[nodiscard]] constexpr Year toYears() const
