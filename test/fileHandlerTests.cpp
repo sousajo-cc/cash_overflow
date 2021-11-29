@@ -18,7 +18,7 @@ TEST(FileHandlerTests, ReadEmptyFile)
 TEST(FileHandlerTests, ReadFile)
 {
   FileHandler fileHandler{ "resources/example_file.txt" };
-  auto expected_output = R"(Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  constexpr auto expected_output = R"(Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Etiam eget ligula eu lectus lobortis condimentum.
 Aliquam nonummy auctor massa.
 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.

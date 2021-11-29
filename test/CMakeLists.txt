@@ -89,3 +89,16 @@ add_custom_command(
         ${CMAKE_CURRENT_SOURCE_DIR}/resources
         ${CMAKE_CURRENT_BINARY_DIR}/resources
 )
+
+add_executable(
+        loggerTests
+        loggerTests.cpp
+)
+target_link_libraries(
+        loggerTests
+        gtest_main
+        project_warnings
+        project_options
+        fmt::fmt
+)
+gtest_discover_tests(loggerTests)

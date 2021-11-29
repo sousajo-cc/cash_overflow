@@ -100,10 +100,14 @@ public:
   {
     fmt::color color = getColor(lvl);
     if (lvl >= logLevel)
-      fmt::print(fg(color) | fmt::emphasis::bold,
-        "[{}] {}\n",
-        toString(lvl),
-        msg);
+      // using std::cout << fmt::format instead of fmt::print
+      // quick hack to make the tests work
+      // maybe later we should pass a std::ostream& output = std::cout as an argument somewhere
+      // that way we can print to a file or to a string if we want to
+      std::cout << fmt::format(fg(color) | fmt::emphasis::bold,
+                 "[{}] {}\n",
+                 toString(lvl),
+                 msg);
   }
 
 private:
