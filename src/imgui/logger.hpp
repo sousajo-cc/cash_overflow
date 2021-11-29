@@ -105,9 +105,9 @@ public:
       // maybe later we should pass a std::ostream& output = std::cout as an argument somewhere
       // that way we can print to a file or to a string if we want to
       std::cout << fmt::format(fg(color) | fmt::emphasis::bold,
-                 "[{}] {}\n",
-                 toString(lvl),
-                 msg);
+        "[{}] {}\n",
+        toString(lvl),
+        msg);
   }
 
 private:
