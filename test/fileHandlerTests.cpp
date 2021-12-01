@@ -24,6 +24,7 @@ Aliquam nonummy auctor massa.
 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
 Nulla at risus.
 Quisque purus magna, auctor et, sagittis ac, posuere eu, lectus.
-Nam mattis, felis ut adipiscing.)";
+Nam mattis, felis ut adipiscing.
+)";
   EXPECT_EQ(fileHandler.read(), expected_output);
 }

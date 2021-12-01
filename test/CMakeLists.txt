@@ -18,7 +18,7 @@ include_directories(${fmt_INCLUDE_DIRS})
 enable_testing()
 include(GoogleTest)
 
-include_directories(../src/imgui)
+include_directories(${CMAKE_SOURCE_DIR}/src/imgui)
 
 add_executable(
         categoryTests
