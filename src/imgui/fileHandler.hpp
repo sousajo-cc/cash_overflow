@@ -33,9 +33,21 @@ struct FileHandler
     return os.str();
   };
 
+  unsigned int read(char *buffer, int size)
+  {
+    fileStream.read(buffer, size);
+    return static_cast<unsigned int>(fileStream.gcount());
+  }
+
+  std::string getFileName() const
+  {
+    return fileName;
+  }
+
   std::string fileName;
   std::fstream fileStream;
 };
 }// namespace cashoverflow::utils
+
 
 #endif
