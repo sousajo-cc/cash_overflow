@@ -14,6 +14,7 @@ class CppStarterProject(ConanFile):
         "catch2/2.13.7",
         "docopt.cpp/0.6.2",
         "fmt/8.0.1",
+        "range-v3/0.11.0",
         "spdlog/1.9.2",
         "tl-expected/1.0.0",
         "imgui-sfml/2.2@bincrafters/stable",

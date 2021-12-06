@@ -15,6 +15,9 @@ include_directories(${tl_INCLUDE_DIRS})
 find_package(fmt REQUIRED)
 include_directories(${fmt_INCLUDE_DIRS})
 
+find_package(range-v3 REQUIRED)
+include_directories(SYSTEM ${range-v3_INCLUDE_DIRS})
+
 enable_testing()
 include(GoogleTest)
 
@@ -45,18 +48,6 @@ target_link_libraries(
         fmt::fmt
 )
 gtest_discover_tests(dateTests)
-
-add_executable(
-        mapTests
-        mapTests.cpp
-)
-target_link_libraries(
-        mapTests
-        gtest_main
-        project_warnings
-        project_options
-)
-gtest_discover_tests(mapTests)
 
 add_executable(
         tableBuilderTests
