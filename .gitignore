@@ -17,6 +17,7 @@ cmake_install.cmake
 !.vscode/extensions.json
 *.swp
 *~
+cashworkspace.code-workspace
 
 # OS Generated Files
 .DS_Store

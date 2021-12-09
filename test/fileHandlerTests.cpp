@@ -23,3 +23,11 @@ Nam mattis, felis ut adipiscing.
 )";
   EXPECT_EQ(fileHandler.read(), expected_output);
 }
+
+TEST(FileHandlerTests, ReadLine)
+{
+  FileHandler fileHandler{ "resources/example_file.txt" };
+
+  std::string expected_output{ "Lorem ipsum dolor sit amet, consectetur adipiscing elit." };
+  EXPECT_EQ(fileHandler.readLine(), expected_output);
+}
