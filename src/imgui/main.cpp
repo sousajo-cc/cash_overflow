@@ -3,6 +3,13 @@
 #include "imguiWrapper/dropDown.hpp"
 #include "logger.hpp"
 #include "category.hpp"
+#include "fileHandler.hpp"
+#include "db.hpp"
+#include "app.hpp"
+#include <iostream>
+//#include "user.hpp"
+//#include "account.hpp"
+
 
 #include <vector>
 
@@ -74,18 +81,30 @@ void draw(std::vector<Category> const &categories)
   }
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-  std::array<char, 24> categoryName{};
-  std::vector<Category> categories;
-  std::string currentSelectedCategoryType;
+
+  if (argc < 2) {
+    cashoverflow::logging::Logger::log(cashoverflow::logging::LogLevel::ERR).write("Please specify a database path.", cashoverflow::logging::LogLevel::ERR);
+    return -1;
+  }
+
+  std::string const dbPath{ argv[1] };
+
+  [[maybe_unused]] std::vector<Category> categories;
+  [[maybe_unused]] std::string currentSelectedCategoryType;
   sf::RenderWindow window(sf::VideoMode(640, 480), "Cash Overflow");
   window.setFramerateLimit(60);
   ImGui::SFML::Init(window);
-
   sf::CircleShape shape{ 100.F };
   shape.setFillColor(sf::Color::Cyan);
   shape.setPosition(sf::Vector2f{ 500.0, 350.0 });
+
+  using Db = cash_overflow::db::Db;
+  Db appDatabase = Db(std::make_unique<cashoverflow::utils::FileHandler>(std::move(dbPath)));
+
+  App app{ std::move(appDatabase) };
+  (void)app;
 
   sf::Clock deltaClock;
   while (window.isOpen()) {
@@ -100,18 +119,23 @@ int main()
 
     ImGui::SFML::Update(window, deltaClock.restart());
 
-    draw(categories);
+    // draw(categories);
+
+    // {
+    //   //cash_overflow::gui::Window addCategory{ "Add new Category." };
+    //   ImGui::InputText("Category Name", categoryName.data(), categoryName.size());
+    //   currentSelectedCategoryType = DropDown{ cash_overflow::category::getAllValidCategoryNames(), std::move(currentSelectedCategoryType) }.draw();
+
+    //   if (ImGui::Button("OK")) {
+    //     std::string s(std::begin(categoryName), std::end(categoryName));
+    //     categories.emplace_back(s, cash_overflow::category::CategoryType::Liabilities);
+    //   }
+    // }
 
     {
-      cash_overflow::gui::Window addCategory{ "Add new Category." };
-      ImGui::InputText("Category Name", categoryName.data(), categoryName.size());
-      currentSelectedCategoryType = DropDown{ cash_overflow::category::getAllValidCategoryNames(), std::move(currentSelectedCategoryType) }.draw();
-
-      if (ImGui::Button("OK")) {
-        std::string s(std::begin(categoryName), std::end(categoryName));
-        categories.emplace_back(s, cash_overflow::category::CategoryType::Liabilities);
-      }
+      app.start();
     }
+
 
     window.clear();
     window.draw(shape);
