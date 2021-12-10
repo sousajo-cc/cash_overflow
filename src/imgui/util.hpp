@@ -12,10 +12,10 @@
 
 namespace cash_overflow::utils {
 
-inline std::string toLowerCase(std::string const& str)
+inline std::string toLowerCase(std::string const &str)
 {
   return str
-         | ranges::views::transform( [](unsigned char c) -> char { return static_cast<char>(std::tolower(c)); } )
+         | ranges::views::transform([](unsigned char c) -> char { return static_cast<char>(std::tolower(c)); })
          | ranges::to<std::string>();
 }
 
