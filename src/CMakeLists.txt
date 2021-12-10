@@ -36,6 +36,7 @@ if(CPP_STARTER_USE_NANA)
   message("THIS OPTION WAS REMOVED!")
 endif()
 
+
 find_package(fmt)
 find_package(spdlog)
 find_package(docopt)
@@ -50,3 +51,4 @@ target_link_libraries(
           docopt::docopt
           fmt::fmt
           spdlog::spdlog ${SQLite3_LIBRARIES})
+

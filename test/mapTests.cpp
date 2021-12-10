@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../src/imgui/util.hpp"
+#include "util.hpp"
 
 using cash_overflow::utils::map;
 
