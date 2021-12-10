@@ -1,37 +1,22 @@
 #ifndef CASH_OVERFLOW_UTIL_H
 #define CASH_OVERFLOW_UTIL_H
 
+#include <range/v3/range/conversion.hpp>
+#include <range/v3/view/transform.hpp>
 #include <tl/expected.hpp>
 
+#include <algorithm>
 #include <iostream>
 #include <ranges>
 #include <concepts>
 
 namespace cash_overflow::utils {
 
-// WARNING: ignore this if you're starting to learn C++ now
-// applies a function to every element on a vector
-// refer to the tests for usage examples
-auto map(std::ranges::range auto const &input, auto f)
+inline std::string toLowerCase(std::string const &str)
 {
-  using Out = decltype(f(input[0]));
-  std::vector<Out> output{};
-  for (auto val : input | std::ranges::views::transform(f)) {
-    output.push_back(val);
-  }
-  return output;
-}
-
-inline std::string toString(std::vector<char> const &in)
-{
-  std::string s(in.begin(), in.end());
-  return s;
-}
-
-inline std::string toLowerCase(std::string str)
-{
-  constexpr auto toLower = [](unsigned char c) -> char { return static_cast<char>(std::tolower(c)); };
-  return toString(map(str, toLower));
+  return str
+         | ranges::views::transform([](unsigned char c) -> char { return static_cast<char>(std::tolower(c)); })
+         | ranges::to<std::string>();
 }
 
 // WARNING: ignore this if you're starting to learn C++ now

@@ -35,20 +35,3 @@ endif()
 if(CPP_STARTER_USE_NANA)
   message("THIS OPTION WAS REMOVED!")
 endif()
-
-
-find_package(fmt)
-find_package(spdlog)
-find_package(docopt)
-find_package(SQLite3 REQUIRED)
-include_directories(${SQLite3_INCLUDE_DIRS})
-# Generic test that uses conan libs
-add_executable(intro main.cpp)
-target_link_libraries(
-  intro
-  PRIVATE project_options
-          project_warnings
-          docopt::docopt
-          fmt::fmt
-          spdlog::spdlog ${SQLite3_LIBRARIES})
-

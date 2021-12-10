@@ -4,11 +4,6 @@
 
 using cashoverflow::utils::FileHandler;
 
-TEST(FileHandlerTests, NonExistingFile)
-{
-  EXPECT_ANY_THROW(FileHandler{ "resources/nonexistingfile.txt" });
-}
-
 TEST(FileHandlerTests, ReadEmptyFile)
 {
   FileHandler fileHandler{ "resources/empty_file.txt" };

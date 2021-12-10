@@ -8,6 +8,7 @@
 
 #include <fmt/format.h>
 #include <fmt/ranges.h>
+#include <range/v3/view/transform.hpp>
 #include <tl/expected.hpp>
 #include <imgui.h>
 
@@ -70,10 +71,9 @@ public:
   private:
     [[nodiscard]] std::string number_of_columns_error(Row const &row, const char *msg) const
     {
-      using cash_overflow::utils::map;
-      auto text_to_string = [](Text const &text) {
-        return text.get_text();
-      };
+      auto row_as_string = row
+                           | ranges::views::transform([](Text const &text) { return text.get_text(); })
+                           | ranges::to<std::vector>();
       // using vformat instead of format to skip compile-time checks
       return fmt::vformat(
         msg,
@@ -81,7 +81,7 @@ public:
           row.size() > number_of_columns ? "many" : "few",
           number_of_columns,
           row.size(),
-          map(row, text_to_string)));
+          row_as_string));
     }
     [[nodiscard]] std::string number_of_headers_error() const
     {
