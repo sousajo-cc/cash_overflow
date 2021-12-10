@@ -5,6 +5,7 @@
 #include "fileHandler.hpp"
 
 using ::testing::Return;
+using namespace cash_overflow;
 
 
 class MockFileHandler : public cashoverflow::utils::IFileHandler
@@ -22,9 +23,9 @@ TEST(ParserTest, ParseHeader)
 
   EXPECT_CALL(*fileHandler, readLine()).WillOnce(Return("Type1,Type2,Type3,Type4,Type5"));
 
-  CSV::Parser parserHandler(std::move(fileHandler));
+  csv::Parser parserHandler(std::move(fileHandler));
 
-  auto header = parserHandler.getHeader(5).value_or(CSV::Row{});
+  auto header = parserHandler.getHeader(5).value_or(csv::Row{});
 
   ASSERT_EQ(header.size(), 5);
   EXPECT_EQ(header.at(0), "Type1");
@@ -40,9 +41,9 @@ TEST(ParserTest, ParseHeaderJustOneColumn)
   std::unique_ptr<MockFileHandler> fileHandler = std::make_unique<MockFileHandler>();
 
   EXPECT_CALL(*fileHandler, readLine()).WillOnce(Return("Type1"));
-  CSV::Parser parser(std::move(fileHandler));
+  csv::Parser parser(std::move(fileHandler));
 
-  auto header = parser.getHeader(1).value_or(CSV::Row{});
+  auto header = parser.getHeader(1).value_or(csv::Row{});
 
   ASSERT_EQ(header.size(), 1);
   EXPECT_EQ(header.at(0), "Type1");
@@ -57,9 +58,9 @@ TEST(ParserTest, ParseString)
     .WillOnce(Return("Full Name,Age,Address,Cell Phone"))
     .WillOnce(Return("John Wick,44,Casa da Musica,800800800"));
 
-  CSV::Parser parser(std::move(fileHandler));
+  csv::Parser parser(std::move(fileHandler));
 
-  auto header = parser.getHeader(4).value_or(CSV::Row{});
+  auto header = parser.getHeader(4).value_or(csv::Row{});
 
   auto line = parser.parseNextLine();
 
