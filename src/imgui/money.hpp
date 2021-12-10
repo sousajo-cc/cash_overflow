@@ -41,4 +41,4 @@ private:
 
 }// namespace cash_overflow::money
 
-#endif//CASH_OVERFLOW_MONEY_HPP
+#endif// CASH_OVERFLOW_MONEY_HPP
