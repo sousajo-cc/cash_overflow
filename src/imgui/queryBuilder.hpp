@@ -6,13 +6,12 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <sstream>
 
 #include "util.hpp"
 
 
 namespace cash_overflow::db {
-// Query::createQueryOfType("insert").into("user").with_value("jorge").on_column("username")
-//                                                .with_value("jndaiskjndad").on_column("password").go();
 // TODO: Return expected
 struct QueryBuilder
 {
@@ -58,31 +57,26 @@ public:
 
   std::string go() override
   {
-    std::string v;
-    preparedQuery.append("insert into ");
-    preparedQuery.append(table);
-    preparedQuery.append("(");
-    v.append(" values(");
+    std::ostringstream v;
+    preparedQuery << "insert into ";
+    preparedQuery << table;
+    preparedQuery << "(";
+    v << " values(";
     for (std::size_t i = 0; i < columns.size(); ++i) {
       if (i < columns.size() - 1) {
-        preparedQuery.append(columns[i]);
-        preparedQuery.append(", ");
-        v.append(values[i]);
-        v.append(", ");
+        preparedQuery << columns[i];
+        preparedQuery << ", ";
+        v << values[i];
+        v << ", ";
       } else {
-        preparedQuery.append(columns[i]);
-        preparedQuery.append(")");
-        v.append(values[i]);
-        v.append(")");
+        preparedQuery << columns[i];
+        preparedQuery << ")";
+        v << values[i];
+        v << ")";
       }
     }
-    preparedQuery.append(v);
-    return preparedQuery;
-  }
-
-  operator Query()
-  {
-    return query;
+    preparedQuery << v.str();
+    return preparedQuery.str();
   }
 
 private:
@@ -90,7 +84,7 @@ private:
   std::vector<std::string> columns;
   std::vector<std::string> values;
   Query query;
-  std::string preparedQuery{};
+  std::ostringstream preparedQuery{};
 };
 
 class SelectQueryBuilder : public QueryBuilder
@@ -116,20 +110,15 @@ public:
 
   std::string go() override
   {
-    preparedQuery.append("select ");
+    preparedQuery << "select ";
     // TODO: this we will then need a fold vec to string separated by ','
-    preparedQuery.append(columns[0]);
-    preparedQuery.append(" from ");
-    preparedQuery.append(table);
-    preparedQuery.append(" where ");
+    preparedQuery << columns[0];
+    preparedQuery << " from ";
+    preparedQuery << table;
+    preparedQuery << " where ";
     // TODO: this we will then need a fold vec to string separated by 'and's
-    preparedQuery.append(condition[0]);
-    return preparedQuery;
-  }
-
-  operator Query()
-  {
-    return query;
+    preparedQuery << condition[0];
+    return preparedQuery.str();
   }
 
 private:
@@ -137,7 +126,7 @@ private:
   std::vector<std::string> condition;
   std::vector<std::string> columns;
   Query query;
-  std::string preparedQuery{};
+  std::ostringstream preparedQuery{};
 };
 
 InsertQueryBuilder Query::insert()

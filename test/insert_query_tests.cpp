@@ -2,7 +2,6 @@
 
 #include "../src/imgui/queryBuilder.hpp"
 
-using InsertQueryBuilder = cash_overflow::db::InsertQueryBuilder;
 using Query = cash_overflow::db::Query;
 TEST(InsertQueryTests, Insert)
 {

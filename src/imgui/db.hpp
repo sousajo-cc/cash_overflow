@@ -3,10 +3,9 @@
 #include "fileHandler.hpp"
 
 namespace cash_overflow::db {
-using FileHandlerPtr = std::unique_ptr<cashoverflow::utils::IFileHandler>;
 class Db
 {
-private:
+  using FileHandlerPtr = std::unique_ptr<cashoverflow::utils::IFileHandler>;
   FileHandlerPtr fileHandler;
   std::string content = fileHandler->read();
 
