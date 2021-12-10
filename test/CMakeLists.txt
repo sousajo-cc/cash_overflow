@@ -93,3 +93,16 @@ target_link_libraries(
         fmt::fmt
 )
 gtest_discover_tests(loggerTests)
+
+add_executable(
+        moneyTests
+        moneyTests.cpp
+)
+target_link_libraries(
+        moneyTests
+        money
+        gtest_main
+        project_warnings
+        project_options
+)
+gtest_discover_tests(moneyTests)
