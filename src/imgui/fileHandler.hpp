@@ -59,19 +59,19 @@ public:
     return static_cast<unsigned int>(fileStream.gcount());
   }
 
-std::string readLine() override
+  std::string readLine() override
   {
     std::string lineBuffer{};
     std::getline(fileStream, lineBuffer);
     return lineBuffer;
   }
 
-std::string getFileName() const override
+  std::string getFileName() const override
   {
     return fileName;
   }
 
-  void write(std::string const &entry)
+  void write(std::string const &entry) override
   {
     fileStream << entry;
     fileStream << '\n';

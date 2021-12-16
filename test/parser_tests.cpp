@@ -14,6 +14,7 @@ public:
   MOCK_METHOD(std::string, read, (), (const, override));
   MOCK_METHOD(unsigned int, read, (char *buffer, int size), (override));
   MOCK_METHOD(std::string, readLine, (), (override));
+  MOCK_METHOD(void, write, (std::string const &entry), (override));
   MOCK_METHOD(std::string, getFileName, (), (const, override));
 };
 
