@@ -55,11 +55,11 @@ add_executable(
 )
 target_link_libraries(
         tableBuilderTests
-        gtest_main
-        project_warnings
-        project_options
-        ImGui-SFML::ImGui-SFML
-        fmt::fmt
+    gtest_main
+    project_warnings
+    project_options
+    ImGui-SFML::ImGui-SFML
+    fmt::fmt
 )
 gtest_discover_tests(tableBuilderTests)
 
@@ -93,3 +93,18 @@ target_link_libraries(
         fmt::fmt
 )
 gtest_discover_tests(loggerTests)
+
+add_executable(
+        parserTest
+        parser_tests.cpp
+)
+target_link_libraries(
+        parserTest
+        gtest_main
+        gmock_main
+        project_warnings
+        project_options
+        fmt::fmt
+)
+gtest_discover_tests(parserTest)
+

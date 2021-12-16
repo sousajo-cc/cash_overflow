@@ -8,11 +8,17 @@
 
 namespace cashoverflow::utils {
 
+/**
+ * TODO: FileHandle should not be defined as text file handler,
+ * Should be implemented a class derived from FileHandle to
+ * deal with file text
+ */
 class IFileHandler
 {
 public:
   virtual std::string read() const = 0;
   virtual unsigned int read(char *buffer, int size) = 0;
+  virtual std::string readLine() = 0;
   virtual void write(std::string const &entry) = 0;
   virtual std::string getFileName() const = 0;
   virtual ~IFileHandler() = default;
@@ -53,12 +59,19 @@ public:
     return static_cast<unsigned int>(fileStream.gcount());
   }
 
+  std::string readLine() override
+  {
+    std::string lineBuffer{};
+    std::getline(fileStream, lineBuffer);
+    return lineBuffer;
+  }
+
   std::string getFileName() const override
   {
     return fileName;
   }
 
-  void write(std::string const &entry)
+  void write(std::string const &entry) override
   {
     fileStream << entry;
     fileStream << '\n';
