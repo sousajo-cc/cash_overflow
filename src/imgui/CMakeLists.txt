@@ -11,3 +11,10 @@ target_link_libraries(money PRIVATE project_warnings project_options)
 
 add_executable(test_imgui main.cpp logger.hpp fileHandler.hpp imguiWrapper/window.hpp logger.hpp)
 target_link_libraries(test_imgui PRIVATE project_warnings project_options money ImGui-SFML::ImGui-SFML fmt::fmt)
+
+add_custom_command(
+        TARGET test_imgui POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/assets
+        ${CMAKE_CURRENT_BINARY_DIR}/assets
+)
