@@ -1,11 +1,11 @@
-#include "imguiWrapper/colorOptions.hpp"
-#include "imguiWrapper/tableBuilder.hpp"
-#include "imguiWrapper/dropDown.hpp"
-#include "logger.hpp"
-#include "category.hpp"
-#include "fileHandler.hpp"
-#include "db.hpp"
 #include "app.hpp"
+#include "category.hpp"
+#include "db.hpp"
+#include "fileHandler.hpp"
+#include "imguiWrapper/colorOptions.hpp"
+#include "imguiWrapper/dropDown.hpp"
+#include "imguiWrapper/tableBuilder.hpp"
+#include "logger.hpp"
 #include <iostream>
 //#include "user.hpp"
 //#include "account.hpp"
@@ -15,9 +15,9 @@
 
 #include <imgui-SFML.h>
 
+#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
 using Category = cash_overflow::category::Category;
 using DropDown = cash_overflow::gui::DropDown;
 
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 
   [[maybe_unused]] std::vector<Category> categories;
   [[maybe_unused]] std::string currentSelectedCategoryType;
-  
+
   sf::RenderWindow window(sf::VideoMode(640, 480), "Cash Overflow");
   window.setFramerateLimit(60);
   sf::Image icon;
