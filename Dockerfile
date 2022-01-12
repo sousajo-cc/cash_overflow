@@ -7,6 +7,11 @@ RUN apt-get update -qq && \
         python3 python3-pip doxygen graphviz ccache cppcheck build-essential \
         neovim emacs nano
 
+# Dependencies
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+        libudev
+
 # Install conan
 RUN python3 -m pip install --upgrade pip setuptools && \
     python3 -m pip install conan && \
