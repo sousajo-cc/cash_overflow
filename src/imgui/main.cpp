@@ -95,6 +95,9 @@ int main(int argc, char *argv[])
   [[maybe_unused]] std::string currentSelectedCategoryType;
   sf::RenderWindow window(sf::VideoMode(640, 480), "Cash Overflow");
   window.setFramerateLimit(60);
+  sf::Image icon;
+  icon.loadFromFile("cashoverflowlogo.png");
+  window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
   ImGui::SFML::Init(window);
   sf::CircleShape shape{ 100.F };
   shape.setFillColor(sf::Color::Cyan);
